@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Insert title here</title>
+        <script src="jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
             var webSocket = new WebSocket('ws://localhost:8000/ws');
         </script>
@@ -11,11 +12,32 @@
                 webSocket.send(text);
             }
         </script>
+        <style>
+          div * {
+            width:100%;
+            margin: 5px;
+            line-height: 50px;
+            font-size:100%;
+          }
+        </style>
     </head>
     <body>
-        <div id="notification"></div>
-        <div id="content">
-          <button onClick="buttonClicked('value')">Titel</button>
-        </div>
+      <div id="main">
+        <button onClick="buttonClicked('Segel')">Segel</button>
+        <button onClick="buttonClicked('Motor')">Motor</button>
+        <button onClick="jQuery('#main').hide();jQuery('#anlegen').show();">Anlegen</button>
+        <button onClick="jQuery('#main').hide();jQuery('#custom').show();">Custom</button>
+      </div>
+      <div id="anlegen" style="display: none;">
+        <button onClick="buttonClicked('Hafen');jQuery('#main').show();jQuery('#anlegen').hide();">Hafen</button>
+        <button onClick="buttonClicked('Boje');jQuery('#main').show();jQuery('#anlegen').hide();">Boje</button>
+        <button onClick="buttonClicked('Anker');jQuery('#main').show();jQuery('#anlegen').hide();">Anker</button>
+        <button onClick="jQuery('#main').show();jQuery('#anlegen').hide();">zur&uuml;ck</button>
+      </div>
+      <div id="custom" style="display: none;">
+        <input id="customtext" type="text">
+        <button onClick="buttonClicked(jQuery('#customtext').val());jQuery('#main').show();jQuery('#custom').hide();jQuery('#customtext').val('')">Speichern</button>
+        <button onClick="jQuery('#main').show();jQuery('#custom').hide();jQuery('#customtext').val('')">zur&uuml;ck</button>
+      </div>
     </body>
 </html>
