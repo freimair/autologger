@@ -1,5 +1,8 @@
 from sanic import Sanic
 from sanic.response import file
+import csv
+from datetime import datetime
+import os
 
 app = Sanic(__name__)
 
@@ -16,8 +19,9 @@ async def feed(request, ws):
 
 class Server():
     async def onReceiveCommand(self, data):
-        print(data)
-        
+        with open('logbook.csv', 'a') as csvfile:
+            csvfile.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "," + data + os.linesep)
+
 server = Server()
         
 app.static("/", "./statics")
