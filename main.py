@@ -31,6 +31,7 @@ class Server():
             + data + os.linesep)
 
 server = Server()
+app.add_task(server.recorder.update())
         
 app.static("/", "./statics")
 app.run(host="0.0.0.0", port=8000, debug=True)
