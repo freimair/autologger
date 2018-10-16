@@ -36,3 +36,6 @@ class Recorder():
 
     def getDistanceTravelled(self):
         return float("{0:.2f}".format(round(self.distance,2)))
+
+    def getCurrentSpeed(self):
+        return float("{0:.2f}".format(round(self.tack/(self.interval/3600),2)))

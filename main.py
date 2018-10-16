@@ -28,6 +28,7 @@ class Server():
         with open('logbook.csv', 'a') as csvfile:
             csvfile.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
             + str(self.recorder.getDistanceTravelled()) + ","
+            + str(self.recorder.getCurrentSpeed()) + ","
             + data + os.linesep)
 
 server = Server()
