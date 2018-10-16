@@ -3,6 +3,8 @@ from sanic.response import file
 import csv
 from datetime import datetime
 import os
+from recorder import Recorder
+
 
 app = Sanic(__name__)
 
@@ -18,9 +20,15 @@ async def feed(request, ws):
         await server.onReceiveCommand(command)
 
 class Server():
+
+    def __init__(self):
+        self.recorder = Recorder()
+
     async def onReceiveCommand(self, data):
         with open('logbook.csv', 'a') as csvfile:
-            csvfile.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "," + data + os.linesep)
+            csvfile.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
+            + str(self.recorder.getDistanceTravelled()) + ","
+            + data + os.linesep)
 
 server = Server()
         
