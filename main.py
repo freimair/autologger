@@ -13,6 +13,10 @@ app = Sanic(__name__)
 async def index(request):
     return await file('templates/main.html')
 
+@app.route('/logbook')
+async def index(request):
+    return await file('logbook.csv')
+
 @app.websocket('/ws')
 async def feed(request, ws):
     while True:
