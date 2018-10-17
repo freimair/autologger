@@ -19,7 +19,8 @@ class Recorder():
             line = ['']
             while not line[0].endswith("$GPGGA"):
                 line = str(self.serial.readline()).split(",")
-            new_position = (float(line[2])/100, float(line[4])/100)
+
+            new_position = (int(line[2][0:2]) + float(line[2][2:])/60, int(line[4][0:3]) + float(line[4][3:])/60)
 
             #write position to file (gpx?)
             print(new_position)
