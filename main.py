@@ -31,6 +31,17 @@ class Server():
         self.recorder = Recorder()
 
     async def onReceiveCommand(self, data):
+        # do we need to delete the last logline?
+        if data.startswith('undo'):
+            f = open('logbook.csv', 'r')
+            lines = f.readlines()
+            f.close()
+
+            f = open('logbook.csv', 'w')
+            f.writelines([item for item in lines[:-1]])
+            f.close()
+            return "last entry has been removed"
+
         # assemble log line
         logline = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
         logline += str(self.recorder.getDistanceTravelled()) + ","
