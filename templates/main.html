@@ -5,7 +5,7 @@
         <title>Insert title here</title>
         <script src="jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
-            var webSocket = new WebSocket('ws://localhost:8000/ws');
+            var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
         </script>
         <script type="text/javascript">
             function buttonClicked(text) {
