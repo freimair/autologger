@@ -1,6 +1,9 @@
 import asyncio
 import serial
 import geopy.distance
+import gpxpy
+import gpxpy.gpx
+import datetime
 
 class Recorder():
 
@@ -12,6 +15,7 @@ class Recorder():
         self.old_timestamp = 0
         self.tackspeed = 0
         self.tack = 0
+        self.gpxfile = "track.gpx"
 
     async def update(self):
         while True:
@@ -23,7 +27,21 @@ class Recorder():
             new_position = (int(line[2][0:2]) + float(line[2][2:])/60, int(line[4][0:3]) + float(line[4][3:])/60)
 
             #write position to file (gpx?)
-            print(new_position)
+            try:
+                #if os.path.isfile(self.gpxfile):
+                with open(self.gpxfile, 'r') as f:
+                    gpx = gpxpy.parse(f)
+            except:
+                gpx = gpxpy.gpx.GPX()
+                segment = gpxpy.gpx.GPXTrackSegment()
+                track = gpxpy.gpx.GPXTrack()
+                track.segments.append(segment)
+                gpx.tracks.append(track)
+
+            gpx.tracks[0].segments[0].points.append(gpxpy.gpx.GPXTrackPoint(new_position[0], new_position[1], time=datetime.datetime.today()))
+
+            with open(self.gpxfile, "w") as f:
+                f.write(gpx.to_xml())
 
             if 0 != self.old_position[0] and 0 != self.old_position[1] and 0 != self.old_timestamp:
                 #calculate distance

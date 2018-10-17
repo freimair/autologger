@@ -13,9 +13,13 @@ app = Sanic(__name__)
 async def index(request):
     return await file('templates/main.html')
 
-@app.route('/logbook')
+@app.route('/logbook.csv')
 async def index(request):
     return await file('logbook.csv')
+
+@app.route('/track.gpx')
+async def index(request):
+    return await file('track.gpx')
 
 @app.websocket('/ws')
 async def feed(request, ws):
