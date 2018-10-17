@@ -28,6 +28,9 @@ class Recorder():
                 #calculate distance
                 self.tack = geopy.distance.vincenty(self.old_position, new_position).nm
 
+                if self.tack < 0.0001:
+                    self.tack = 0
+
                 #calculate tack speed
                 self.tackspeed = self.tack / (float(line[1]) - self.old_timestamp) * 3600
                 print("tack speed has been " + str(self.getCurrentSpeed()))
