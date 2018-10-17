@@ -32,7 +32,11 @@ async def feed(request, ws):
 class Server():
 
     def __init__(self):
+        with open('logbook.csv', 'r') as csvfile:
+            lines = csvfile.readlines()
+
         self.recorder = Recorder()
+        self.recorder.distance = float(lines[-1].split(',')[1])
 
     async def onReceiveCommand(self, data):
         # do we need to delete the last logline?
