@@ -21,7 +21,9 @@ async def index(request):
 async def feed(request, ws):
     while True:
         command = await ws.recv()
-        await server.onReceiveCommand(command)
+        answer = await server.onReceiveCommand(command)
+        if answer:
+            await ws.send(answer)
 
 class Server():
 
@@ -29,11 +31,16 @@ class Server():
         self.recorder = Recorder()
 
     async def onReceiveCommand(self, data):
+        # assemble log line
+        logline = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
+        logline += str(self.recorder.getDistanceTravelled()) + ","
+        logline += str(self.recorder.getCurrentSpeed()) + ","
+        logline += data
+
         with open('logbook.csv', 'a') as csvfile:
-            csvfile.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
-            + str(self.recorder.getDistanceTravelled()) + ","
-            + str(self.recorder.getCurrentSpeed()) + ","
-            + data + os.linesep)
+            csvfile.write(logline + os.linesep)
+
+        return logline
 
 server = Server()
 app.add_task(server.recorder.update())

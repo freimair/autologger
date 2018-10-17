@@ -6,6 +6,16 @@
         <script src="jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
             var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
+
+          webSocket.onerror = function(event) {
+                alert(event.data);
+            };
+
+            webSocket.onmessage = function(event) {
+                document.getElementById('info').innerHTML = event.data;
+                jQuery('#info').show();
+                jQuery('#info').delay(3000).fadeOut(2000)
+            };
         </script>
         <script type="text/javascript">
             function buttonClicked(text) {
@@ -13,15 +23,22 @@
             }
         </script>
         <style>
-          div * {
+          div *, div {
             width:100%;
             margin: 5px;
             line-height: 50px;
             font-size:100%;
           }
+
+          #info {
+            text-align: center;
+            position: absolute;
+            background: yellow;
+          }
         </style>
     </head>
     <body>
+      <div id="info"></div>
       <div id="main">
         <button onClick="buttonClicked('Segel')">Segel</button>
         <button onClick="buttonClicked('Motor')">Motor</button>
@@ -32,6 +49,8 @@
         <button onClick="buttonClicked('Hafen');jQuery('#main').show();jQuery('#anlegen').hide();">Hafen</button>
         <button onClick="buttonClicked('Boje');jQuery('#main').show();jQuery('#anlegen').hide();">Boje</button>
         <button onClick="buttonClicked('Anker');jQuery('#main').show();jQuery('#anlegen').hide();">Anker</button>
+        <button onClick="buttonClicked('ablegen unter Segel');jQuery('#main').show();jQuery('#anlegen').hide();">ablegen mit Segel</button>
+        <button onClick="buttonClicked('ablegen mit Motor');jQuery('#main').show();jQuery('#anlegen').hide();">ablegen mit Motor</button>
         <button onClick="jQuery('#main').show();jQuery('#anlegen').hide();">zur&uuml;ck</button>
       </div>
       <div id="custom" style="display: none;">
