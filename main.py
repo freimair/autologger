@@ -54,6 +54,7 @@ class Server():
         logline = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
         logline += str(self.recorder.getDistanceTravelled()) + ","
         logline += str(self.recorder.getCurrentSpeed()) + ","
+        logline += str(self.recorder.getCourseOverGround()) + ","
         logline += data
 
         with open('logbook.csv', 'a') as csvfile:

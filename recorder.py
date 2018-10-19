@@ -50,6 +50,7 @@ class Recorder():
                 #calculate distance
                 data = Geodesic.WGS84.Inverse(self.old_position[0], self.old_position[1], new_position[0], new_position[1])
                 self.tack = data['s12']*0.000539956803
+                self.cog = data['azi1']
 
                 #calculate tack speed
                 self.tackspeed = self.tack / (float(line[1]) - self.old_timestamp) * 3600
@@ -69,3 +70,6 @@ class Recorder():
 
     def getCurrentSpeed(self):
         return float("{0:.2f}".format(round(self.tackspeed,2)))
+
+    def getCourseOverGround(self):
+        return float("{0:.2f}".format(round(self.cog, 0)))
