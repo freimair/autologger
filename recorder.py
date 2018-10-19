@@ -1,9 +1,9 @@
 import asyncio
 import serial
-import geopy.distance
 import gpxpy
 import gpxpy.gpx
 import datetime
+from geographiclib.geodesic import Geodesic
 
 class Recorder():
 
@@ -48,10 +48,8 @@ class Recorder():
 
             if 0 != self.old_position[0] and 0 != self.old_position[1] and 0 != self.old_timestamp:
                 #calculate distance
-                self.tack = geopy.distance.vincenty(self.old_position, new_position).nm
-
-                if self.tack < 0.0001:
-                    self.tack = 0
+                data = Geodesic.WGS84.Inverse(self.old_position[0], self.old_position[1], new_position[0], new_position[1])
+                self.tack = data['s12']*0.000539956803
 
                 #calculate tack speed
                 self.tackspeed = self.tack / (float(line[1]) - self.old_timestamp) * 3600

@@ -1,6 +1,6 @@
 ## Prerequisits
 
-pip3 install sanic asyncio geopy
+pip3 install sanic asyncio geographiclib gpxpy
 
 ## run
 
