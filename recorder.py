@@ -72,4 +72,7 @@ class Recorder():
         return float("{0:.2f}".format(round(self.tackspeed,2)))
 
     def getCourseOverGround(self):
-        return float("{0:.2f}".format(round(self.cog, 0)))
+        if 0 == self.getCurrentSpeed():
+            return "-"
+        else:
+            return float("{0:.2f}".format(round(self.cog, 0)))
