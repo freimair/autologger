@@ -1,3 +1,23 @@
+var currentObj = "";
+var currentObjX = 0;
+var currentObjY = 0;
+
+var startX = 0;
+var startY = 0;
+
+var nowObjX = 0;
+var nowObjY = 0;
+
+var fensterBreite = 0;
+var fensterHohe = 0;
+
+// bool ob aktueller Browser ein IE ist
+var IE = document.all&&!window.opera;
+
+document.onmousemove = doDrag;
+document.onmouseup = stopDrag;
+
+
 var statMess = "";
 var anlegen =
 {
@@ -53,11 +73,11 @@ var pob =
     this.aListener = listener;
   }
 };
-var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
+/*var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
 webSocket.onerror = function(event)
 {
   //alert(event.data);
-};
+};*/
 anlegen.registerListener(function(val)
 {
     if(anlegen.a == 1)
@@ -169,6 +189,9 @@ pob.registerListener(function(val)
   }
 });
 $(document).ready(function(){
+
+  $(window).resize(function(){verkleinern();});
+
   $('.dataAntrieb').html("Im Hafen");
   drawmap();
   anlegenFunktion(2);
@@ -481,5 +504,56 @@ function showPosition(position)
 function senden(was)
 {
   //$.get('dummy.php', {"mess": was});
-  webSocket.send(was);
+  //webSocket.send(was);
+}
+function startDrag(obj)
+{
+   currentObj = obj;
+   var x = $(obj).offset();
+   startX = currentObjX - x.left;
+   startY = currentObjY - x.top;
+}
+function doDrag(ereignis)
+{
+
+  currentObjX = (IE) ? window.event.clientX : ereignis.pageX;
+  currentObjY = (IE) ? window.event.clientY : ereignis.pageY;
+
+  if (currentObj != "")
+  {
+    //currentObj.style.left = (currentObjX - startX) + "px";
+    //currentObj.style.top = (currentObjY - startY) + "px";
+    $(currentObj).css('left', (currentObjX - startX) + "px");
+    $(currentObj).css('top', (currentObjY - startY) + "px");
+    nowObjX = currentObjX - startX;
+    nowObjY = currentObjY - startY;
+  }
+}
+function stopDrag(ereignis)
+{
+  currentObj = "";
+}
+function verkleinern()
+{
+  fensterBreite = $('body').width();
+  fensterHohe = $('body').height();
+  var objBreite = $('#eingabefeld').width();
+  var objHohe = $('#eingabefeld').height();
+
+  if(fensterBreite > 640)
+  {
+    if(nowObjX + objBreite > fensterBreite)
+    {
+      $('#eingabefeld').css('left', (fensterBreite - objBreite - 20)+"px");
+    }
+  }
+  else
+  {
+    $('#eingabefeld').css('left', "0px");
+    $('#eingabefeld').css('top', "0px");
+  }
+  if(nowObjY + objHohe > fensterHohe)
+  {
+    $('#eingabefeld').css('top', "10px");
+  }
 }

@@ -6,7 +6,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="css/mobile.css" />
+  <link rel="stylesheet" href="css/mobile.css" media="screen and (max-width: 640px)"/>
+  <link rel="stylesheet" href="css/desktop.css" media="screen and (min-width: 641px)"/>
 
   <link rel="stylesheet" href="j/sensorserver.css" />
   <link rel="stylesheet" href="j/jquery.mobile.icons.min.css" />
@@ -35,7 +36,7 @@
 
 </head>
 <body>
-  <div id="eingabefeld">
+  <div id="eingabefeld" onmousedown="startDrag('#eingabefeld');">
     <div data-role="page" data-theme="d" id="wahlpage">
       <div data-role="header">
         <h1>Autologger</h1>
