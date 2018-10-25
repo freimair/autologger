@@ -72,7 +72,7 @@ anlegen.registerListener(function(val)
       $('#anlegenButton').removeClass('ui-icon-anker');
       $('#anlegenButton').removeClass('ui-icon-poller');
       $('#anlegenButton').addClass('ui-icon-poller');
-      
+
     }
     else if(anlegen.a == 2)
     {
@@ -476,6 +476,7 @@ function showPosition(position)
   $('.dataCog').html(cog + "°");
   $('.dataSog').html(sog + " kts");
   jumpTo(lon, lat, 10);
+  addMarker(layer_markers, lon, lat, " ");
 }
 function senden(was)
 {
