@@ -1,7 +1,177 @@
-var anlegen = 1;
-var antrieb = 0;
-$(document).ready(function(){
+var statMess = "";
+var anlegen =
+{
+  aInternal: 1,
+  aListener: function(val){},
+  set a(val)
+  {
+    this.aInternal = val;
+    this.aListener(val);
+  },
+  get a()
+  {
+    return this.aInternal;
+  },
+  registerListener: function(listener)
+  {
+    this.aListener = listener;
+  }
+};
+var antrieb =
+{
+  aInternal: 0,
+  aListener: function(val){},
+  set a(val)
+  {
+    this.aInternal = val;
+    this.aListener(val);
+  },
+  get a()
+  {
+    return this.aInternal;
+  },
+  registerListener: function(listener)
+  {
+    this.aListener = listener;
+  }
+};
+var pob =
+{
+  aInternal: 0,
+  aListener: function(val){},
+  set a(val)
+  {
+    this.aInternal = val;
+    this.aListener(val);
+  },
+  get a()
+  {
+    return this.aInternal;
+  },
+  registerListener: function(listener)
+  {
+    this.aListener = listener;
+  }
+};
+var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
+webSocket.onerror = function(event)
+{
+  //alert(event.data);
+};
+anlegen.registerListener(function(val)
+{
+    if(anlegen.a == 1)
+    {
+      $('.dataAntrieb').html("Im Hafen");
+      $('#antriebButton').removeClass('ui-icon-delete');
+      $('#antriebButton').removeClass('ui-icon-boat');
+      $('#antriebButton').removeClass('ui-icon-engine');
+      $('#antriebButton').addClass('ui-icon-delete');
 
+      $('#anlegenButton').removeClass('ui-icon-boje');
+      $('#anlegenButton').removeClass('ui-icon-anker');
+      $('#anlegenButton').removeClass('ui-icon-poller');
+      $('#anlegenButton').addClass('ui-icon-poller');
+
+
+    }
+    else if(anlegen.a == 2)
+    {
+      $('.dataAntrieb').html("Vor Anker");
+      $('#antriebButton').removeClass('ui-icon-delete');
+      $('#antriebButton').removeClass('ui-icon-boat');
+      $('#antriebButton').removeClass('ui-icon-engine');
+      $('#antriebButton').addClass('ui-icon-delete');
+
+      $('#anlegenButton').removeClass('ui-icon-boje');
+      $('#anlegenButton').removeClass('ui-icon-anker');
+      $('#anlegenButton').removeClass('ui-icon-poller');
+      $('#anlegenButton').addClass('ui-icon-anker');
+    }
+    else if(anlegen.a == 3)
+    {
+      $('.dataAntrieb').html("An der Boje");
+      $('#antriebButton').removeClass('ui-icon-delete');
+      $('#antriebButton').removeClass('ui-icon-boat');
+      $('#antriebButton').removeClass('ui-icon-engine');
+      $('#antriebButton').addClass('ui-icon-delete');
+
+      $('#anlegenButton').removeClass('ui-icon-boje');
+      $('#anlegenButton').removeClass('ui-icon-anker');
+      $('#anlegenButton').removeClass('ui-icon-poller');
+      $('#anlegenButton').addClass('ui-icon-boje');
+    }
+    else if(anlegen.a == 0)
+    {
+      if(antrieb.a == 1)
+      {
+        $('.dataAntrieb').html("Unter Maschine");
+        $('#antriebButton').removeClass('ui-icon-delete');
+        $('#antriebButton').removeClass('ui-icon-boat');
+        $('#antriebButton').removeClass('ui-icon-engine');
+        $('#antriebButton').addClass('ui-icon-engine');
+      }
+      else if(antrieb.a == 2)
+      {
+        $('.dataAntrieb').html("Unter Segel");
+        $('#antriebButton').removeClass('ui-icon-boat');
+        $('#antriebButton').removeClass('ui-icon-delete');
+        $('#antriebButton').removeClass('ui-icon-engine');
+        $('#antriebButton').addClass('ui-icon-boat');
+      }
+      $('#anlegenButton').removeClass('ui-icon-boje');
+      $('#anlegenButton').removeClass('ui-icon-anker');
+      $('#anlegenButton').removeClass('ui-icon-poller');
+      $('#anlegenButton').addClass('ui-icon-anker');
+    }
+});
+antrieb.registerListener(function(val)
+{
+    if(anlegen.a == 0)
+    {
+      if(antrieb.a == 1)
+      {
+        $('.dataAntrieb').html("Unter Maschine");
+        $('#antriebButton').removeClass('ui-icon-boat');
+        $('#antriebButton').removeClass('ui-icon-engine');
+        $('#antriebButton').addClass('ui-icon-engine');
+      }
+      else if(antrieb.a == 2)
+      {
+        $('.dataAntrieb').html("Unter Segel");
+        $('#antriebButton').removeClass('ui-icon-boat');
+        $('#antriebButton').removeClass('ui-icon-engine');
+        $('#antriebButton').addClass('ui-icon-boat');
+      }
+      else if(antrieb.a == 0)
+      {
+        $('.dataAntrieb').html("Kein Antrieb");
+        $('#antriebButton').removeClass('ui-icon-delete');
+        $('#antriebButton').removeClass('ui-icon-boat');
+        $('#antriebButton').removeClass('ui-icon-engine');
+        $('#antriebButton').addClass('ui-icon-delete');
+
+      }
+    }
+});
+pob.registerListener(function(val)
+{
+  if(statMess == "")
+  {
+    statMess = $('.dataAntrieb').html();
+    $('.dataAntrieb').html("Person über Bord");
+    senden("Person über Bord");
+  }
+  else
+  {
+    $('.dataAntrieb').html(statMess);
+    statMess = "";
+    senden("Person wieder an Bord");
+  }
+});
+$(document).ready(function(){
+  $('.dataAntrieb').html("Im Hafen");
+  drawmap();
   anlegenFunktion(2);
   antriebFunktion(0);
   if (navigator.geolocation)
@@ -15,10 +185,10 @@ $(document).ready(function(){
   $('#anlegenButton').click(function(){
     anlegenFunktion(0);
 
-    if (anlegen > 0)
+    if (anlegen.a > 0)
     {
       //senden("anlegen", 0);
-      anlegen = 0;
+      anlegen.a = -1;
       $('#antriebHeader').html('Ablegen');
     }
     anlegenFunktion(1);
@@ -27,11 +197,18 @@ $(document).ready(function(){
   $('#hafenButton').click(function(){
     anlegenFunktion(0);
 
-    if (anlegen == 0)
+    if (anlegen.a == 0)
     {
-      senden('anlegen', 1);
-      senden('antrieb', 0);
-      anlegen = 1;
+      senden('Im Hafen angelegt');
+      if(antrieb.a == 1)
+      {
+        senden("Maschine aus");
+      }
+      else if(antrieb.a == 2)
+      {
+        senden('Segel bergen');
+      }
+      anlegen.a = 1;
     }
     anlegenFunktion(1);
 
@@ -39,11 +216,18 @@ $(document).ready(function(){
   $('#ankerButton').click(function(){
     anlegenFunktion(0);
 
-    if (anlegen == 0)
+    if (anlegen.a == 0)
     {
-      senden('anlegen', 2);
-      senden('antrieb', 0);
-      anlegen = 2;
+      senden('Anker fallen');
+      if(antrieb.a == 1)
+      {
+        senden("Maschine aus");
+      }
+      else if(antrieb.a == 2)
+      {
+        senden('Segel bergen');
+      }
+      anlegen.a = 2;
     }
     anlegenFunktion(1);
 
@@ -51,11 +235,18 @@ $(document).ready(function(){
   $('#bojeButton').click(function(){
     anlegenFunktion(0);
 
-    if (anlegen == 0)
+    if (anlegen.a == 0)
     {
-      senden('anlegen', 3);
-      senden('antrieb', 0);
-      anlegen = 3;
+      senden('An Boje angelegt');
+      if(antrieb.a == 1)
+      {
+        senden("Maschine aus");
+      }
+      else if(antrieb.a == 2)
+      {
+        senden('Segel bergen');
+      }
+      anlegen.a = 3;
     }
     anlegenFunktion(1);
 
@@ -65,7 +256,7 @@ $(document).ready(function(){
   $('#speichernButton').click(function(){
     //alert($('#sonstigesArea').val());
     //alert(document.getElementById('sonstigesArea').value);
-    senden("sonst", $('#sonstigesArea').val());
+    senden($('#sonstigesArea').val());
     $('#sonstigesArea').val("");
   });
   $('#sonstigesButton').click(function(){$('#sonstigesArea').val("");});
@@ -73,16 +264,26 @@ $(document).ready(function(){
   $('#antriebBack').click(function(){
     if($('#antriebHeader').html() == 'Ablegen')
     {
-      anlegen = 1;
+      anlegen.a = 1;
       anlegenFunktion(2);
     }
   });
-
+  $('#pobButton').click(function()
+  {
+    if(pob.a == 0)
+    {
+      pob.a = 1;
+    }
+    else
+    {
+      pob.a = 0;
+    }
+  });
 
 });
 function anlegenFunktion(was)
 {
-  if(anlegen > 0)
+  if(anlegen.a > 0)
   {
     if(was == 0 || was == 2)
     {
@@ -93,6 +294,8 @@ function anlegenFunktion(was)
       $("#anlegenButton").html("Ablegen");
     }
     $('#antriebButton').hide();
+    $('#pobButton').hide();
+    $('#backButton0').show();
     antriebFunktion(0);
   }
   else
@@ -106,6 +309,8 @@ function anlegenFunktion(was)
       $("#anlegenButton").html("Anlegen");
     }
     $('#antriebButton').show();
+    $('#pobButton').show();
+    $('#backButton0').hide();
   }
 }
 function antriebFunktion(was)
@@ -115,58 +320,131 @@ function antriebFunktion(was)
   var but2 = "";
   if(was == 0)
   {
-    antrieb = 0;
+    antrieb.a = 0;
     zantrieb = 'kein';
     but1 = "Maschine an";
     but2 = "Segel setzen";
+    $('#motorButton').removeClass('ui-icon-delete');
+    $('#motorButton').removeClass('ui-icon-boat');
+    $('#motorButton').removeClass('ui-icon-engine');
+    $('#motorButton').addClass('ui-icon-engine');
+
+    $('#segelButton').removeClass('ui-icon-delete');
+    $('#segelButton').removeClass('ui-icon-boat');
+    $('#segelButton').removeClass('ui-icon-engine');
+    $('#segelButton').addClass('ui-icon-boat');
+
+
   }
   else if(was == 1)
   {
-    if(antrieb == 0)
+    if(antrieb.a == 0)
     {
-      antrieb = 1;
+      antrieb.a = 1;
       zantrieb = "Maschine";
       but1 = "Mschine aus";
       but2 = "Maschine aus / Segel setzen";
-      senden("antrieb", antrieb);
-      if(anlegen == 0)
+
+      $('#motorButton').removeClass('ui-icon-delete');
+      $('#motorButton').removeClass('ui-icon-boat');
+      $('#motorButton').removeClass('ui-icon-engine');
+      $('#motorButton').addClass('ui-icon-delete');
+
+      $('#segelButton').removeClass('ui-icon-delete');
+      $('#segelButton').removeClass('ui-icon-boat');
+      $('#segelButton').removeClass('ui-icon-engine');
+      $('#segelButton').addClass('ui-icon-boat');
+
+      senden("Maschine an");
+      if(anlegen.a == -1)
       {
-        senden('anlegen', 0);
+        anlegen.a = 0;
+        senden('Abgelegt');
       }
     }
-    else if(antrieb == 1 || antrieb == 2)
+    else if(antrieb.a == 1 || antrieb.a == 2)
     {
-      antrieb = 0;
+      if(antrieb.a == 1)
+      {
+        senden("Maschine aus");
+      }
+      else
+      {
+        senden("Segel bergen");
+      }
+      antrieb.a = 0;
       zantrieb = "kein";
       but1 = "Maschine an";
       but2 = "Segel setzen";
-      senden("antrieb", antrieb);
+
+      $('#motorButton').removeClass('ui-icon-delete');
+      $('#motorButton').removeClass('ui-icon-boat');
+      $('#motorButton').removeClass('ui-icon-engine');
+      $('#motorButton').addClass('ui-icon-engine');
+
+      $('#segelButton').removeClass('ui-icon-delete');
+      $('#segelButton').removeClass('ui-icon-boat');
+      $('#segelButton').removeClass('ui-icon-engine');
+      $('#segelButton').addClass('ui-icon-boat');
+
     }
   }
   else if(was == 2)
   {
-    if(antrieb == 0 || antrieb == 1)
+    if(antrieb.a == 0 || antrieb.a == 1)
     {
-      antrieb = 2;
+      if(antrieb.a == 0)
+      {
+        senden("Segel setzen");
+      }
+      else
+      {
+        senden("Segel setzen");
+        senden("Maschine aus");
+      }
+      antrieb.a = 2;
       zantrieb = "Segel";
       but1 = "Segel bergen";
       but2 = "Segel bergen / Maschine an";
-      senden("antrieb", antrieb);
-      if(anlegen == 0)
+
+      $('#motorButton').removeClass('ui-icon-delete');
+      $('#motorButton').removeClass('ui-icon-boat');
+      $('#motorButton').removeClass('ui-icon-engine');
+      $('#motorButton').addClass('ui-icon-delete');
+
+      $('#segelButton').removeClass('ui-icon-delete');
+      $('#segelButton').removeClass('ui-icon-boat');
+      $('#segelButton').removeClass('ui-icon-engine');
+      $('#segelButton').addClass('ui-icon-engine');
+
+      if(anlegen.a == -1)
       {
-        senden('anlegen', 0);
+        anlegen.a = 0
+        senden('Abgelegt');
       }
     }
-    else if(antrieb == 2)
+    else if(antrieb.a == 2)
     {
-      antrieb = 1
+      antrieb.a = 1
       zantrieb = "Maschine";
       but1 = "Maschine aus";
       but2 = "Maschine aus / Segel setzen";
-      senden("antrieb", antrieb);
+
+      $('#motorButton').removeClass('ui-icon-delete');
+      $('#motorButton').removeClass('ui-icon-boat');
+      $('#motorButton').removeClass('ui-icon-engine');
+      $('#motorButton').addClass('ui-icon-delete');
+
+      $('#segelButton').removeClass('ui-icon-delete');
+      $('#segelButton').removeClass('ui-icon-boat');
+      $('#segelButton').removeClass('ui-icon-engine');
+      $('#segelButton').addClass('ui-icon-boat');
+
+      senden("Maschine an");
+      senden("Segel bergen");
     }
   }
-  $('.dataAntrieb').html(zantrieb);
+
   $('#motorButton').html(but1);
   $('#segelButton').html(but2);
 
@@ -198,9 +476,10 @@ function showPosition(position)
   $('.dataPos').html(latb + "°" + latm + "'" + lath + "<br>" + lonb + "°" + lonm + "'" + lonh);
   $('.dataCog').html(cog + "°");
   $('.dataSog').html(sog + " kts");
-
+  jumpTo(lon, lat, 10);
 }
-function senden(was, wert)
+function senden(was)
 {
-  $.get('dummy.php', {was: wert});
+  //$.get('dummy.php', {"mess": was});
+  webSocket.send(was);
 }

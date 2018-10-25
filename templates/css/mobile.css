@@ -1,8 +1,24 @@
-#wahlpage
+#eingabefeld
 {
-  display: block;
+  position: absolute;
+  display: flex;
+  width: 320px;
+  height: 480px;
+  right: 20px;
+  top: 10px;
+  overflow: hidden;
+  z-index: 2;
+
 }
-#anlegepage
+#kartenfeld
 {
-  display: block;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+  z-index: 0;
+  background-color: #aaaaff;
 }
