@@ -72,8 +72,7 @@ anlegen.registerListener(function(val)
       $('#anlegenButton').removeClass('ui-icon-anker');
       $('#anlegenButton').removeClass('ui-icon-poller');
       $('#anlegenButton').addClass('ui-icon-poller');
-
-
+      
     }
     else if(anlegen.a == 2)
     {
