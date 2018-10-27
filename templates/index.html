@@ -38,20 +38,36 @@
 <body>
   <div id="eingabefeld" onmousedown="startDrag('#eingabefeld');">
     <div data-role="page" data-theme="d" id="wahlpage">
-      <div data-role="header">
+      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
         <h1>Autologger</h1>
       </div>
 
       <div role="main" class="ui-content">
-        <a href="#antriebpage" data-role="button" data-icon="boat" data-iconpos="top" id="antriebButton">Antrieb</a>
-        <a href="#antriebpage" data-role="button" data-icon="poller" data-iconpos="top" id="anlegenButton">Ablegen</a>
-        <a href="#sonstigespage" data-role="button" data-icon="pen" data-iconpos="top" id="sonstigesButton">Sonstiges</a>
-        <a href="#" data-role="button" data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton">Person über Bord</a>
-        <a href="#" data-role="button" data-icon="back" data-iconpos="top" id="backButton0">Logbuch beenden</a>
+        <div class="schubfeld">
+          <div class="schubRechts">
+            <div class="klappe1d">
+              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+            <div class="klappe1u">
+              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+          </div>
+          <div class="schubMitte">
+            <h4>Controller</h4>
+          </div>
+          <div class="schubLinks">
+
+          </div>
+        </div>
+        <a href="#antriebpage" data-role="button" data-icon="boat" data-iconpos="top" id="antriebButton" data-corners="false">Antrieb</a>
+        <a href="#antriebpage" data-role="button" data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Ablegen</a>
+        <a href="#sonstigespage" data-role="button" data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</a>
+        <a href="#" data-role="button" data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</a>
+        <a href="#" data-role="button" data-icon="back" data-iconpos="top" id="backButton0" data-corners="false">Logbuch beenden</a>
 
       </div>
 
-      <div data-role="footer" data-position="fixed" class="foot">
+      <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td width="25%" height="20" align="center" valign="middle">Position</td>
@@ -70,19 +86,35 @@
     </div>
 
     <div data-role="page" data-theme="d" id="anlegepage">
-      <div data-role="header">
-        <h1><span id="anlegeHeader">Anlegen</span></h1>
+      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+        <h1>Autologger</h1>
       </div>
 
       <div role="main" class="ui-content">
-        <a href="#wahlpage" data-role="button" data-icon="poller" data-iconpos="top" id="hafenButton">Hafen</a>
-        <a href="#wahlpage" data-role="button" data-icon="anker" data-iconpos="top" id="ankerButton">Anker</a>
-        <a href="#wahlpage" data-role="button" data-icon="boje" data-iconpos="top" id="bojeButton">Boje</a>
-        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top">Zurück</a>
+        <div class="schubfeld">
+          <div class="schubRechts">
+            <div class="klappe1d">
+              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+            <div class="klappe1u">
+              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+          </div>
+          <div class="schubMitte">
+            <h4><span id="anlegeHeader">Anlegen</span></h4>
+          </div>
+          <div class="schubLinks">
+
+          </div>
+        </div>
+        <a href="#wahlpage" data-role="button" data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</a>
+        <a href="#wahlpage" data-role="button" data-icon="anker" data-iconpos="top" id="ankerButton" data-corners="false">Anker</a>
+        <a href="#wahlpage" data-role="button" data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</a>
+        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top" data-corners="false">Zurück</a>
 
       </div>
 
-      <div data-role="footer" data-position="fixed" class="foot">
+      <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td width="25%" height="20" align="center" valign="middle">Position</td>
@@ -101,18 +133,34 @@
     </div>
 
     <div data-role="page" data-theme="d" id="sonstigespage">
-      <div data-role="header">
-        <h1>Benutzer Eintrag</h1>
+      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+        <h1>Autologger</h1>
       </div>
 
       <div role="main" class="ui-content">
-        <textarea name="sonstigesArea" id="sonstigesArea" style="height: 50px;"></textarea>
-        <a href="#wahlpage" data-role="button" data-icon="save" data-iconpos="top" id="speichernButton">Speichern</a>
-        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top">Zurück</a>
+        <div class="schubfeld">
+          <div class="schubRechts">
+            <div class="klappe1d">
+              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+            <div class="klappe1u">
+              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+          </div>
+          <div class="schubMitte">
+            <h4>Benutzer Eintrag</h4>
+          </div>
+          <div class="schubLinks">
+
+          </div>
+        </div>
+        <textarea name="sonstigesArea" id="sonstigesArea" style="height: 50px;" data-corners="false"></textarea>
+        <a href="#wahlpage" data-role="button" data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</a>
+        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top" data-corners="false">Zurück</a>
 
       </div>
 
-      <div data-role="footer" data-position="fixed" class="foot">
+      <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td width="25%" height="20" align="center" valign="middle">Position</td>
@@ -131,18 +179,34 @@
     </div>
 
     <div data-role="page" data-theme="d" id="antriebpage">
-      <div data-role="header">
-        <h1><span id="antriebHeader">Antrieb</span></h1>
+      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+        <h1>Autologger</h1>
       </div>
 
       <div role="main" class="ui-content">
-        <a href="#wahlpage" data-role="button" data-icon="engine" data-iconpos="top" id="motorButton">Motor</a>
-        <a href="#wahlpage" data-role="button" data-icon="boat" data-iconpos="top" id="segelButton">Segel</a>
-        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top" id="antriebBack">Zurück</a>
+        <div class="schubfeld">
+          <div class="schubRechts">
+            <div class="klappe1d">
+              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+            <div class="klappe1u">
+              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+            </div>
+          </div>
+          <div class="schubMitte">
+            <h4><span id="antriebHeader">Antrieb</span></h4>
+          </div>
+          <div class="schubLinks">
+
+          </div>
+        </div>
+        <a href="#wahlpage" data-role="button" data-icon="engine" data-iconpos="top" id="motorButton" data-corners="false">Motor</a>
+        <a href="#wahlpage" data-role="button" data-icon="boat" data-iconpos="top" id="segelButton" data-corners="false">Segel</a>
+        <a href="#wahlpage" data-role="button" data-icon="back" data-iconpos="top" id="antriebBack" data-corners="false">Zurück</a>
 
       </div>
 
-      <div data-role="footer" data-position="fixed" class="foot">
+      <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td width="25%" height="20" align="center" valign="middle">Position</td>

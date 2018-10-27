@@ -11,6 +11,8 @@ var nowObjY = 0;
 var fensterBreite = 0;
 var fensterHohe = 0;
 
+var autoKlappe = 1;
+
 // bool ob aktueller Browser ein IE ist
 var IE = document.all&&!window.opera;
 
@@ -301,7 +303,25 @@ $(document).ready(function(){
       pob.a = 0;
     }
   });
+  $('.einklappen').click(function()
+  {
 
+    if(autoKlappe == 0)
+    {
+      $('.klappe1u').hide();
+      $('.klappe1d').show();
+      $('#eingabefeld').animate({height: '480px'});
+      autoKlappe = 1;
+    }
+    else
+    {
+      $('.klappe1u').show();
+      $('.klappe1d').hide();
+      $('#eingabefeld').animate({height: '50px'});
+      autoKlappe = 0;
+    }
+
+  });
 });
 function anlegenFunktion(was)
 {
@@ -550,10 +570,10 @@ function verkleinern()
   else
   {
     $('#eingabefeld').css('left', "0px");
-    $('#eingabefeld').css('top', "0px");
+    $('#eingabefeld').css('top', "45px");
   }
   if(nowObjY + objHohe > fensterHohe)
   {
-    $('#eingabefeld').css('top', "10px");
+    $('#eingabefeld').css('top', "45px");
   }
 }
