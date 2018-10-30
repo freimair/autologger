@@ -33,3 +33,15 @@
 {
   background-image: url('images/icons-png/rettungsring-white.png');
 }
+.ui-icon-route:after
+{
+  background-image: url('images/icons-png/route-white.png');
+}
+.ui-icon-new:after
+{
+  background-image: url('images/icons-png/new-white.png');
+}
+.ui-icon-inbox:after
+{
+  background-image: url('images/icons-png/inbox-white.png');
+}

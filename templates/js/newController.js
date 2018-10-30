@@ -43,6 +43,10 @@ var posi = new Array(2);
 posi[0] = 200;
 posi[1] = 200;
 
+// Cookie Einstellungen
+$.cookie.json = true;
+var logID = 0;
+
 //Einzelvariable mit Event Listner, um eine automatische Verarbeitung auszulösen
 var position =
 {
@@ -676,6 +680,28 @@ $(document).ready(function()
       pob.a = 0;
     }
   });
+
+  if($.cookie('logID'))
+  {
+    logID = $.cookie('logID');
+  }
+  else
+  {
+    logID = 0;
+    window.location = "#startpage";
+  }
+  $('#logButton').click(function()
+  {
+    if(logID > 0)
+    {
+      window.location = "#wahlpage";
+    }
+    else
+    {
+      //Seite für neues Logbuch anzeigen
+    }
+  });
+
 
 
 

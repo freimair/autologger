@@ -16,6 +16,7 @@
     <script src="j/jquery.js"></script>
     <script src="j/jquerymobile.js"></script>
     <script src="j/jquery3.js"></script>
+    <script src="j/cookie.js"></script>
 
     <script src="j/openlayer.js"></script>
     <script src="j/openstreetmap.js"></script>
@@ -30,6 +31,55 @@
   </head>
   <body>
     <div id="eingabefeld" onmousedown="startDrag('#eingabefeld');">
+
+      <div data-role="page" data-theme="d" id="startpage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+          <button data-icon="route" data-iconpos="top" id="logButton" data-corners="false">Logbuch</button>
+          <button data-icon="inbox" data-iconpos="top" id="archivButton" data-corners="false">Archiv</button>
+
+        </div>
+
+        <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="25%" height="20" align="center" valign="middle">Position</td>
+              <td width="25%" height="20" align="center" valign="middle">COG</td>
+              <td width="25%" height="20" align="center" valign="middle">SOG</td>
+              <td width="25%" height="20" align="center" valign="middle">Status</td>
+            </tr>
+            <tr>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataPos"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataCog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataSog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataAntrieb"></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+
+
       <div data-role="page" data-theme="d" id="wahlpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
           <h1>Autologger</h1>
@@ -52,9 +102,9 @@
 
             </div>
           </div>
-          <button data-role="button" data-icon="boat" data-iconpos="top" id="antriebButton" data-corners="false">Antrieb</button>
+          <button data-icon="boat" data-iconpos="top" id="antriebButton" data-corners="false">Antrieb</button>
           <button data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Ablegen</button>
-          <button data-role="button" data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
+          <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
           <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
           <button data-icon="back" data-iconpos="top" id="backButton0" data-corners="false">Logbuch beenden</button>
 
