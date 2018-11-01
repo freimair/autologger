@@ -8,6 +8,7 @@ var nowObjX = 0;
 var nowObjY = 0;
 var fensterBreite = 0;
 var fensterHohe = 0;
+var inJason = 0;
 
 var IE = document.all&&!window.opera;
 
@@ -24,17 +25,19 @@ var statMess = "";
 //Variable Statusmeldung ende
 
 //Variable für das JSON und ob eine Verbindung zum Autologger Server besteht
-var jason = {"position": [47.066666667, 15.45, 0, 0], "status": {"anlegen": 1, "antrieb": 0, "pob": 0}, "user": {"id": 0, "status": 0}, "verbindung": 0};
+var jason = {inhalt: 0, "position": [47.066666667, 15.45, 0, 0], "status": {"anlegen": 1, "antrieb": 0, "pob": 0}, "user": {"id": 0, "status": 0, "log": 0}, "verbindung": 0};
 /*Daten, die vom Server kommen müssen
 
+Inhalt: welche Daten wurden gesendet als int, Format: 0 = positionArray, 1 = statusObjekt, 2 = userObjekt, 3 = ein spezielles JSON, das auf den String INIT das userObjekt schickt, bei dem die Variable 'id' die Anzahl der am Server gespeicherten User beinhaltet
 Position und SOG/COG (als Dezimalgrad, Süd und West negativ), Format: "position": [DecDeg, DecDeg, Knoten, deg}
 Status (als Int), Format: "status": {"anlegen": int, "antrieb": int, "pob": int}
   anlegen: 0 = nicht angelegt, 1 = im Hafen angelegt, 2 = vor Anker, 3 = an der boje
   antrieb: 0 = kein Antrieb, 1 = Maschinenantrieb, 2 = Segelantrieb
   pob: 0 = POB inaktiv, 1 = POB aktiv
-User (als Int), Format: "user": {"id": int, "status": int}
+User (als Int), Format: "user": {"id": int, "status": int, "log": int}
   id: wird vom Server vergeben, wenn der User registriert ist. 0 = nicht registriert, int > 0: Registrierungsnummer
   status: Welchen Status an Bord hat der User. 0 = kein Status/keine Berechtigung für Logbuch, 1 = Skipper, 2 = Crew
+  log: Wenn ein Logbuch aktiv ist, wird die ID hier angezeigt.
 Verbindung zum Server (wenn keine Verbindung besteht hat User keine Auswirkung), Format: verbindung: int
   Eine Nachricht vom Server darf erst gesendet werden, wenn ein INIT Signal vom Client kommt - erst dann ist der Client bereit zu empfangen*/
 
@@ -45,7 +48,6 @@ posi[1] = 200;
 
 // Cookie Einstellungen
 $.cookie.json = true;
-var logID = 0;
 
 //Einzelvariable mit Event Listner, um eine automatische Verarbeitung auszulösen
 var position =
@@ -120,11 +122,31 @@ var pob =
     this.aListener = listener;
   }
 };
+var logID =
+{
+  aInternal: 0,
+  aListener: function(val){},
+  set a(val)
+  {
+    this.aInternal = val;
+    this.aListener(val);
+  },
+  get a()
+  {
+    return this.aInternal;
+  },
+  registerListener: function(listener)
+  {
+    this.aListener = listener;
+  }
+};
 //Registrierung der einzelnen listener
 var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
 webSocket.onerror = function(event)
 {
   jason.verbindung = 0;
+  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
+  window.location = "#fehlerpage";
 };
 webSocket.onopen = function()
 {
@@ -133,8 +155,7 @@ webSocket.onopen = function()
 }
 webSocket.onmessage = function(event)
 {
-    jason = event.data;
-    jasonAuswerten();
+    jasonAuswerten(event.data);
 };
 anlegen.registerListener(function(val)
 {
@@ -343,6 +364,21 @@ position.registerListener(function(val)
 {
 
 });
+logID.registerListener(function(val)
+{
+
+});
+function toggle(was)
+{
+  if(was == 0)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
 
 //Steuerfunktionen
 //Sendefunktion
@@ -354,9 +390,32 @@ function senden(was)
   }
 }
 //Empfangenes JSON auswerten
-function jasonAuswerten()
+function jasonAuswerten(was)
 {
+  var json = JSON.parse(was);
+  if(json.inhalt == 0)
+  {
 
+  }
+  else if(json.inhalt == 1)
+  {
+
+  }
+  else if(json.inhalt == 2)
+  {
+
+  }
+  else if(json.inhalt == 3)
+  {
+    if($.cookie('user'))
+    {
+      senden($.cookie('user'));
+    }
+    else
+    {
+      window.location="#userpage";
+    }
+  }
 }
 //Dragfunktionen
 function startDrag(obj)
@@ -431,6 +490,7 @@ $(document).ready(function()
   {
     $('.dataPos').html('kein GPS');
   }
+  //anlegen.a = 1;
 
   $('.einklappen').click(function()
   {
@@ -450,8 +510,6 @@ $(document).ready(function()
       autoKlappe = 0;
     }
   });
-
-  anlegen.a = 1;
   $('#anlegenButton').click(function()
   {
     if(jason.status.anlegen == 0)
@@ -486,14 +544,7 @@ $(document).ready(function()
     }
     if(jason.status.anlegen == 0)
     {
-      if(antrieb.a == 0)
-      {
-        antrieb.a = 1;
-      }
-      else
-      {
-        antrieb.a = 0;
-      }
+      antrieb.a = toggle(antrieb.a);
     }
     else
     {
@@ -510,14 +561,7 @@ $(document).ready(function()
         senden('von der Boje abgelegt');
       }
       jason.status.anlegen = 0;
-      if(anlegen.a == 0)
-      {
-        anlegen.a = 1;
-      }
-      else
-      {
-        anlegen.a = 0;
-      }
+      anlegen.a = toggle(anlegen.a);
     }
   });
   $('#segelButton').click(function()
@@ -545,14 +589,7 @@ $(document).ready(function()
     }
     if(jason.status.anlegen == 0)
     {
-      if(antrieb.a == 0)
-      {
-        antrieb.a = 1;
-      }
-      else
-      {
-        antrieb.a = 0;
-      }
+      antrieb.a = toggle(antrieb.a);
     }
     else
     {
@@ -569,14 +606,7 @@ $(document).ready(function()
         senden('von der Boje abgelegt');
       }
       jason.status.anlegen = 0;
-      if(anlegen.a == 0)
-      {
-        anlegen.a = 1;
-      }
-      else
-      {
-        anlegen.a = 0;
-      }
+      anlegen.a = toggle(anlegen.a);
     }
   });
   $('#hafenButton').click(function()
@@ -593,14 +623,7 @@ $(document).ready(function()
     {
       senden('Segel bergen');
     }
-    if(anlegen.a == 0)
-    {
-      anlegen.a = 1;
-    }
-    else
-    {
-      anlegen.a = 0;
-    }
+    anlegen.a = toggle(anlegen.a);
   });
   $('#ankerButton').click(function()
   {
@@ -616,14 +639,7 @@ $(document).ready(function()
     {
       senden('Segel bergen');
     }
-    if(anlegen.a == 0)
-    {
-      anlegen.a = 1;
-    }
-    else
-    {
-      anlegen.a = 0;
-    }
+    anlegen.a = toggle(anlegen.a);
   });
   $('#bojeButton').click(function()
   {
@@ -639,14 +655,7 @@ $(document).ready(function()
     {
       senden('Segel bergen');
     }
-    if(anlegen.a == 0)
-    {
-      anlegen.a = 1;
-    }
-    else
-    {
-      anlegen.a = 0;
-    }
+    anlegen.a = toggle(anlegen.a);
   });
   $('#antriebButton').click(function(){window.location = "#antriebpage";});
   $('#sonstigesButton').click(function(){window.location = "#sonstigespage";});
@@ -658,7 +667,6 @@ $(document).ready(function()
   });
   $('#sonstigesBack').click(function(){window.location = "#wahlpage";});
   $('#antriebBack').click(function(){window.location = "#wahlpage";});
-
   $('#pobButton').click(function()
   {
     if(jason.status.pob == 0)
@@ -671,36 +679,20 @@ $(document).ready(function()
       jason.status.pob = 0;
       senden('Person wieder an Bord, Notfall beendet');
     }
-    if(pob.a == 0)
-    {
-      pob.a = 1;
-    }
-    else
-    {
-      pob.a = 0;
-    }
+    pob.a = toggle(pob.a);
+  });
+  $('#fehlerBack').click(function()
+  {
+    //Nur zum Testen
+      jasonAuswerten('{"inhalt": 3, "user": {"id": 0}}');
+    //Test ende
+
+
+
+    //window.location = '#startpage';
   });
 
-  if($.cookie('logID'))
-  {
-    logID = $.cookie('logID');
-  }
-  else
-  {
-    logID = 0;
-    window.location = "#startpage";
-  }
-  $('#logButton').click(function()
-  {
-    if(logID > 0)
-    {
-      window.location = "#wahlpage";
-    }
-    else
-    {
-      //Seite für neues Logbuch anzeigen
-    }
-  });
+
 
 
 

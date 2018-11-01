@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="css/newMobile.css" media="screen and (max-width: 640px)"/>
     <link rel="stylesheet" href="css/newDesktop.css" media="screen and (min-width: 641px)"/>
+    <link rel="stylesheet" href="css/main.css"/>
+
 
     <link rel="stylesheet" href="j/sensorserver.css" />
     <link rel="stylesheet" href="j/jquery.mobile.icons.min.css" />
@@ -31,6 +33,66 @@
   </head>
   <body>
     <div id="eingabefeld" onmousedown="startDrag('#eingabefeld');">
+      <div data-role="page" data-theme="d" id="loaderpage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+          <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" height="30">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" height="25" valign="middle">Verbinde mit Server ...</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">
+                <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+
+        <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="25%" height="20" align="center" valign="middle">Position</td>
+              <td width="25%" height="20" align="center" valign="middle">COG</td>
+              <td width="25%" height="20" align="center" valign="middle">SOG</td>
+              <td width="25%" height="20" align="center" valign="middle">Status</td>
+            </tr>
+            <tr>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataPos"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataCog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataSog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataAntrieb"></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+
+
+
 
       <div data-role="page" data-theme="d" id="startpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
@@ -266,6 +328,116 @@
           </table>
         </div>
       </div>
+
+
+
+      <div data-role="page" data-theme="d" id="fehlerpage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+          <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" valign="middle"><span id="fehler"></span></td>
+            </tr>
+          </table>
+          <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
+        </div>
+
+        <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="25%" height="20" align="center" valign="middle">Position</td>
+              <td width="25%" height="20" align="center" valign="middle">COG</td>
+              <td width="25%" height="20" align="center" valign="middle">SOG</td>
+              <td width="25%" height="20" align="center" valign="middle">Status</td>
+            </tr>
+            <tr>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataPos"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataCog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataSog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataAntrieb"></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+      <div data-role="page" data-theme="d" id="userpage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+
+          <label for="nname" class="ui-hidden-accessible">Familienname</label>
+          <input type="text" name="nname" id="nname" value="" data-clear-btn="true" placeholder="Familienname" data-corners="false"/>
+          <label for="vname" class="ui-hidden-accessible">Vorname</label>
+          <input type="text" name="vname" id="vname" value="" data-clear-btn="true" placeholder="Vorname" data-corners="false"/>
+          <label for="gebdat">Geburtsdatum</label>
+          <input type="date" name="gebdat" id="gebdat" value="" data-clear-btn="true" placeholder="Geburtsdatum" data-corners="false"/>
+          <label for="gebort" class="ui-hidden-accessible">Geburtsort</label>
+          <input type="text" name="gebort" id="gebort" value="" data-clear-btn="true" placeholder="Geburtsort" data-corners="false"/>
+          <label for="staat" class="ui-hidden-accessible">Statsbürgerschaft</label>
+          <input type="text" name="staat" id="staat" value="" data-clear-btn="true" placeholder="Staatsbürgerschaft" data-corners="false"/>
+          <label for="rpnr" class="ui-hidden-accessible">Reisepassnummer</label>
+          <input type="text" name="rpnr" id="rpnr" value="" data-clear-btn="true" placeholder="Reisepassnummer" data-corners="false"/>
+          <br>
+          <button data-icon="save" data-iconpos="top" id="speicherUser" data-corners="false">Speichern</button>
+        </div>
+
+        <div data-role="footer" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="25%" height="20" align="center" valign="middle">Position</td>
+              <td width="25%" height="20" align="center" valign="middle">COG</td>
+              <td width="25%" height="20" align="center" valign="middle">SOG</td>
+              <td width="25%" height="20" align="center" valign="middle">Status</td>
+            </tr>
+            <tr>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataPos"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataCog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataSog"></span></td>
+              <td width="25%" height="40" align="center" valign="middle"><span class="dataAntrieb"></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
     </div>
     <div id="kartenfeld">
       <div style="width:100%; height:100%" id="map"></div>
