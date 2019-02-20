@@ -112,6 +112,11 @@ function gotoScreen(screen) {
 		$('#sonstigesButton').show();
 		$('#pobButton').show();
 		break;
+	case "custom":
+		$('#sonstigesArea').show();
+		$('#speichernButton').show();
+		$('#backButton').show();
+		break;
 	}
 	
 	guiScreen = screen;
@@ -288,11 +293,14 @@ $(document).ready(function()
   $('#hafenButton, #ankerButton, #bojeButton').click(function() {
     senden({status: "landed"});
   });
-  $('#sonstigesButton').click(function(){window.location = "#sonstigespage";});
+  $('#sonstigesButton').click(function(){
+    lastGuiScreen = guiScreen;
+    gotoScreen("custom");
+  });
   $('#speichernButton').click(function()
   {
-    senden($('#sonstigesArea').val());
-    window.location = "#wahlpage";
+    senden({"message": $('#sonstigesArea').val()});
+    gotoScreen(lastGuiScreen);
   });
   $('#speicherUser').click(function(){window.location = "#wahlpage"});
   $('#sonstigesBack').click(function(){window.location = "#wahlpage";});
