@@ -244,7 +244,6 @@ $(document).ready(function()
   {
     $('.dataPos').html('kein GPS');
   }
-  //anlegen.a = 1;
 
   $('.einklappen').click(function()
   {
@@ -280,27 +279,16 @@ $(document).ready(function()
   $('#motorButton').click(function() {
     senden({status: "motoring"});
   });
-  $('#segelButton').click(function() {
+  $('#segelButton, #unreefButton').click(function() {
     senden({status: "sailing"});
   });
   $('#reffButton').click(function() {
     senden({status: "reef"});
   });
-  $('#unreefButton').click(function() {
-    senden({status: "sailing"});
-  });
-  $('#hafenButton').click(function() {
+  $('#hafenButton, #ankerButton, #bojeButton').click(function() {
     senden({status: "landed"});
   });
-  $('#ankerButton').click(function() {
-    senden({status: "landed"});
-  });
-  $('#bojeButton').click(function() {
-    senden({status: "landed"});
-  });
-  $('#antriebButton').click(function(){window.location = "#antriebpage";});
   $('#sonstigesButton').click(function(){window.location = "#sonstigespage";});
-  $('#anlegeBack').click(function(){window.location = "#wahlpage";});
   $('#speichernButton').click(function()
   {
     senden($('#sonstigesArea').val());
