@@ -49,97 +49,6 @@ posi[1] = 200;
 // Cookie Einstellungen
 $.cookie.json = true;
 
-//Einzelvariable mit Event Listner, um eine automatische Verarbeitung auszulösen
-var position =
-{
-  aInternal: 0,
-  aListener: function(val){},
-  set a(val)
-  {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a()
-  {
-    return this.aInternal;
-  },
-  registerListener: function(listener)
-  {
-    this.aListener = listener;
-  }
-};
-var anlegen =
-{
-  aInternal: 0,
-  aListener: function(val){},
-  set a(val)
-  {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a()
-  {
-    return this.aInternal;
-  },
-  registerListener: function(listener)
-  {
-    this.aListener = listener;
-  }
-};
-var antrieb =
-{
-  aInternal: 0,
-  aListener: function(val){},
-  set a(val)
-  {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a()
-  {
-    return this.aInternal;
-  },
-  registerListener: function(listener)
-  {
-    this.aListener = listener;
-  }
-};
-var pob =
-{
-  aInternal: 0,
-  aListener: function(val){},
-  set a(val)
-  {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a()
-  {
-    return this.aInternal;
-  },
-  registerListener: function(listener)
-  {
-    this.aListener = listener;
-  }
-};
-var logID =
-{
-  aInternal: 0,
-  aListener: function(val){},
-  set a(val)
-  {
-    this.aInternal = val;
-    this.aListener(val);
-  },
-  get a()
-  {
-    return this.aInternal;
-  },
-  registerListener: function(listener)
-  {
-    this.aListener = listener;
-  }
-};
 //Registrierung der einzelnen listener
 var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
 webSocket.onerror = function(event)
@@ -157,217 +66,57 @@ webSocket.onmessage = function(event)
 {
     jasonAuswerten(event.data);
 };
-anlegen.registerListener(function(val)
-{
-  var an = jason.status.anlegen;
-  $('#anlegenButton').removeClass('ui-icon-boje');
-  $('#anlegenButton').removeClass('ui-icon-anker');
-  $('#anlegenButton').removeClass('ui-icon-poller');
 
-  $('#antriebButton').removeClass('ui-icon-delete');
-  $('#antriebButton').removeClass('ui-icon-boat');
-  $('#antriebButton').removeClass('ui-icon-engine');
+lastGuiScreen = "";
+guiScreen = "landed";
 
-  $('#motorButton').removeClass('ui-icon-delete');
-  $('#motorButton').removeClass('ui-icon-boat');
-  $('#motorButton').removeClass('ui-icon-engine');
+function gotoScreen(screen) {
 
-  $('#segelButton').removeClass('ui-icon-delete');
-  $('#segelButton').removeClass('ui-icon-boat');
-  $('#segelButton').removeClass('ui-icon-engine');
+	$('#controls').children().hide();
+	
+	switch(screen) {
+	case "landing":
+		$('#hafenButton').show();
+		$('#ankerButton').show();
+		$('#bojeButton').show();
+		$('#backButton').show();
+		break;
+	case "landed":
+		$('#ablegenButton').show();
+		$('#sonstigesButton').show();
+		break;
+	case "leaving":
+		$('#segelButton').show();
+		$('#reffButton').show();
+		$('#motorButton').show();
+		$('#backButton').show();
+		break;
+	case "sailing":
+		$('#reffButton').show();
+		$('#motorButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	case "reef":
+		$('#unreefButton').show();
+		$('#motorButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	case "motoring":
+		$('#segelButton').show();
+		$('#reffButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	}
+	
+	guiScreen = screen;
+}
 
-  $('#antriebButton').hide();
-  $('#pobButton').hide();
-  $('#backButton0').hide();
-  if(an == 0)
-  {
-    if(jason.status.antrieb == 1)
-    {
-      $('.dataAntrieb').html('unter Maschine');
-      $('#motorButton').html('Maschine aus');
-      $('#segelButton').html('Maschine aus / Segel setzen');
-      $('#anlegenButton').html('Anlegen');
-
-      $('#antriebButton').addClass('ui-icon-engine');
-      $('#anlegenButton').addClass('ui-icon-anker');
-      $('#motorButton').addClass('ui-icon-delete');
-      $('#segelButton').addClass('ui-icon-boat');
-
-      $('#antriebButton').show();
-      $('#pobButton').show();
-    }
-    else if(jason.status.antrieb == 2)
-    {
-      $('.dataAntrieb').html('unter Segel');
-      $('#motorButton').html('Segel bergen');
-      $('#segelButton').html('Segel bergen / Maschine an');
-      $('#anlegenButton').html('Anlegen');
-
-      $('#antriebButton').addClass('ui-icon-boat');
-      $('#anlegenButton').addClass('ui-icon-anker');
-      $('#motorButton').addClass('ui-icon-delete');
-      $('#segelButton').addClass('ui-icon-engine');
-
-      $('#antriebButton').show();
-      $('#pobButton').show();
-    }
-    else
-    {
-      $('.dataAntrieb').html('kein Antrieb');
-      $('#motorButton').html('Maschine an');
-      $('#segelButton').html('Segel setzen');
-      $('#anlegenButton').html('Anlegen');
-
-      $('#antriebButton').addClass('ui-icon-delete');
-      $('#anlegenButton').addClass('ui-icon-anker');
-      $('#motorButton').addClass('ui-icon-engine');
-      $('#segelButton').addClass('ui-icon-boat');
-
-      $('#antriebButton').show();
-      $('#pobButton').show();
-    }
-  }
-  else if(an == 1)
-  {
-    $('.dataAntrieb').html('im Hafen');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-    $('#anlegenButton').html('Ablegen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#anlegenButton').addClass('ui-icon-poller');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-
-    $('#backButton0').show();
-  }
-  else if(an == 2)
-  {
-    $('.dataAntrieb').html('vor Anker');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-    $('#anlegenButton').html('Ablegen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#anlegenButton').addClass('ui-icon-anker');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-
-    $('#backButton0').show();
-  }
-  else if(an == 3)
-  {
-    $('.dataAntrieb').html('an der Boje');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-    $('#anlegenButton').html('Ablegen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#anlegenButton').addClass('ui-icon-boje');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-
-    $('#backButton0').show();
-  }
-  else
-  {
-    $('.dataAntrieb').html('unbekannt');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-    $('#anlegenButton').html('Ablegen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#anlegenButton').addClass('ui-icon-delete');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-
-    $('#backButton0').show();
-  }
-  window.location = "#wahlpage";
-});
-antrieb.registerListener(function(val)
-{
-  var an = jason.status.antrieb;
-  $('#antriebButton').removeClass('ui-icon-delete');
-  $('#antriebButton').removeClass('ui-icon-boat');
-  $('#antriebButton').removeClass('ui-icon-engine');
-
-  $('#motorButton').removeClass('ui-icon-delete');
-  $('#motorButton').removeClass('ui-icon-boat');
-  $('#motorButton').removeClass('ui-icon-engine');
-
-  $('#segelButton').removeClass('ui-icon-delete');
-  $('#segelButton').removeClass('ui-icon-boat');
-  $('#segelButton').removeClass('ui-icon-engine');
-
-  if(an == 0)
-  {
-    $('.dataAntrieb').html('kein Antrieb');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-  }
-  else if(an == 1)
-  {
-    $('.dataAntrieb').html('unter Maschine');
-    $('#motorButton').html('Maschine aus');
-    $('#segelButton').html('Maschine aus / Segel setzen');
-
-    $('#antriebButton').addClass('ui-icon-engine');
-    $('#motorButton').addClass('ui-icon-delete');
-    $('#segelButton').addClass('ui-icon-boat');
-  }
-  else if(an == 2)
-  {
-    $('.dataAntrieb').html('unter Segel');
-    $('#motorButton').html('Segel bergen');
-    $('#segelButton').html('Segel bergen / Maschine an');
-
-    $('#antriebButton').addClass('ui-icon-boat');
-    $('#motorButton').addClass('ui-icon-delete');
-    $('#segelButton').addClass('ui-icon-engine');
-  }
-  else
-  {
-    $('.dataAntrieb').html('unbekannt');
-    $('#motorButton').html('Maschine an');
-    $('#segelButton').html('Segel setzen');
-
-    $('#antriebButton').addClass('ui-icon-delete');
-    $('#motorButton').addClass('ui-icon-engine');
-    $('#segelButton').addClass('ui-icon-boat');
-  }
-  window.location = "#wahlpage";
-});
-pob.registerListener(function(val)
-{
-  if(jason.status.pob == 1)
-  {
-    $('.dataAntrieb').html('Person über Bord');
-  }
-  else
-  {
-    if(jason.status.antrieb == 1)
-    {
-      $('.dataAntrieb').html('unter Maschine');
-    }
-    else
-    {
-      $('.dataAntrieb').html('unter Segel');
-    }
-  }
-});
-position.registerListener(function(val)
-{
-
-});
-logID.registerListener(function(val)
-{
-
-});
 function toggle(was)
 {
   if(was == 0)
@@ -510,8 +259,12 @@ $(document).ready(function()
       autoKlappe = 0;
     }
   });
+
   $('#anlegenButton').click(function()
   {
+    lastGuiScreen = guiScreen;
+    gotoScreen("landing");
+    /*
     if(jason.status.anlegen == 0)
     {
       window.location = "#anlegepage";
@@ -520,9 +273,22 @@ $(document).ready(function()
     {
       window.location = "#antriebpage";
     }
+    */
   });
+  $('#ablegenButton').click(function()
+  {
+    lastGuiScreen = guiScreen;
+    gotoScreen("leaving");
+  });
+  $('#backButton').click(function()
+  {
+    gotoScreen(lastGuiScreen);
+  });
+  
   $('#motorButton').click(function()
   {
+    gotoScreen("motoring");
+/*	  
     if(jason.status.antrieb == 0)
     {
       jason.status.antrieb = 1;
@@ -563,9 +329,12 @@ $(document).ready(function()
       jason.status.anlegen = 0;
       anlegen.a = toggle(anlegen.a);
     }
+    */
   });
   $('#segelButton').click(function()
   {
+    gotoScreen("sailing");
+/*
     if(jason.status.antrieb == 0)
     {
       jason.status.antrieb = 2;
@@ -608,9 +377,20 @@ $(document).ready(function()
       jason.status.anlegen = 0;
       anlegen.a = toggle(anlegen.a);
     }
+    */
+  });
+  $('#reffButton').click(function()
+  {
+    gotoScreen("reef");
+  });
+  $('#unreefButton').click(function()
+  {
+    gotoScreen("sailing");
   });
   $('#hafenButton').click(function()
   {
+    gotoScreen("landed");
+	 /* 
     senden('im Hafen angelegt');
     jason.status.anlegen = 1;
     jason.status.antrieb = 0;
@@ -624,9 +404,12 @@ $(document).ready(function()
       senden('Segel bergen');
     }
     anlegen.a = toggle(anlegen.a);
+    */
   });
   $('#ankerButton').click(function()
   {
+    gotoScreen("landed");
+	 /* 
     senden('vor Anker gegangen');
     jason.status.anlegen = 2;
     jason.status.antrieb = 0;
@@ -640,9 +423,12 @@ $(document).ready(function()
       senden('Segel bergen');
     }
     anlegen.a = toggle(anlegen.a);
+    */
   });
   $('#bojeButton').click(function()
   {
+    gotoScreen("landed");
+	 /* 
     senden('an der Boje angelegt');
     jason.status.anlegen = 3;
     jason.status.antrieb = 0;
@@ -656,6 +442,7 @@ $(document).ready(function()
       senden('Segel bergen');
     }
     anlegen.a = toggle(anlegen.a);
+    */
   });
   $('#antriebButton').click(function(){window.location = "#antriebpage";});
   $('#sonstigesButton').click(function(){window.location = "#sonstigespage";});
