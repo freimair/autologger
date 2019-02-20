@@ -25,9 +25,18 @@ async def index(request):
 async def feed(request, ws):
     while True:
         command = await ws.recv()
-        answer = await server.onReceiveCommand(command)
+        answer = await router.onReceiveCommand(command)
         if answer:
             await ws.send(answer)
+
+class Router:
+    def __init__(self, app):
+        server = Server()
+        self.apps=[server]
+        app.add_task(server.recorder.update())
+
+    async def onReceiveCommand(self, data):
+        pass
 
 class Server():
 
@@ -62,8 +71,7 @@ class Server():
 
         return logline
 
-server = Server()
-app.add_task(server.recorder.update())
+router = Router(app)
         
 app.static("/", "./statics")
 app.run(host="0.0.0.0", port=8000, debug=True)
