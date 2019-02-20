@@ -42,9 +42,12 @@ class Logbook:
         self.recorder.incoming(data)
 
     async def onReceiveCommand(self, data):
-
-        if "INIT" == data:
+        print(data)
+        if '"INIT"' == data:
             return '{"inhalt": 3, "user": {"id": 0}}'
+
+        if "status" in data:
+            return data;
 
         # do we need to delete the last logline?
         if data.startswith('undo'):

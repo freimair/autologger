@@ -135,6 +135,7 @@ function senden(was)
 {
   if(jason.verbindung == 1)
   {
+    was = JSON.stringify(was);
     webSocket.send(was);
   }
 }
@@ -142,7 +143,11 @@ function senden(was)
 function jasonAuswerten(was)
 {
   var json = JSON.parse(was);
-  if(json.inhalt == 0)
+  if(json.status != undefined)
+  {
+    gotoScreen(json.status);
+  }
+  else if(json.inhalt == 0)
   {
 
   }
@@ -260,189 +265,38 @@ $(document).ready(function()
     }
   });
 
-  $('#anlegenButton').click(function()
-  {
+  $('#anlegenButton').click(function() {
     lastGuiScreen = guiScreen;
     gotoScreen("landing");
-    /*
-    if(jason.status.anlegen == 0)
-    {
-      window.location = "#anlegepage";
-    }
-    else
-    {
-      window.location = "#antriebpage";
-    }
-    */
   });
-  $('#ablegenButton').click(function()
-  {
+  $('#ablegenButton').click(function() {
     lastGuiScreen = guiScreen;
     gotoScreen("leaving");
   });
-  $('#backButton').click(function()
-  {
+  $('#backButton').click(function() {
     gotoScreen(lastGuiScreen);
   });
   
-  $('#motorButton').click(function()
-  {
-    gotoScreen("motoring");
-/*	  
-    if(jason.status.antrieb == 0)
-    {
-      jason.status.antrieb = 1;
-      senden('Maschine an');
-    }
-    else if(jason.status.antrieb == 1)
-    {
-      jason.status.antrieb = 0;
-      senden('Maschine aus');
-    }
-    else if(jason.status.antrieb == 2)
-    {
-      jason.status.antrieb = 0;
-      senden('Segel bergen');
-    }
-    else
-    {
-      jason.status.antrieb = 3;
-    }
-    if(jason.status.anlegen == 0)
-    {
-      antrieb.a = toggle(antrieb.a);
-    }
-    else
-    {
-      if(jason.status.anlegen == 1)
-      {
-        senden('vom Hafen abgelegt');
-      }
-      else if(jason.status.anlegen == 2)
-      {
-        senden('Anker geborgen');
-      }
-      else if(jason.status.anlegen == 3)
-      {
-        senden('von der Boje abgelegt');
-      }
-      jason.status.anlegen = 0;
-      anlegen.a = toggle(anlegen.a);
-    }
-    */
+  $('#motorButton').click(function() {
+    senden({status: "motoring"});
   });
-  $('#segelButton').click(function()
-  {
-    gotoScreen("sailing");
-/*
-    if(jason.status.antrieb == 0)
-    {
-      jason.status.antrieb = 2;
-      senden('Segel setzen');
-    }
-    else if(jason.status.antrieb == 1)
-    {
-      jason.status.antrieb = 2;
-      senden('Maschine aus');
-      senden('Segel setzen');
-    }
-    else if(jason.status.antrieb == 2)
-    {
-      jason.status.antrieb = 1;
-      senden('Segel bergen');
-      senden('Maschine an');
-    }
-    else
-    {
-      jason.status.antrieb = 3;
-    }
-    if(jason.status.anlegen == 0)
-    {
-      antrieb.a = toggle(antrieb.a);
-    }
-    else
-    {
-      if(jason.status.anlegen == 1)
-      {
-        senden('vom Hafen abgelegt');
-      }
-      else if(jason.status.anlegen == 2)
-      {
-        senden('Anker geborgen');
-      }
-      else if(jason.status.anlegen == 3)
-      {
-        senden('von der Boje abgelegt');
-      }
-      jason.status.anlegen = 0;
-      anlegen.a = toggle(anlegen.a);
-    }
-    */
+  $('#segelButton').click(function() {
+    senden({status: "sailing"});
   });
-  $('#reffButton').click(function()
-  {
-    gotoScreen("reef");
+  $('#reffButton').click(function() {
+    senden({status: "reef"});
   });
-  $('#unreefButton').click(function()
-  {
-    gotoScreen("sailing");
+  $('#unreefButton').click(function() {
+    senden({status: "sailing"});
   });
-  $('#hafenButton').click(function()
-  {
-    gotoScreen("landed");
-	 /* 
-    senden('im Hafen angelegt');
-    jason.status.anlegen = 1;
-    jason.status.antrieb = 0;
-
-    if(jason.status.antrieb == 1)
-    {
-      senden('Maschine aus');
-    }
-    else
-    {
-      senden('Segel bergen');
-    }
-    anlegen.a = toggle(anlegen.a);
-    */
+  $('#hafenButton').click(function() {
+    senden({status: "landed"});
   });
-  $('#ankerButton').click(function()
-  {
-    gotoScreen("landed");
-	 /* 
-    senden('vor Anker gegangen');
-    jason.status.anlegen = 2;
-    jason.status.antrieb = 0;
-
-    if(jason.status.antrieb == 1)
-    {
-      senden('Maschine aus');
-    }
-    else
-    {
-      senden('Segel bergen');
-    }
-    anlegen.a = toggle(anlegen.a);
-    */
+  $('#ankerButton').click(function() {
+    senden({status: "landed"});
   });
-  $('#bojeButton').click(function()
-  {
-    gotoScreen("landed");
-	 /* 
-    senden('an der Boje angelegt');
-    jason.status.anlegen = 3;
-    jason.status.antrieb = 0;
-
-    if(jason.status.antrieb == 1)
-    {
-      senden('Maschine aus');
-    }
-    else
-    {
-      senden('Segel bergen');
-    }
-    anlegen.a = toggle(anlegen.a);
-    */
+  $('#bojeButton').click(function() {
+    senden({status: "landed"});
   });
   $('#antriebButton').click(function(){window.location = "#antriebpage";});
   $('#sonstigesButton').click(function(){window.location = "#sonstigespage";});
