@@ -31,9 +31,9 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        server = Server()
-        self.apps=[server]
-        app.add_task(server.recorder.update())
+        self.apps=[Server()]
+        for current in self.apps:
+            app.add_task(current.arm())
 
     async def onReceiveCommand(self, data):
         pass
@@ -46,6 +46,9 @@ class Server():
 
         self.recorder = Recorder()
         self.recorder.distance = float(lines[-1].split(',')[1])
+
+    async def arm(self):
+        await self.recorder.update()
 
     async def onReceiveCommand(self, data):
         # do we need to delete the last logline?
