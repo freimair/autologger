@@ -1,20 +1,5 @@
-//Variable fürs Drag
-var currentObj = "";
-var currentObjX = 0;
-var currentObjY = 0;
-var startX = 0;
-var startY = 0;
-var nowObjX = 0;
-var nowObjY = 0;
-var fensterBreite = 0;
-var fensterHohe = 0;
-var inJason = 0;
-
 var IE = document.all&&!window.opera;
 
-document.onmousemove = doDrag;
-document.onmouseup = stopDrag;
-//Variable Drag ende
 
 //Variable fürs ein- und ausklappen
 var autoKlappe = 1;
@@ -49,133 +34,27 @@ posi[1] = 200;
 // Cookie Einstellungen
 $.cookie.json = true;
 
-//Registrierung der einzelnen listener
-var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
-webSocket.onerror = function(event)
-{
-  jason.verbindung = 0;
-  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
-  window.location = "#fehlerpage";
-};
-webSocket.onopen = function()
-{
-  jason.verbindung = 1;
-  senden('INIT');
-}
-webSocket.onmessage = function(event)
-{
-    jasonAuswerten(event.data);
-};
+/*
+ * #############################################################################
+ * #################################### Map ####################################
+ * #############################################################################
+ */
+//Variable fürs Drag
+var currentObj = "";
+var currentObjX = 0;
+var currentObjY = 0;
+var startX = 0;
+var startY = 0;
+var nowObjX = 0;
+var nowObjY = 0;
+var fensterBreite = 0;
+var fensterHohe = 0;
+var inJason = 0;
 
-lastGuiScreen = "";
-guiScreen = "landed";
+document.onmousemove = doDrag;
+document.onmouseup = stopDrag;
+//Variable Drag ende
 
-function gotoScreen(screen) {
-
-	$('#controls').children().hide();
-	
-	switch(screen) {
-	case "landing":
-		$('#hafenButton').show();
-		$('#ankerButton').show();
-		$('#bojeButton').show();
-		$('#backButton').show();
-		break;
-	case "landed":
-		$('#ablegenButton').show();
-		$('#sonstigesButton').show();
-		break;
-	case "leaving":
-		$('#segelButton').show();
-		$('#reffButton').show();
-		$('#motorButton').show();
-		$('#backButton').show();
-		break;
-	case "sailing":
-		$('#reffButton').show();
-		$('#motorButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "reef":
-		$('#unreefButton').show();
-		$('#motorButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "motoring":
-		$('#segelButton').show();
-		$('#reffButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "custom":
-		$('#sonstigesArea').show();
-		$('#speichernButton').show();
-		$('#backButton').show();
-		break;
-	}
-	
-	guiScreen = screen;
-}
-
-function toggle(was)
-{
-  if(was == 0)
-  {
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
-}
-
-//Steuerfunktionen
-//Sendefunktion
-function senden(was)
-{
-  if(jason.verbindung == 1)
-  {
-    was = JSON.stringify(was);
-    webSocket.send(was);
-  }
-}
-//Empfangenes JSON auswerten
-function jasonAuswerten(was)
-{
-  var json = JSON.parse(was);
-  if(json.status != undefined)
-  {
-    gotoScreen(json.status);
-  }
-  else if(json.inhalt == 0)
-  {
-
-  }
-  else if(json.inhalt == 1)
-  {
-
-  }
-  else if(json.inhalt == 2)
-  {
-
-  }
-  else if(json.inhalt == 3)
-  {
-    if($.cookie('user'))
-    {
-      senden($.cookie('user'));
-    }
-    else
-    {
-      window.location="#userpage";
-    }
-  }
-}
 //Dragfunktionen
 function startDrag(obj)
 {
@@ -237,6 +116,126 @@ function showPosition(position)
 }
 
 
+/*
+ * ##############################################################################
+ * ################################# Connection #################################
+ * ##############################################################################
+ */
+var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
+webSocket.onerror = function(event)
+{
+  jason.verbindung = 0;
+  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
+  window.location = "#fehlerpage";
+};
+webSocket.onopen = function()
+{
+  jason.verbindung = 1;
+  senden('INIT');
+  window.location = "#wahlpage";
+}
+webSocket.onmessage = function(event)
+{
+    jasonAuswerten(event.data);
+};
+
+//Steuerfunktionen
+//Sendefunktion
+function senden(was) {
+  if(jason.verbindung == 1) {
+  	was = JSON.stringify(was);
+    webSocket.send(was);
+  }
+}
+//Empfangenes JSON auswerten
+function jasonAuswerten(was) {
+	var json = JSON.parse(was);
+  
+  if(json.status != undefined) {
+    gotoScreen(json.status);
+  }
+  else if(json.inhalt == 0) {
+
+  }
+  else if(json.inhalt == 1) {
+
+  }
+  else if(json.inhalt == 2) {
+
+  }
+  else if(json.inhalt == 3) {
+  /*    if($.cookie('user'))
+    {
+      senden($.cookie('user'));
+    }
+    else
+    {
+      window.location="#userpage";
+    }*/
+  }
+}
+
+/*
+ * ##############################################################################
+ * ######################### Controls GUI State machine #########################
+ * ##############################################################################
+ */
+
+var lastGuiScreen = "";
+var guiScreen = "landed";
+
+function gotoScreen(screen) {
+
+	$('#controls').children().hide();
+	
+	switch(screen) {
+	case "landing":
+		$('#hafenButton').show();
+		$('#ankerButton').show();
+		$('#bojeButton').show();
+		$('#backButton').show();
+		break;
+	case "landed":
+		$('#ablegenButton').show();
+		$('#sonstigesButton').show();
+		break;
+	case "leaving":
+		$('#segelButton').show();
+		$('#reffButton').show();
+		$('#motorButton').show();
+		$('#backButton').show();
+		break;
+	case "sailing":
+		$('#reffButton').show();
+		$('#motorButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	case "reef":
+		$('#unreefButton').show();
+		$('#motorButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	case "motoring":
+		$('#segelButton').show();
+		$('#reffButton').show();
+		$('#anlegenButton').show();
+		$('#sonstigesButton').show();
+		$('#pobButton').show();
+		break;
+	case "custom":
+		$('#sonstigesArea').show();
+		$('#speichernButton').show();
+		$('#backButton').show();
+		break;
+	}
+	
+	guiScreen = screen;
+}
+
 $(document).ready(function()
 {
   drawmap();
@@ -268,6 +267,12 @@ $(document).ready(function()
       autoKlappe = 0;
     }
   });
+  
+  /*
+   * ##############################################################################
+   * ################################## Controls ##################################
+   * ##############################################################################
+   */
 
   $('#anlegenButton').click(function() {
     lastGuiScreen = guiScreen;
@@ -302,27 +307,12 @@ $(document).ready(function()
     senden({"message": $('#sonstigesArea').val()});
     gotoScreen(lastGuiScreen);
   });
-  $('#speicherUser').click(function(){window.location = "#wahlpage"});
-  $('#sonstigesBack').click(function(){window.location = "#wahlpage";});
-  $('#antriebBack').click(function(){window.location = "#wahlpage";});
   //$('#speicherUser').click(function(){window.location = "#wahlpage"});
   $('#pobButton').click(function() {
       senden({event: "MOB"});
   });
   $('#fehlerBack').click(function()
   {
-    //Nur zum Testen
-      jasonAuswerten('{"inhalt": 3, "user": {"id": 0}}');
-    //Test ende
-
-
-
     //window.location = '#startpage';
   });
-
-
-
-
-
-
 });
