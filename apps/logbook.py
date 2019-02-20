@@ -23,7 +23,7 @@ class Logbook:
         self.recorder.distance = float(lines[-1].split(',')[1])
 
     async def getGui(self, request):
-        return response.html(T("newIndex.html").render())
+        return response.html(T("logbook.html").render())
 
     async def feed(self, request, ws):
         while True:

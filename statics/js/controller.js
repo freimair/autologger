@@ -143,14 +143,14 @@ webSocket.onmessage = function(event)
 //Sendefunktion
 function senden(was) {
   if(jason.verbindung == 1) {
-  	was = JSON.stringify(was);
+    was = JSON.stringify(was);
     webSocket.send(was);
   }
 }
 //Empfangenes JSON auswerten
 function jasonAuswerten(was) {
-	var json = JSON.parse(was);
-  
+  var json = JSON.parse(was);
+
   if(json.status != undefined) {
     gotoScreen(json.status);
   }
