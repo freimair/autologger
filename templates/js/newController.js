@@ -141,7 +141,7 @@ var logID =
   }
 };
 //Registrierung der einzelnen listener
-var webSocket = new WebSocket('ws://' + window.location.host + '/ws');
+var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
 webSocket.onerror = function(event)
 {
   jason.verbindung = 0;
@@ -665,6 +665,7 @@ $(document).ready(function()
     senden($('#sonstigesArea').val());
     window.location = "#wahlpage";
   });
+  $('#speicherUser').click(function(){window.location = "#wahlpage"});
   $('#sonstigesBack').click(function(){window.location = "#wahlpage";});
   $('#antriebBack').click(function(){window.location = "#wahlpage";});
   $('#pobButton').click(function()

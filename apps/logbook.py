@@ -11,6 +11,7 @@ class Logbook:
     name = "LogBook"
 
     def __init__(self, app):
+        app.add_websocket_route(self.feed, self.base + '/ws')
         app.add_route(self.getGui, self.base)
         app.add_route(self.download_logbook, self.base + '/logbook.csv')
         app.add_route(self.download_track, self.base + '/track.gpx')
@@ -22,7 +23,14 @@ class Logbook:
         self.recorder.distance = float(lines[-1].split(',')[1])
 
     async def getGui(self, request):
-        return response.html(T("index.html").render())
+        return response.html(T("newIndex.html").render())
+
+    async def feed(self, request, ws):
+        while True:
+            command = await ws.recv()
+            answer = await self.onReceiveCommand(command)
+            if answer:
+                await ws.send(answer)
 
     async def download_logbook(self, request):
         return await response.file('logbook.csv')
@@ -34,6 +42,10 @@ class Logbook:
         self.recorder.incoming(data)
 
     async def onReceiveCommand(self, data):
+
+        if "INIT" == data:
+            return '{"inhalt": 3, "user": {"id": 0}}'
+
         # do we need to delete the last logline?
         if data.startswith('undo'):
             f = open('logbook.csv', 'r')
