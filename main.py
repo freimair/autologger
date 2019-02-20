@@ -1,9 +1,8 @@
 from sanic import Sanic
 from sanic import response
-import serial
-import asyncio
 from utils import T
-from logbook import Logbook
+from apps.logbook import Logbook
+from sources.GPSviaUSB import GPSviaUSB
 
 
 app = Sanic(__name__)
@@ -23,7 +22,7 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        self.sources=[DataSource(self)]
+        self.sources=[GPSviaUSB(self)]
         for current in self.sources:
             app.add_task(current.arm())
 
@@ -38,21 +37,6 @@ class Router:
 
     async def onReceiveCommand(self, data):
         pass
-
-class DataSource:
-    def __init__(self, router):
-        self.router = router
-        self.serial = serial.Serial("/dev/ttyUSB0", 4800)
-
-    async def arm(self):
-        while True:
-            #getGPS
-            line = ['']
-            while not line[0].endswith("$GPGGA"):
-                line = str(self.serial.readline()).split(",")
-            new_position = (int(line[2][0:2]) + float(line[2][2:])/60, int(line[4][0:3]) + float(line[4][3:])/60)
-            await self.router.incoming([new_position, float(line[1])])
-            await asyncio.sleep(2)
 
 router = Router(app)
         
