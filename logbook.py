@@ -1,8 +1,57 @@
-import asyncio
-import gpxpy
 import gpxpy.gpx
-import datetime
+from sanic.response import file
 from geographiclib.geodesic import Geodesic
+import datetime
+import os
+
+
+async def download_logbook(request):
+    return await file('logbook.csv')
+
+async def download_track(request):
+    return await file('track.gpx')
+
+class Logbook:
+
+    base = "logbook"
+    name = "LogBook"
+
+    def __init__(self, app):
+        app.add_route(download_logbook, self.base + '/logbook.csv')
+        app.add_route(download_track, self.base + '/track.gpx')
+
+        with open('logbook.csv', 'r') as csvfile:
+            lines = csvfile.readlines()
+
+        self.recorder = Recorder()
+        self.recorder.distance = float(lines[-1].split(',')[1])
+
+    async def incoming(self, data):
+        self.recorder.incoming(data)
+
+    async def onReceiveCommand(self, data):
+        # do we need to delete the last logline?
+        if data.startswith('undo'):
+            f = open('logbook.csv', 'r')
+            lines = f.readlines()
+            f.close()
+
+            f = open('logbook.csv', 'w')
+            f.writelines([item for item in lines[:-1]])
+            f.close()
+            return "last entry has been removed"
+
+        # assemble log line
+        logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
+        logline += str(self.recorder.getDistanceTravelled()) + ","
+        logline += str(self.recorder.getCurrentSpeed()) + ","
+        logline += str(self.recorder.getCourseOverGround()) + ","
+        logline += data
+
+        with open('logbook.csv', 'a') as csvfile:
+            csvfile.write(logline + os.linesep)
+
+        return logline
 
 class Recorder():
 
