@@ -44,7 +44,7 @@ class Logbook:
     async def onReceiveCommand(self, data):
         print(data)
         if '"INIT"' == data:
-            return '{"inhalt": 3, "user": {"id": 0}}'
+            return '{"status": "landed"}'
 
         if "status" in data:
             return data;
