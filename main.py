@@ -1,11 +1,13 @@
 from sanic import Sanic
 from sanic.response import file
+from sanic import response
 import csv
 import serial
 from datetime import datetime
 import os
 import asyncio
 from recorder import Recorder
+from utils import T
 
 
 app = Sanic(__name__)
@@ -13,7 +15,7 @@ app = Sanic(__name__)
 
 @app.route('/')
 async def index(request):
-    return await file('templates/main.html')
+    return response.html(router.getGui())
 
 @app.route('/logbook.csv')
 async def index(request):
@@ -39,6 +41,9 @@ class Router:
 
         self.apps=[Server()]
 
+    def getGui(self):
+        return T("main.html").render(tools=self.apps)
+
     async def incoming(self, data):
         for current in self.apps:
             await current.incoming(data)
@@ -62,6 +67,9 @@ class DataSource:
             await asyncio.sleep(2)
 
 class Server():
+
+    base = "logbook"
+    name = "LogBook"
 
     def __init__(self):
         with open('logbook.csv', 'r') as csvfile:

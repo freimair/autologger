@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"/>
         <title>Insert title here</title>
         <script src="jquery-3.3.1.min.js"></script>
         <script type="text/javascript">
@@ -41,6 +41,11 @@
         </style>
     </head>
     <body>
+      <ul>
+      {% for current in tools %}
+        <li><a href="{{current.base}}">{{current.name}}</a></li>
+      {% endfor %}
+      </ul>
       <div id="info"></div>
       <div id="main">
         <button onClick="buttonClicked('Segel')">Segel</button>
@@ -58,7 +63,7 @@
         <button onClick="jQuery('#main').show();jQuery('#anlegen').hide();">zur&uuml;ck</button>
       </div>
       <div id="custom" style="display: none;">
-        <input id="customtext" type="text">
+        <input id="customtext" type="text"/>
         <button onClick="buttonClicked(jQuery('#customtext').val());jQuery('#main').show();jQuery('#custom').hide();jQuery('#customtext').val('')">Speichern</button>
         <button onClick="jQuery('#main').show();jQuery('#custom').hide();jQuery('#customtext').val('')">zur&uuml;ck</button>
       </div>
@@ -66,3 +71,4 @@
       <p><a href="/track.gpx">Download GPX</a></p>
     </body>
 </html>
+
