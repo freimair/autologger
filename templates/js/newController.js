@@ -305,19 +305,9 @@ $(document).ready(function()
   $('#speicherUser').click(function(){window.location = "#wahlpage"});
   $('#sonstigesBack').click(function(){window.location = "#wahlpage";});
   $('#antriebBack').click(function(){window.location = "#wahlpage";});
-  $('#pobButton').click(function()
-  {
-    if(jason.status.pob == 0)
-    {
-      senden('Person über Bord');
-      jason.status.pob = 1;
-    }
-    else
-    {
-      jason.status.pob = 0;
-      senden('Person wieder an Bord, Notfall beendet');
-    }
-    pob.a = toggle(pob.a);
+  //$('#speicherUser').click(function(){window.location = "#wahlpage"});
+  $('#pobButton').click(function() {
+      senden({event: "MOB"});
   });
   $('#fehlerBack').click(function()
   {
