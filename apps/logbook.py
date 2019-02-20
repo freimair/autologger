@@ -1,15 +1,9 @@
 import gpxpy.gpx
-from sanic.response import file
+from sanic import response
 from geographiclib.geodesic import Geodesic
 import datetime
 import os
-
-
-async def download_logbook(request):
-    return await file('logbook.csv')
-
-async def download_track(request):
-    return await file('track.gpx')
+from utils import T
 
 class Logbook:
 
@@ -17,14 +11,24 @@ class Logbook:
     name = "LogBook"
 
     def __init__(self, app):
-        app.add_route(download_logbook, self.base + '/logbook.csv')
-        app.add_route(download_track, self.base + '/track.gpx')
+        app.add_route(self.getGui, self.base)
+        app.add_route(self.download_logbook, self.base + '/logbook.csv')
+        app.add_route(self.download_track, self.base + '/track.gpx')
 
         with open('logbook.csv', 'r') as csvfile:
             lines = csvfile.readlines()
 
         self.recorder = Recorder()
         self.recorder.distance = float(lines[-1].split(',')[1])
+
+    async def getGui(self, request):
+        return response.html(T("index.html").render())
+
+    async def download_logbook(self, request):
+        return await response.file('logbook.csv')
+
+    async def download_track(self, request):
+        return await response.file('track.gpx')
 
     async def incoming(self, data):
         self.recorder.incoming(data)
