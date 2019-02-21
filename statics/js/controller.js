@@ -131,7 +131,7 @@ webSocket.onerror = function(event)
 webSocket.onopen = function()
 {
   jason.verbindung = 1;
-  senden({"get": "status"});
+  senden({"get": "last"});
   window.location = "#wahlpage";
 }
 webSocket.onmessage = function(event)

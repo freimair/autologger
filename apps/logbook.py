@@ -43,8 +43,11 @@ class Logbook:
         self.recorder.incoming(data)
 
     async def parse_get(self, data):
-        if "status" in data.get("get"):
-            return '{"status": "landed"}'
+        if "last" in data.get("get"):
+            with open('logbook.csv', 'r') as csvfile:
+                lines = csvfile.read().splitlines()
+
+            return '{"status": "' + lines[-1].split(',')[-1] + '"}'
         else:
             return '{"logbooks":[{"logbook": {"id":1, "title":"logbook1", "description":"description1"}}, {"logbook": {"id":2, "title":"logbook2", "description":"description2"}}, {"logbook": {"id":3, "title":"logbook3", "description":"description3"}}]}'
 
