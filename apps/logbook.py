@@ -42,15 +42,17 @@ class Logbook:
         self.recorder.incoming(data)
 
     async def onReceiveCommand(self, data):
-        print(data)
         if '"INIT"' == data:
             return '{"status": "landed"}'
 
-        if "status" in data:
+        elif "status" in data:
             return data;
 
+        elif "logbook" in data:
+            print(data)
+
         # do we need to delete the last logline?
-        if data.startswith('undo'):
+        elif data.startswith('undo'):
             f = open('logbook.csv', 'r')
             lines = f.readlines()
             f.close()
@@ -60,17 +62,18 @@ class Logbook:
             f.close()
             return "last entry has been removed"
 
-        # assemble log line
-        logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
-        logline += str(self.recorder.getDistanceTravelled()) + ","
-        logline += str(self.recorder.getCurrentSpeed()) + ","
-        logline += str(self.recorder.getCourseOverGround()) + ","
-        logline += data
+        else:
+            # assemble log line
+            logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
+            logline += str(self.recorder.getDistanceTravelled()) + ","
+            logline += str(self.recorder.getCurrentSpeed()) + ","
+            logline += str(self.recorder.getCourseOverGround()) + ","
+            logline += data
 
-        with open('logbook.csv', 'a') as csvfile:
-            csvfile.write(logline + os.linesep)
+            with open('logbook.csv', 'a') as csvfile:
+                csvfile.write(logline + os.linesep)
 
-        return logline
+            return logline
 
 class Recorder():
 

@@ -72,6 +72,37 @@
         </div>
       </div>
 
+      <div data-role="page" data-theme="d" id="createLogbookPage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+          <label for="text-3">Bezeichnung:</label>
+          <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
+          <label for="logbookDescription">Beschreibung:</label>
+          <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
+          <button data-icon="save" data-iconpos="top" id="saveLogbookButton" data-corners="false">Speichern</button>
+          <button data-icon="back" data-iconpos="top" data-corners="false" id="homeButton">Zurück</button>
+        </div>
+      </div>
+
       <div data-role="page" data-theme="d" id="wahlpage">
         <div data-role="panel" data-position-fixed="true" id="moreMenu" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open" data-position="left" data-display="overlay" data-theme="d">
           <div class="ui-panel-inner">

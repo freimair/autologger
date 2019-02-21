@@ -270,10 +270,9 @@ $(document).ready(function()
   
   /*
    * ##############################################################################
-   * ################################## Controls ##################################
+   * ## Logbook Status Controls ###################################################
    * ##############################################################################
    */
-
   $('#anlegenButton').click(function() {
     lastGuiScreen = guiScreen;
     gotoScreen("landing");
@@ -316,7 +315,28 @@ $(document).ready(function()
     //window.location = '#startpage';
   });
 
+  /*
+   * ##############################################################################
+   * ## 'more' menu controls ######################################################
+   * ##############################################################################
+   */
+  $('#createLogbookButton').click(function() {
+      window.location = '#createLogbookPage';
+  });
   $('#quitButton').click(function() {
       window.location = window.location.origin;
-  })
+  });
+
+  /*
+   * ##############################################################################
+   * ## create/edit logbook controls ##############################################
+   * ##############################################################################
+   */
+  $('#saveLogbookButton').click(function() {
+       senden({'logbook':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+       window.location = '#wahlpage';
+  });
+  $('#homeButton').click(function() {
+       window.location = '#wahlpage';
+  });
 });
