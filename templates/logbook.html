@@ -130,6 +130,107 @@
         </div>
       </div>
 
+      <div data-role="page" data-theme="d" id="settingsPage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+
+          <div class="ui-body">
+            <div class="ui-bar ui-bar-d">
+              <h3>Common</h3>
+            </div>
+            <div class="ui-body ui-body-d">
+              <div data-role="collapsible">
+                <h4>active views</h4>
+                <fieldset data-role="controlgroup" data-iconpos="right">
+                  <input type="checkbox" name="cbControls" id="cbControls">
+                  <label for="cbControls">controls</label>
+                  <input type="checkbox" name="cbMap" id="cbMap">
+                  <label for="cbMap">map</label>
+                  <input type="checkbox" name="cbHud" id="cbHud">
+                  <label for="cbHud">HUD</label>
+                  <input type="checkbox" name="cbTable" id="cbTable">
+                  <label for="cbTable">table</label>
+                  <input type="checkbox" name="cbViewsElse" id="cbViewsElse">
+                  <label for="cbViewsElse">...</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="ui-body">
+            <div class="ui-bar ui-bar-d">
+              <h3>Controls</h3>
+            </div>
+            <div class="ui-body ui-body-d">
+              <div data-role="collapsible">
+                <h4>Available controls</h4>
+                <fieldset data-role="controlgroup" data-iconpos="right">
+                  <input type="checkbox" name="cbLanded" id="cbLanded">
+                  <label for="cbLanded">landed</label>
+                  <input type="checkbox" name="cdSailing" id="cdSailing">
+                  <label for="cdSailing">sailing</label>
+                  <input type="checkbox" name="cdReef" id="cdReef">
+                  <label for="cdReef">reef</label>
+                  <input type="checkbox" name="cbMotoring" id="cbMotoring">
+                  <label for="cbMotoring">motoring</label>
+                  <input type="checkbox" name="cdStrecktau" id="cdStrecktau">
+                  <label for="cdStrecktau">Strecktau</label>
+                  <input type="checkbox" name="cbLivevests" id="cbLivevests">
+                  <label for="cbLivevests">live vests</label>
+                  <input type="checkbox" name="cbMob" id="cbMob">
+                  <label for="cbMob">mob</label>
+                  <input type="checkbox" name="cbWatch" id="cbWatch">
+                  <label for="cbWatch">Watch</label>
+                  <input type="checkbox" name="cbControlsElse" id="cbControlsElse">
+                  <label for="cbControlsElse">...</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div class="ui-body">
+            <div class="ui-bar ui-bar-d">
+              <h3>Table</h3>
+            </div>
+            <div class="ui-body ui-body-d">
+              <div data-role="collapsible">
+                <h4>visible Columns</h4>
+                <fieldset data-role="controlgroup" data-iconpos="right">
+                  <input type="checkbox" name="cbCoG" id="cbCoG">
+                  <label for="cbCoG">CoG</label>
+                  <input type="checkbox" name="cbSoG" id="cbSoG">
+                  <label for="cbSoG">SoG</label>
+                  <input type="checkbox" name="cbWindspeed" id="cbWindspeed">
+                  <label for="cbWindspeed">Windspeed</label>
+                  <input type="checkbox" name="cbDistance" id="cbDistance">
+                  <label for="cbDistance">distance</label>
+                  <input type="checkbox" name="cbColumnsElse" id="cbColumnsElse">
+                  <label for="cbColumnsElse">...</label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
+        </div>
+      </div>
+
       <div data-role="page" data-theme="d" id="wahlpage">
         <div data-role="panel" data-position-fixed="true" id="moreMenu" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open" data-position="left" data-display="overlay" data-theme="d">
           <div class="ui-panel-inner">

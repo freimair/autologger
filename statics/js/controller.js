@@ -334,6 +334,9 @@ $(document).ready(function()
       senden({'get':'logbooks'})
       window.location = '#loadLogbookPage';
   });
+  $('#settingsButton').click(function() {
+      window.location = '#settingsPage';
+  });
   $('#quitButton').click(function() {
       window.location = window.location.origin;
   });
