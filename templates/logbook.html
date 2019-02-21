@@ -72,37 +72,21 @@
         </div>
       </div>
 
-      <div data-role="page" data-theme="d" id="startpage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-          <button data-icon="route" data-iconpos="top" id="logButton" data-corners="false">Logbuch</button>
-          <button data-icon="inbox" data-iconpos="top" id="archivButton" data-corners="false">Archiv</button>
-
-        </div>
-      </div>
-
       <div data-role="page" data-theme="d" id="wahlpage">
+        <div data-role="panel" data-position-fixed="true" id="moreMenu" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open" data-position="left" data-display="overlay" data-theme="d">
+          <div class="ui-panel-inner">
+            <ul data-role="listview" data-inset="false" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list ui-listview ui-group-theme-d">
+              <li data-icon="plus"><a id="createLogbookButton" href="#">New Logbook</a></li>
+              <li data-icon="search"><a id="loadLogbookButton" href="#">Load Logbook</a></li>
+              <li data-icon="gear"><a id="settingsButton" href="#">Settings</a></li>
+              <li data-icon="power"><a id="quitButton" href="#">Quit</a></li>
+            </ul>
+          </div>
+        </div>
+
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
           <h1>Autologger</h1>
+          <a href="#moreMenu" class="ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-bars">more</a>
         </div>
 
         <div role="main" class="ui-content">

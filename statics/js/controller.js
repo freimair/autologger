@@ -315,4 +315,8 @@ $(document).ready(function()
   {
     //window.location = '#startpage';
   });
+
+  $('#quitButton').click(function() {
+      window.location = window.location.origin;
+  })
 });
