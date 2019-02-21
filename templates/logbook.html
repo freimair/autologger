@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Autologger</title>
+    <title>Logbook</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,7 +34,7 @@
     <div id="eingabefeld" onmousedown="startDrag('#eingabefeld');">
       <div data-role="page" data-theme="d" id="loaderpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>Logbook - starting up</h1>
         </div>
 
         <div role="main" class="ui-content">
@@ -73,7 +73,9 @@
 
       <div data-role="page" data-theme="d" id="createLogbookPage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>create Logbook</h1>
+          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
+          <a id="saveLogbookButton" class="ui-btn-right ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-save">Speichern</a>
         </div>
 
         <div role="main" class="ui-content">
@@ -97,14 +99,13 @@
           <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
           <label for="logbookDescription">Beschreibung:</label>
           <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
-          <button data-icon="save" data-iconpos="top" id="saveLogbookButton" data-corners="false">Speichern</button>
-          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
         </div>
       </div>
 
       <div data-role="page" data-theme="d" id="loadLogbookPage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>load Logbook</h1>
+          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
         </div>
 
         <div role="main" class="ui-content">
@@ -126,13 +127,13 @@
           </div>
           <ul data-role="listview" data-inset="true" id="logbookList">
           </ul>
-          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
         </div>
       </div>
 
       <div data-role="page" data-theme="d" id="settingsPage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>Logbook Settings</h1>
+          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
         </div>
 
         <div role="main" class="ui-content">
@@ -227,7 +228,6 @@
               </div>
             </div>
           </div>
-          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
         </div>
       </div>
 
@@ -244,7 +244,7 @@
         </div>
 
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>Logbook</h1>
           <a href="#moreMenu" class="ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-bars">more</a>
         </div>
 
@@ -286,7 +286,7 @@
 
       <div data-role="page" data-theme="d" id="fehlerpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>Logbook Error</h1>
         </div>
 
         <div role="main" class="ui-content">
@@ -318,7 +318,7 @@
 
       <div data-role="page" data-theme="d" id="userpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Autologger</h1>
+          <h1>Logbook User</h1>
         </div>
 
         <div role="main" class="ui-content">
