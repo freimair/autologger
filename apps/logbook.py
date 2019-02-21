@@ -4,6 +4,7 @@ from geographiclib.geodesic import Geodesic
 import datetime
 import os
 from utils import T
+import json
 
 class Logbook:
 
@@ -41,25 +42,38 @@ class Logbook:
     async def incoming(self, data):
         self.recorder.incoming(data)
 
-    async def onReceiveCommand(self, data):
-        if '"INIT"' == data:
+    async def parse_get(self, data):
+        if "status" in data.get("get"):
             return '{"status": "landed"}'
-
-        elif "status" in data:
-            return data;
-
-        elif "get" in data and "logbooks" in data:
-            print("get logbooks")
+        else:
             return '{"logbooks":[{"logbook": {"id":1, "title":"logbook1", "description":"description1"}}, {"logbook": {"id":2, "title":"logbook2", "description":"description2"}}, {"logbook": {"id":3, "title":"logbook3", "description":"description3"}}]}'
 
-        elif "loadLogbook" in data:
-            print("load logbook accoring to " + data)
+    async def parse_status(self, data):
+        # assemble log line
+        logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
+        logline += str(self.recorder.getDistanceTravelled()) + ","
+        logline += str(self.recorder.getCurrentSpeed()) + ","
+        logline += str(self.recorder.getCourseOverGround()) + ","
+        logline += data.get("status")
 
-        elif "logbook" in data:
-            print(data)
+        with open('logbook.csv', 'a') as csvfile:
+            csvfile.write(logline + os.linesep)
+
+        return json.dumps(data);
+
+    async def parse_save(self, data):
+        print("save " + json.dumps(data))
+
+    async def parse_load(self, data):
+        print("load " + json.dumps(data))
+
+    async def onReceiveCommand(self, data):
+        incoming = json.JSONDecoder().decode(data)
+        result = await getattr(self, 'parse_' + list(incoming)[0], None)(incoming)
+        return result
 
         # do we need to delete the last logline?
-        elif data.startswith('undo'):
+        if data.startswith('undo'):
             f = open('logbook.csv', 'r')
             lines = f.readlines()
             f.close()
@@ -68,19 +82,6 @@ class Logbook:
             f.writelines([item for item in lines[:-1]])
             f.close()
             return "last entry has been removed"
-
-        else:
-            # assemble log line
-            logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
-            logline += str(self.recorder.getDistanceTravelled()) + ","
-            logline += str(self.recorder.getCurrentSpeed()) + ","
-            logline += str(self.recorder.getCourseOverGround()) + ","
-            logline += data
-
-            with open('logbook.csv', 'a') as csvfile:
-                csvfile.write(logline + os.linesep)
-
-            return logline
 
 class Recorder():
 

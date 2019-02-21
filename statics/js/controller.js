@@ -131,7 +131,7 @@ webSocket.onerror = function(event)
 webSocket.onopen = function()
 {
   jason.verbindung = 1;
-  senden('INIT');
+  senden({"get": "status"});
   window.location = "#wahlpage";
 }
 webSocket.onmessage = function(event)
@@ -353,7 +353,7 @@ $(document).ready(function()
    * ##############################################################################
    */
   $('#saveLogbookButton').click(function() {
-       senden({'logbook':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+       senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
        window.location = '#wahlpage';
   });
   $('.homeButton').click(function() {
@@ -368,7 +368,7 @@ $(document).ready(function()
 
   $('#logbookList').click(function(event) {
       var target = getEventTarget(event);
-      senden({"loadLogbook":target.name});
+      senden({"load":target.name});
       window.location = '#wahlpage';
   });
 });
