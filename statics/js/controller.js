@@ -334,6 +334,12 @@ $(document).ready(function()
       senden({'get':'logbooks'})
       window.location = '#loadLogbookPage';
   });
+  $('#exportLogbookButton').click(function() {
+      window.location = '/logbook/logbook.csv';
+  });
+  $('#exportGpxButton').click(function() {
+      window.location = '/logbook/track.gpx';
+  });
   $('#settingsButton').click(function() {
       window.location = '#settingsPage';
   });
@@ -354,11 +360,6 @@ $(document).ready(function()
        window.location = '#wahlpage';
   });
 
-  /*
-   * ##############################################################################
-   * ## create/edit/load logbook controls #########################################
-   * ##############################################################################
-   */
    // IE helper
   function getEventTarget(e) {
       e = e || window.event;
