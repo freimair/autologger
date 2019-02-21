@@ -98,7 +98,35 @@
           <label for="logbookDescription">Beschreibung:</label>
           <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
           <button data-icon="save" data-iconpos="top" id="saveLogbookButton" data-corners="false">Speichern</button>
-          <button data-icon="back" data-iconpos="top" data-corners="false" id="homeButton">Zurück</button>
+          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
+        </div>
+      </div>
+
+      <div data-role="page" data-theme="d" id="loadLogbookPage">
+        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
+          <h1>Autologger</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+          <div class="schubfeld">
+            <div class="schubRechts">
+              <div class="klappe1d">
+                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+              <div class="klappe1u">
+                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
+              </div>
+            </div>
+            <div class="schubMitte">
+              <h4>Controller</h4>
+            </div>
+            <div class="schubLinks">
+
+            </div>
+          </div>
+          <ul data-role="listview" data-inset="true" id="logbookList">
+          </ul>
+          <button data-icon="back" data-iconpos="top" data-corners="false" class="homeButton">Zurück</button>
         </div>
       </div>
 

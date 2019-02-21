@@ -154,6 +154,13 @@ function jasonAuswerten(was) {
   if(json.status != undefined) {
     gotoScreen(json.status);
   }
+  else if(json.logbooks != undefined) {
+    $('#logbookList').empty();
+    json.logbooks.forEach(function(item) {
+      $('#logbookList').append('<li data-icon="carat-r"><a name="' + item.logbook.id + '">' + item.logbook.title + "</a></li>");
+    });
+    $('#logbookList').listview().listview("refresh");
+  }
   else if(json.inhalt == 0) {
 
   }
@@ -323,20 +330,41 @@ $(document).ready(function()
   $('#createLogbookButton').click(function() {
       window.location = '#createLogbookPage';
   });
+  $('#loadLogbookButton').click(function() {
+      senden({'get':'logbooks'})
+      window.location = '#loadLogbookPage';
+  });
   $('#quitButton').click(function() {
       window.location = window.location.origin;
   });
 
   /*
    * ##############################################################################
-   * ## create/edit logbook controls ##############################################
+   * ## create/edit/load logbook controls #########################################
    * ##############################################################################
    */
   $('#saveLogbookButton').click(function() {
        senden({'logbook':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
        window.location = '#wahlpage';
   });
-  $('#homeButton').click(function() {
+  $('.homeButton').click(function() {
        window.location = '#wahlpage';
+  });
+
+  /*
+   * ##############################################################################
+   * ## create/edit/load logbook controls #########################################
+   * ##############################################################################
+   */
+   // IE helper
+  function getEventTarget(e) {
+      e = e || window.event;
+      return e.target || e.srcElement; 
+  }
+
+  $('#logbookList').click(function(event) {
+      var target = getEventTarget(event);
+      senden({"loadLogbook":target.name});
+      window.location = '#wahlpage';
   });
 });

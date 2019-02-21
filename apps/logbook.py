@@ -48,6 +48,13 @@ class Logbook:
         elif "status" in data:
             return data;
 
+        elif "get" in data and "logbooks" in data:
+            print("get logbooks")
+            return '{"logbooks":[{"logbook": {"id":1, "title":"logbook1", "description":"description1"}}, {"logbook": {"id":2, "title":"logbook2", "description":"description2"}}, {"logbook": {"id":3, "title":"logbook3", "description":"description3"}}]}'
+
+        elif "loadLogbook" in data:
+            print("load logbook accoring to " + data)
+
         elif "logbook" in data:
             print(data)
 
