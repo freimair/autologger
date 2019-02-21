@@ -10,6 +10,7 @@ class Logbook:
 
     base = "logbook"
     name = "LogBook"
+    dataPath = "statics/logbooks/"
 
     def __init__(self, app):
         app.add_websocket_route(self.feed, self.base + '/ws')
@@ -17,11 +18,12 @@ class Logbook:
         app.add_route(self.download_logbook, self.base + '/logbook.csv')
         app.add_route(self.download_track, self.base + '/track.gpx')
 
-        with open('logbook.csv', 'r') as csvfile:
-            lines = csvfile.readlines()
-
-        self.recorder = Recorder()
-        self.recorder.distance = float(lines[-1].split(',')[1])
+        try:
+            with open(self.dataPath + 'current', 'r') as csvfile:
+                lines = csvfile.readlines()
+            self.load(int(lines[0]))
+        except:
+            pass
 
     async def getGui(self, request):
         return response.html(T("logbook.html").render())
@@ -42,12 +44,34 @@ class Logbook:
     async def incoming(self, data):
         self.recorder.incoming(data)
 
+    def load(self, logbookId):
+        with open(self.dataPath + 'current', 'w') as csvfile:
+            csvfile.write(str(logbookId))
+        self.current = logbookId
+
+        with open(self.dataPath + str(logbookId) + '.csv', 'r') as csvfile:
+            lines = csvfile.readlines()
+
+        self.recorder = Recorder()
+        self.recorder.gpxfile = self.dataPath + str(logbookId) + ".gpx" 
+        try:
+            self.recorder.distance = float(lines[-1].split(',')[1])
+        except:
+            self.recorder.distance = 0
+
     async def parse_get(self, data):
         if "last" in data.get("get"):
-            with open('logbook.csv', 'r') as csvfile:
-                lines = csvfile.read().splitlines()
+            try:
+                with open(self.dataPath + str(self.current) + '.csv', 'r') as csvfile:
+                    lines = csvfile.read().splitlines()
 
-            return '{"status": "' + lines[-1].split(',')[-1] + '"}'
+                if len(lines) < 2:
+                    # in case we have an empty logbook
+                    return '{"status": "landed"}'
+                else:
+                    return '{"status": "' + lines[-1].split(',')[-1] + '"}'
+            except:
+                return '{"error": "noLogbook"}'
         else:
             return '{"logbooks":[{"logbook": {"id":1, "title":"logbook1", "description":"description1"}}, {"logbook": {"id":2, "title":"logbook2", "description":"description2"}}, {"logbook": {"id":3, "title":"logbook3", "description":"description3"}}]}'
 
@@ -59,13 +83,30 @@ class Logbook:
         logline += str(self.recorder.getCourseOverGround()) + ","
         logline += data.get("status")
 
-        with open('logbook.csv', 'a') as csvfile:
+        with open(self.dataPath + str(self.current) + '.csv', 'a') as csvfile:
             csvfile.write(logline + os.linesep)
 
         return json.dumps(data);
 
     async def parse_save(self, data):
-        print("save " + json.dumps(data))
+        logbook = data.get("save")
+        if logbook.get("id") is 0:
+            # find free id
+            ids = [0]
+            with os.scandir(self.dataPath) as entries:
+                for entry in entries:
+                    if entry.is_file() and entry.name.endswith(".csv"):
+                        ids.append(int(entry.name.replace(".csv", "")))
+
+            ids.sort(reverse = True)
+
+            with open(self.dataPath + str(ids[0] + 1) + ".csv", 'w') as csvfile:
+                csvfile.write(json.dumps(logbook) + '\n')
+
+            self.load(ids[0] + 1)
+            return await self.parse_get(json.JSONDecoder().decode('{"get": "last"}'))
+        else:
+            print("editing logbooks is not supported yet")
 
     async def parse_load(self, data):
         print("load " + json.dumps(data))
@@ -77,11 +118,11 @@ class Logbook:
 
         # do we need to delete the last logline?
         if data.startswith('undo'):
-            f = open('logbook.csv', 'r')
+            f = open(self.dataPath + str(self.current) + '.csv', 'r')
             lines = f.readlines()
             f.close()
 
-            f = open('logbook.csv', 'w')
+            f = open(self.dataPath + str(self.current) + '.csv', 'w')
             f.writelines([item for item in lines[:-1]])
             f.close()
             return "last entry has been removed"

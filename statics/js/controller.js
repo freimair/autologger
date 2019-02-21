@@ -161,6 +161,12 @@ function jasonAuswerten(was) {
     });
     $('#logbookList').listview().listview("refresh");
   }
+  else if(json.error != undefined) {
+    if(json.error == "noLogbook") {
+      $('.homeButton').hide();
+      window.location = '#createLogbookPage';
+    }
+  }
   else if(json.inhalt == 0) {
 
   }
@@ -355,6 +361,7 @@ $(document).ready(function()
   $('#saveLogbookButton').click(function() {
        senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
        window.location = '#wahlpage';
+       $('.homeButton').show(); // in case we had no logbook available before
   });
   $('.homeButton').click(function() {
        window.location = '#wahlpage';
