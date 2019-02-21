@@ -17,7 +17,6 @@
 
     <script src="j/jquery.js"></script>
     <script src="j/jquerymobile.js"></script>
-    <script src="j/jquery3.js"></script>
     <script src="j/cookie.js"></script>
 
     <script src="j/openlayer.js"></script>
@@ -229,7 +228,7 @@
       </div>
     </div>
 
-    <div id="HUD">
+    <div data-role="footer" data-position="fixed" data-fullscreen="true" id="HUD">
       <table border="0" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <td width="25%" height="20" align="center" valign="middle">Position</td>
@@ -245,6 +244,11 @@
         </tr>
       </table>
     </div>
+    <script type="text/javascript">
+    $(document).ready(function() {
+		$("[data-role='footer']").toolbar({ theme: "d" });
+    });
+    </script>
 
     <div id="kartenfeld">
       <div style="width:100%; height:100%" id="map"></div>
