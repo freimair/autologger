@@ -12,18 +12,31 @@ class Logbook:
     name = "LogBook"
     dataPath = "statics/logbooks/"
 
+    __current = 0
+    @property
+    def current(self):
+        if self.__current is 0:
+            try:
+                with open(self.dataPath + 'current', 'r') as csvfile:
+                    lines = csvfile.readlines()
+                self.load(int(lines[0]))
+            except:
+                pass
+
+        return self.__current
+
+    @current.setter
+    def current(self, value):
+        with open(self.dataPath + 'current', 'w') as csvfile:
+            csvfile.write(str(value))
+        self.__current = value
+
     def __init__(self, app):
         app.add_websocket_route(self.feed, self.base + '/ws')
         app.add_route(self.getGui, self.base)
         app.add_route(self.download_logbook, self.base + '/logbook.csv')
         app.add_route(self.download_track, self.base + '/track.gpx')
 
-        try:
-            with open(self.dataPath + 'current', 'r') as csvfile:
-                lines = csvfile.readlines()
-            self.load(int(lines[0]))
-        except:
-            pass
 
     async def getGui(self, request):
         return response.html(T("logbook.html").render())
@@ -42,11 +55,12 @@ class Logbook:
         return await response.file('track.gpx')
 
     async def incoming(self, data):
-        self.recorder.incoming(data)
+        try:
+            self.recorder.incoming(data)
+        except:
+            pass
 
     def load(self, logbookId):
-        with open(self.dataPath + 'current', 'w') as csvfile:
-            csvfile.write(str(logbookId))
         self.current = logbookId
 
         with open(self.dataPath + str(logbookId) + '.csv', 'r') as csvfile:
