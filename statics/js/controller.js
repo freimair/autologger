@@ -122,28 +122,33 @@ function showPosition(position)
  * ##############################################################################
  */
 var id = Math.floor(Math.random() * 10000);
-var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
-webSocket.onerror = function(event)
-{
-  jason.verbindung = 0;
-  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
-  window.location = "#fehlerpage";
-};
-webSocket.onopen = function()
-{
-  jason.verbindung = 1;
-  senden({"register":id})
-  senden({"get": "last"});
-  senden({"subscribe":"logline"})
-  window.location = "#wahlpage";
-}
-webSocket.onclose = function() {
-  window.location = "#loaderpage";
-  webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
-}
-webSocket.onmessage = function(event)
-{
-    jasonAuswerten(event.data);
+var webSocket;
+
+function connect() {
+	window.webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
+
+	webSocket.onerror = function(event)
+	{
+	  jason.verbindung = 0;
+	  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
+	  window.location = "#fehlerpage";
+	};
+	webSocket.onopen = function()
+	{
+	  jason.verbindung = 1;
+	  senden({"register":id})
+	  senden({"get": "last"});
+	  senden({"subscribe":"logline"})
+	  window.location = "#wahlpage";
+	}
+	webSocket.onclose = function() {
+	  window.location = "#loaderpage";
+	  setTimeout(connect, 2000);
+	}
+	webSocket.onmessage = function(event)
+	{
+		jasonAuswerten(event.data);
+	};
 };
 
 //Steuerfunktionen
@@ -242,6 +247,9 @@ function gotoScreen(screen) {
 
 $(document).ready(function()
 {
+  // connect to server
+  connect();
+
   drawmap();
 
   if (navigator.geolocation)
