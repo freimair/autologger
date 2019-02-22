@@ -5,8 +5,10 @@ import datetime
 import os
 from utils import T
 import json
+from threading import Lock
 
 class Logbook:
+    lock = Lock()
 
     base = "logbook"
     name = "LogBook"
@@ -19,7 +21,7 @@ class Logbook:
             try:
                 with open(self.dataPath + 'current', 'r') as csvfile:
                     lines = csvfile.readlines()
-                self.load(int(lines[0]))
+                self.load(lines[0])
             except:
                 pass
 
@@ -28,12 +30,12 @@ class Logbook:
     @current.setter
     def current(self, value):
         with open(self.dataPath + 'current', 'w') as csvfile:
-            csvfile.write(str(value))
+            csvfile.write(value)
         self.__current = value
 
     @property
     def currentPath(self):
-        return self.dataPath + str(self.current)
+        return self.dataPath + self.current
 
     def __init__(self, app):
         app.add_websocket_route(self.feed, self.base + '/ws')
@@ -111,20 +113,20 @@ class Logbook:
     async def parse_save(self, data):
         logbook = data.get("save")
         if logbook.get("id") is 0:
-            # find free id
-            ids = [0]
-            with os.scandir(self.dataPath) as entries:
-                for entry in entries:
-                    if entry.is_file() and entry.name.endswith(".csv"):
-                        ids.append(int(entry.name.replace(".csv", "")))
+            with self.lock:
+                condition = True
+                while condition:
+                    newLogbookId = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
+                    condition = os.path.isfile(self.dataPath + newLogbookId + '.csv')
 
-            ids.sort(reverse = True)
-            self.current = ids[0] + 1
+                logbook["id"] = newLogbookId
 
-            with open(self.currentPath + ".csv", 'w') as csvfile:
-                csvfile.write(json.dumps(logbook) + '\n')
+                self.current = newLogbookId
 
-            self.load(ids[0] + 1)
+                with open(self.currentPath + ".csv", 'w') as csvfile:
+                    csvfile.write(json.dumps(logbook) + '\n')
+
+            self.load(self.current)
             return await self.parse_get(json.JSONDecoder().decode('{"get": "last"}'))
         else:
             print("editing logbooks is not supported yet")
