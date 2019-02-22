@@ -6,6 +6,7 @@ import os
 from utils import T
 import json
 from threading import Lock
+import asyncio
 
 class Logbook:
     lock = Lock()
@@ -15,6 +16,7 @@ class Logbook:
     dataPath = "statics/logbooks/"
 
     subscribe = set()
+    clients = set()
 
     __current = 0
     @property
@@ -50,11 +52,14 @@ class Logbook:
         return response.html(T("logbook.html").render())
 
     async def feed(self, request, ws):
-        while True:
-            command = await ws.recv()
-            answer = await self.onReceiveCommand(command)
-            if answer:
-                await ws.send(answer)
+        self.clients.add(ws)
+
+        try:
+            async for command in ws:
+                answer = await self.onReceiveCommand(command)
+                await asyncio.wait([ws.send(answer) for ws in self.clients])
+        except:
+            self.clients.remove(ws)
 
     async def download_logbook(self, request):
         return await response.file(self.currentPath + '.csv')
