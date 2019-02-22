@@ -31,6 +31,10 @@ class Logbook:
             csvfile.write(str(value))
         self.__current = value
 
+    @property
+    def currentPath(self):
+        return self.dataPath + str(self.current)
+
     def __init__(self, app):
         app.add_websocket_route(self.feed, self.base + '/ws')
         app.add_route(self.getGui, self.base)
@@ -63,11 +67,12 @@ class Logbook:
     def load(self, logbookId):
         self.current = logbookId
 
-        with open(self.dataPath + str(logbookId) + '.csv', 'r') as csvfile:
+        #TODO optimize! read from last line
+        with open(self.currentPath + '.csv', 'r') as csvfile:
             lines = csvfile.readlines()
 
         self.recorder = Recorder()
-        self.recorder.gpxfile = self.dataPath + str(logbookId) + ".gpx" 
+        self.recorder.gpxfile = self.currentPath + ".gpx" 
         try:
             self.recorder.distance = float(lines[-1].split(',')[1])
         except:
@@ -76,7 +81,8 @@ class Logbook:
     async def parse_get(self, data):
         if "last" in data.get("get"):
             try:
-                with open(self.dataPath + str(self.current) + '.csv', 'r') as csvfile:
+                #TODO optimize! read from last line
+                with open(self.currentPath + '.csv', 'r') as csvfile:
                     lines = csvfile.read().splitlines()
 
                 if len(lines) < 2:
@@ -97,7 +103,7 @@ class Logbook:
         logline += str(self.recorder.getCourseOverGround()) + ","
         logline += data.get("status")
 
-        with open(self.dataPath + str(self.current) + '.csv', 'a') as csvfile:
+        with open(self.currentPath + '.csv', 'a') as csvfile:
             csvfile.write(logline + os.linesep)
 
         return json.dumps(data);
@@ -113,8 +119,9 @@ class Logbook:
                         ids.append(int(entry.name.replace(".csv", "")))
 
             ids.sort(reverse = True)
+            self.current = ids[0] + 1
 
-            with open(self.dataPath + str(ids[0] + 1) + ".csv", 'w') as csvfile:
+            with open(self.currentPath + ".csv", 'w') as csvfile:
                 csvfile.write(json.dumps(logbook) + '\n')
 
             self.load(ids[0] + 1)
