@@ -173,7 +173,6 @@ function jasonAuswerten(was) {
     }
   }
   if(json.logline != undefined) {
-    console.log(json.logline)
     $('#table tbody').append(json.logline);
   }
 }

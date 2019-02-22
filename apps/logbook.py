@@ -163,6 +163,17 @@ class Logbook:
     async def parse_subscribe(self, data):
         self.subscribe.add(data.get("subscribe"))
 
+        #and send the last 5 entries for now
+        with open(self.currentPath + '.csv', 'r') as csvfile:
+            lines = csvfile.read().splitlines()
+
+        result = '{"logline": "'
+        for logline in lines[-5:]:
+            if logline[0] is not "{": #we have less then 5 entries in our logbook
+                result += '<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>'
+
+        return result + '"}'
+
     async def onReceiveCommand(self, data):
         incoming = json.JSONDecoder().decode(data)
         result = await getattr(self, 'parse_' + list(incoming)[0], None)(incoming)
