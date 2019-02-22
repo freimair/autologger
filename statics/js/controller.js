@@ -132,6 +132,7 @@ webSocket.onopen = function()
 {
   jason.verbindung = 1;
   senden({"get": "last"});
+  senden({"subscribe":"loglines"})
   window.location = "#wahlpage";
 }
 webSocket.onclose = function() {
@@ -158,37 +159,22 @@ function jasonAuswerten(was) {
   if(json.status != undefined) {
     gotoScreen(json.status);
   }
-  else if(json.logbooks != undefined) {
+  if(json.logbooks != undefined) {
     $('#logbookList').empty();
     json.logbooks.forEach(function(item) {
       $('#logbookList').append('<li data-icon="carat-r"><a name="' + item.id + '">' + item.title + "</a></li>");
     });
     $('#logbookList').listview().listview("refresh");
   }
-  else if(json.error != undefined) {
+  if(json.error != undefined) {
     if(json.error == "noLogbook") {
       $('.homeButton').hide();
       window.location = '#createLogbookPage';
     }
   }
-  else if(json.inhalt == 0) {
-
-  }
-  else if(json.inhalt == 1) {
-
-  }
-  else if(json.inhalt == 2) {
-
-  }
-  else if(json.inhalt == 3) {
-  /*    if($.cookie('user'))
-    {
-      senden($.cookie('user'));
-    }
-    else
-    {
-      window.location="#userpage";
-    }*/
+  if(json.logline != undefined) {
+    console.log(json.logline)
+    $('#table tbody').append(json.logline);
   }
 }
 

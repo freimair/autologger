@@ -14,6 +14,8 @@ class Logbook:
     name = "LogBook"
     dataPath = "statics/logbooks/"
 
+    subscribe = set()
+
     __current = 0
     @property
     def current(self):
@@ -115,7 +117,11 @@ class Logbook:
         with open(self.currentPath + '.csv', 'a') as csvfile:
             csvfile.write(logline + os.linesep)
 
-        return json.dumps(data);
+        print(self.subscribe)
+        if "loglines" in self.subscribe:
+            return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
+        else:
+            return json.dumps(data)
 
     async def parse_save(self, data):
         logbook = data.get("save")
@@ -140,6 +146,9 @@ class Logbook:
 
     async def parse_load(self, data):
         self.load(data.get("load"))
+
+    async def parse_subscribe(self, data):
+        self.subscribe.add(data.get("subscribe"))
 
     async def onReceiveCommand(self, data):
         incoming = json.JSONDecoder().decode(data)
