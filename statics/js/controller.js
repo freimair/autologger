@@ -161,7 +161,7 @@ function jasonAuswerten(was) {
   else if(json.logbooks != undefined) {
     $('#logbookList').empty();
     json.logbooks.forEach(function(item) {
-      $('#logbookList').append('<li data-icon="carat-r"><a name="' + item.logbook.id + '">' + item.logbook.title + "</a></li>");
+      $('#logbookList').append('<li data-icon="carat-r"><a name="' + item.id + '">' + item.title + "</a></li>");
     });
     $('#logbookList').listview().listview("refresh");
   }

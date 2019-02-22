@@ -94,8 +94,15 @@ class Logbook:
                     return '{"status": "' + lines[-1].split(',')[-1] + '"}'
             except:
                 return '{"error": "noLogbook"}'
-        else:
-            return '{"logbooks":[{"logbook": {"id":1, "title":"logbook1", "description":"description1"}}, {"logbook": {"id":2, "title":"logbook2", "description":"description2"}}, {"logbook": {"id":3, "title":"logbook3", "description":"description3"}}]}'
+        elif "logbooks" in data.get("get"):
+            with os.scandir(self.dataPath) as entries:
+                result = '{"logbooks" : ['
+                for entry in entries:
+                    if entry.is_file() and entry.name.endswith(".csv"):
+                        with open(self.dataPath + entry.name, 'r') as csvfile:
+                            result += csvfile.readline() + ","
+
+                return result[:-1] + ']}'
 
     async def parse_status(self, data):
         # assemble log line
@@ -132,7 +139,7 @@ class Logbook:
             print("editing logbooks is not supported yet")
 
     async def parse_load(self, data):
-        print("load " + json.dumps(data))
+        self.load(data.get("load"))
 
     async def onReceiveCommand(self, data):
         incoming = json.JSONDecoder().decode(data)
