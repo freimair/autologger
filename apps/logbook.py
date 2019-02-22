@@ -93,7 +93,10 @@ class Logbook:
                     # in case we have an empty logbook
                     return '{"status": "landed"}'
                 else:
-                    return '{"status": "' + lines[-1].split(',')[-1] + '"}'
+                    i = -1
+                    while lines[i].split(',')[-1] not in ['landed', 'sailing', 'reef', 'motoring']:
+                        i -= 1
+                    return '{"status": "' + lines[i].split(',')[-1] + '"}'
             except:
                 return '{"error": "noLogbook"}'
         elif "logbooks" in data.get("get"):
@@ -107,21 +110,31 @@ class Logbook:
                 return result[:-1] + ']}'
 
     async def parse_status(self, data):
+        logline = self.log(data, "status")
+
+        if "loglines" in self.subscribe:
+            return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
+        else:
+            return json.dumps(data)
+
+    def log(self, data, what):
         # assemble log line
         logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
         logline += str(self.recorder.getDistanceTravelled()) + ","
         logline += str(self.recorder.getCurrentSpeed()) + ","
         logline += str(self.recorder.getCourseOverGround()) + ","
-        logline += data.get("status")
+        logline += data.get(what)
 
         with open(self.currentPath + '.csv', 'a') as csvfile:
             csvfile.write(logline + os.linesep)
 
-        print(self.subscribe)
+        return logline
+
+    async def parse_message(self, data):
+        logline = self.log(data, "message")
+
         if "loglines" in self.subscribe:
-            return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
-        else:
-            return json.dumps(data)
+            return '{"logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
 
     async def parse_save(self, data):
         logbook = data.get("save")

@@ -306,12 +306,12 @@ $(document).ready(function()
   });
   $('#speichernButton').click(function()
   {
-    senden({"message": $('#sonstigesArea').val()});
+    senden({message: $('#sonstigesArea').val()});
     gotoScreen(lastGuiScreen);
   });
   //$('#speicherUser').click(function(){window.location = "#wahlpage"});
   $('#pobButton').click(function() {
-      senden({event: "MOB"});
+      senden({message: "MOB"});
   });
   $('#fehlerBack').click(function()
   {
