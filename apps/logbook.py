@@ -55,10 +55,10 @@ class Logbook:
                 await ws.send(answer)
 
     async def download_logbook(self, request):
-        return await response.file('logbook.csv')
+        return await response.file(self.currentPath + '.csv')
 
     async def download_track(self, request):
-        return await response.file('track.gpx')
+        return await response.file(self.currentPath + '.gpx')
 
     async def incoming(self, data):
         try:
