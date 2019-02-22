@@ -6,7 +6,6 @@ import os
 from utils import T
 import json
 from threading import Lock
-import asyncio
 
 class Logbook:
     lock = Lock()
@@ -15,8 +14,9 @@ class Logbook:
     name = "LogBook"
     dataPath = "statics/logbooks/"
 
-    subscribe = set()
-    clients = set()
+    clients = dict() # websocket -> id
+    users = dict() # id -> subscriptions
+    websockets = set()
 
     __current = 0
     @property
@@ -52,14 +52,17 @@ class Logbook:
         return response.html(T("logbook.html").render())
 
     async def feed(self, request, ws):
-        self.clients.add(ws)
+        self.websockets.add(ws)
 
         try:
             async for command in ws:
-                answer = await self.onReceiveCommand(command)
-                await asyncio.wait([ws.send(answer) for ws in self.clients])
+                answer = await self.onReceiveCommand(command, ws)
+                if answer:
+                    for client in self.websockets:
+                        if list(json.loads(answer))[0] in self.users.get(self.clients.get(ws)):
+                            await client.send(answer)
         except:
-            self.clients.remove(ws)
+            self.websockets.remove(ws)
 
     async def download_logbook(self, request):
         return await response.file(self.currentPath + '.csv')
@@ -87,7 +90,7 @@ class Logbook:
         except:
             self.recorder.distance = 0
 
-    async def parse_get(self, data):
+    async def parse_get(self, data, ws):
         if "last" in data.get("get"):
             try:
                 #TODO optimize! read from last line
@@ -114,13 +117,10 @@ class Logbook:
 
                 return result[:-1] + ']}'
 
-    async def parse_status(self, data):
+    async def parse_status(self, data, ws):
         logline = self.log(data, "status")
 
-        if "loglines" in self.subscribe:
-            return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
-        else:
-            return json.dumps(data)
+        return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
 
     def log(self, data, what):
         # assemble log line
@@ -135,13 +135,12 @@ class Logbook:
 
         return logline
 
-    async def parse_message(self, data):
+    async def parse_message(self, data, ws):
         logline = self.log(data, "message")
 
-        if "loglines" in self.subscribe:
-            return '{"logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
+        return '{"logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
 
-    async def parse_save(self, data):
+    async def parse_save(self, data, ws):
         logbook = data.get("save")
         if logbook.get("id") is 0:
             with self.lock:
@@ -162,11 +161,14 @@ class Logbook:
         else:
             print("editing logbooks is not supported yet")
 
-    async def parse_load(self, data):
+    async def parse_load(self, data, ws):
         self.load(data.get("load"))
 
-    async def parse_subscribe(self, data):
-        self.subscribe.add(data.get("subscribe"))
+    async def parse_subscribe(self, data, ws):
+        self.users[self.clients[ws]].add(data.get("subscribe"))
+
+        if not "logline" in data.get("subscribe"):
+            return
 
         #and send the last 5 entries for now
         with open(self.currentPath + '.csv', 'r') as csvfile:
@@ -177,11 +179,16 @@ class Logbook:
             if logline[0] is not "{": #we have less then 5 entries in our logbook
                 result += '<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>'
 
-        return result + '"}'
+        await ws.send(result + '"}')
 
-    async def onReceiveCommand(self, data):
+    async def parse_register(self, data, ws):
+        self.clients[ws] = data.get("register")
+        self.users[self.clients[ws]] = set({'status'})
+
+
+    async def onReceiveCommand(self, data, ws):
         incoming = json.JSONDecoder().decode(data)
-        result = await getattr(self, 'parse_' + list(incoming)[0], None)(incoming)
+        result = await getattr(self, 'parse_' + list(incoming)[0], None)(incoming, ws)
         return result
 
         # do we need to delete the last logline?

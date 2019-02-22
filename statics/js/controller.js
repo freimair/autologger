@@ -121,6 +121,7 @@ function showPosition(position)
  * ################################# Connection #################################
  * ##############################################################################
  */
+var id = Math.floor(Math.random() * 10000);
 var webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
 webSocket.onerror = function(event)
 {
@@ -131,8 +132,9 @@ webSocket.onerror = function(event)
 webSocket.onopen = function()
 {
   jason.verbindung = 1;
+  senden({"register":id})
   senden({"get": "last"});
-  senden({"subscribe":"loglines"})
+  senden({"subscribe":"logline"})
   window.location = "#wahlpage";
 }
 webSocket.onclose = function() {
