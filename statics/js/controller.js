@@ -134,6 +134,10 @@ webSocket.onopen = function()
   senden({"get": "last"});
   window.location = "#wahlpage";
 }
+webSocket.onclose = function() {
+  window.location = "#loaderpage";
+  webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
+}
 webSocket.onmessage = function(event)
 {
     jasonAuswerten(event.data);
