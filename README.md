@@ -8,11 +8,19 @@ Currently, we are at the very beginning of the project, having only @freimair an
 
 ## Prerequisits
 
-pip3 install sanic asyncio geographiclib gpxpy
+install pyenv and do a
+```
+pip install -r requirements.txt
+```
 
 ## run
 
-python3 main.py
+run
+```
+python main.py
+```
+
+and surf to `youriphere:8000` for your autologger user interface.
 
 ## notes
 
