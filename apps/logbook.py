@@ -199,8 +199,7 @@ class Logbook:
                     if entry.is_file() and entry.name.endswith(".csv"):
                         with open(self.dataPath + entry.name, 'r') as csvfile:
                             result += csvfile.readline() + ","
-
-                return result[:-1] + ']}'
+            await ws.send(result[:-1] + ']}')
 
     """command parser 'status'"""
     async def parse_status(self, data, ws):
