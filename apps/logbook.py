@@ -75,12 +75,12 @@ class Logbook:
     The setter persists the new current logbook immediately.
     Hence, using self.current just works.
     """
-    __current = 0
+    __current = ""
 
     @property
     def current(self):
         # TODO rethink? gets checked every time self.current is used (and it is used A LOT)
-        if self.__current is 0:
+        if self.__current is "":
             try:
                 with open(self.dataPath + 'current', 'r') as csvfile:
                     lines = csvfile.readlines()
@@ -244,7 +244,7 @@ class Logbook:
     async def parse_subscribe(self, data, ws):
         self.users[self.clients[ws]].add(data.get("subscribe"))
 
-        if not "logline" in data.get("subscribe"):
+        if not "logline" in data.get("subscribe") or not os.path.exists(self.currentPath + ".csv"):
             return
 
         # and send the last 5 entries for now
