@@ -56,6 +56,7 @@ document.onmouseup = stopDrag;
 //Variable Drag ende
 
 //Dragfunktionen
+// TODO make available only when in desktop mode!
 function startDrag(obj)
 {
    currentObj = obj;
@@ -121,9 +122,26 @@ function showPosition(position)
  * ################################# Connection #################################
  * ##############################################################################
  */
+/*
+ * the id we use to (re)connect to the server
+ * 
+ * TODO think again
+ * - do we need some half-persistent client identification?
+ * - would it be better to use a user system as proposed by Peter?
+ * - anyhow, this id (which might eventually become a user id) can be persisted in a cookie file along with other settings
+ */
 var id = Math.floor(Math.random() * 10000);
+
 var webSocket;
 
+/*
+ * connect to the websocket of the logbook application
+ * 
+ * does reconnect on a lost connection.
+ * TODO limit reconnection tries in case our server is gone for good
+ *  - insert dynamic timeouts: start with immediate reconnect and increase the time until reconnection with every failed reconnect
+ *  - limit number of tries. If max number of tries is reached, ask user to reload.
+ */ 
 function connect() {
 	window.webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
 
@@ -163,9 +181,20 @@ function senden(was) {
 function jasonAuswerten(was) {
   var json = JSON.parse(was);
 
+  /*
+   * if we get a status update, we display the appropriate screen
+   * 
+   * note that currently, this client itself does not change the screen by itself. It waits for a status update from the server. lets see how this works out.
+   * TODO maybe include a response timeout in case the server does not answer a status update report? so the user gets informed that something is wrong?
+   */ 
   if(json.status != undefined) {
     gotoScreen(json.status);
   }
+
+  /*
+   * if we subscribe to the "logline" feed, we receive a list of the past X loglines.
+   * TODO that is sleazy. mostly for demonstration purpose. think again!
+   */
   if(json.logbooks != undefined) {
     $('#logbookList').empty();
     json.logbooks.forEach(function(item) {
@@ -173,12 +202,26 @@ function jasonAuswerten(was) {
     });
     $('#logbookList').listview().listview("refresh");
   }
+
+  /*
+   * initially, we ask the server for the last status. It might happen that we are the first one to connect to a fresh setup and thus,
+   * there is no logbook at the server. We get an error and react by redirecting to the createLogbook page.
+   * 
+   * TODO since this situation is VERY rare, we eventually should think about another strategy to handle these corner cases. As it is now, we have to
+   * re-show the .homeButton every time we display the "createLogbook" GUI. Alas, creating logbooks is quite rare as well...
+   */
   if(json.error != undefined) {
     if(json.error == "noLogbook") {
       $('.homeButton').hide();
       window.location = '#createLogbookPage';
     }
   }
+
+  /*
+   * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
+   * 
+   * TODO this is GEFN for demonstration purposes. refactor if things get serious.
+   */
   if(json.logline != undefined) {
     $('#table tbody').append(json.logline);
   }

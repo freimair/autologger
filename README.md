@@ -4,7 +4,7 @@ The Autologger is an open source project aimed at providing holiday skippers a w
 
 The master plan is to accompany the autologger software with hardware, which, with a single-board-computer such as a RaspberryPi, can be temporarily connected to the ships network. The Autologger software (run on the single-board-computer) offers a web interface, suitable for Smartphones, Tablets and conventional Laptops alike, to control the logging details.
 
-Currently, we are at the very beginning of the project, having only @freimair and https://www.segeln.st on board. If you have interest in joining our project, please let us know.
+Currently, we are at the very beginning of the project, having only @freimair and [segeln.st](https://www.segeln.st) on board. Thus, every piece of code strongly follows [IID](https://en.wikipedia.org/wiki/Iterative_and_incremental_development), [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it), [MVP](https://en.wikipedia.org/wiki/Minimum_viable_product), [KISS](https://en.wikipedia.org/wiki/KISS_principle) and, of course, [Cowboy Coding](https://en.wikipedia.org/wiki/Cowboy_coding). If you have interest in joining our project, please let us know.
 
 ## Prerequisits
 
@@ -20,8 +20,8 @@ run
 python main.py
 ```
 
-and surf to `youriphere:8000` for your autologger user interface.
+and surf to `youriphere:8000` for your user interface.
 
 ## notes
 
-usb gps token is hardcoded to /dev/ttyUSB0
+usb gps token is currently hardcoded to /dev/ttyUSB0
