@@ -191,7 +191,7 @@ class Logbook:
                         i -= 1
                     return '{"status": "' + lines[i].split(',')[-1] + '"}'
             except:
-                return '{"error": "noLogbook"}'
+                await ws.send('{"error": "noLogbook"}')
         elif "logbooks" in data.get("get"):
             with os.scandir(self.dataPath) as entries:
                 result = '{"logbooks" : ['
