@@ -58,9 +58,9 @@ class Logbook:
     
     this is where data arrives when produced by an infoSource (e.g. the ship or a GPS)
     """
-    async def incoming(self, data):
+    async def incoming(self, name, value):
         try:
-            print(data)
+            print(name + ": " + value)
         except:
             pass
 

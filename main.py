@@ -31,9 +31,9 @@ class Router:
     def getGui(self):
         return T("main.html").render(tools=self.apps)
 
-    async def incoming(self, data):
+    async def incoming(self, data1, data2):
         for current in self.apps:
-            await current.incoming(data)
+            await current.incoming(data1, data2)
 
     async def onReceiveCommand(self, data):
         pass

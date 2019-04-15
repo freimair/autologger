@@ -9,9 +9,11 @@ class GPSviaUSB:
     async def arm(self):
         while True:
             #getGPS
-            line = ['']
-            while not line[0].endswith("$GPGGA"):
+            line = [''] * 7
+            line[6] = '0'
+            while not line[0].endswith("$GPGGA") or line[6] is '0':
                 line = str(self.serial.readline()).split(",")
-            new_position = (int(line[2][0:2]) + float(line[2][2:])/60, int(line[4][0:3]) + float(line[4][3:])/60)
-            await self.router.incoming([new_position, float(line[1])])
+
+            await self.router.incoming("Latitude", str(int(line[2][0:2]) + float(line[2][2:])/60))
+            await self.router.incoming("Longitude", str(int(line[4][0:3]) + float(line[4][3:])/60))
             await asyncio.sleep(2)
