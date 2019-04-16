@@ -301,6 +301,10 @@ $(document).ready(function()
 		title: "Datum und Uhrzeit",
 		data: "DateTime"
 	}, {
+		title: "Log",
+		data: "Log",
+		className: "dt-right"
+	}, {
 		title: "CoG",
 		data: "CoG",
 		className: "dt-right"
