@@ -15,7 +15,7 @@ SoG,1.7
 Latitude,43.9433733
 Longitude,15.4287010
 Heading,349
-Depth,10.870000000000001
+Depth,10.87
 DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,323
@@ -508,7 +508,7 @@ CoG,356
 SoG,2.0
 Latitude,43.9434476
 Longitude,15.4286985
-Depth,11.200000000000001
+Depth,11.20
 DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,330
@@ -2436,7 +2436,7 @@ CoG,319
 SoG,1.5
 Latitude,43.9436834
 Longitude,15.4286002
-Depth,12.040000000000001
+Depth,12.04
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,10
@@ -2904,7 +2904,7 @@ WindAngle,1
 Latitude,43.9436945
 Longitude,15.4285474
 Heading,303
-Depth,11.870000000000001
+Depth,11.87
 DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,1
@@ -3158,7 +3158,7 @@ WindAngle,348
 Latitude,43.9436942
 Longitude,15.4285213
 Heading,318
-Depth,11.870000000000001
+Depth,11.87
 DepthOffset,-0.001
 Windspeed,7.4
 WindAngle,348
@@ -3412,7 +3412,7 @@ WindAngle,338
 Latitude,43.9436978
 Longitude,15.4284970
 Heading,332
-Depth,12.040000000000001
+Depth,12.04
 DepthOffset,-0.001
 Windspeed,6.9
 WindAngle,338
@@ -4400,7 +4400,7 @@ SoG,1.1
 Latitude,43.9437518
 Longitude,15.4284778
 Heading,30
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,289
@@ -5388,7 +5388,7 @@ WindAngle,293
 Latitude,43.9438284
 Longitude,15.4286115
 Heading,23
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,7.6
 WindAngle,293
@@ -5450,7 +5450,7 @@ WindAngle,294
 Latitude,43.9438339
 Longitude,15.4286203
 Heading,22
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,294
@@ -6500,7 +6500,7 @@ SoG,2.2
 Latitude,43.9439643
 Longitude,15.4287489
 Heading,18
-Depth,12.040000000000001
+Depth,12.04
 DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,299
@@ -6564,7 +6564,7 @@ SoG,2.3
 Latitude,43.9439768
 Longitude,15.4287576
 Heading,17
-Depth,11.870000000000001
+Depth,11.87
 DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,300
@@ -6934,7 +6934,7 @@ CoG,26
 SoG,2.5
 Latitude,43.9440380
 Longitude,15.4288087
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,301
@@ -7112,7 +7112,7 @@ WindAngle,304
 Latitude,43.9440693
 Longitude,15.4288311
 Heading,12
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,304
@@ -7240,7 +7240,7 @@ WindAngle,303
 Latitude,43.9440924
 Longitude,15.4288470
 Heading,11
-Depth,12.200000000000001
+Depth,12.20
 DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,303
@@ -8228,7 +8228,7 @@ SoG,3.0
 Latitude,43.9442977
 Longitude,15.4289524
 Heading,7
-Depth,12.040000000000001
+Depth,12.04
 DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,312
@@ -8352,7 +8352,7 @@ SoG,3.0
 Latitude,43.9443240
 Longitude,15.4289656
 Heading,6
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,311
@@ -8542,7 +8542,7 @@ SoG,3.0
 Latitude,43.9443632
 Longitude,15.4289822
 Heading,5
-Depth,11.870000000000001
+Depth,11.87
 DepthOffset,-0.001
 Windspeed,8.8
 WindAngle,314
@@ -8846,7 +8846,7 @@ CoG,13
 SoG,3.0
 Latitude,43.9444305
 Longitude,15.4290109
-Depth,12.200000000000001
+Depth,12.20
 DepthOffset,-0.001
 Windspeed,9.1
 WindAngle,316
@@ -8910,7 +8910,7 @@ CoG,13
 SoG,3.0
 Latitude,43.9444430
 Longitude,15.4290166
-Depth,12.200000000000001
+Depth,12.20
 DepthOffset,-0.001
 Windspeed,9.1
 WindAngle,314
@@ -10328,7 +10328,7 @@ SoG,2.9
 Latitude,43.9447485
 Longitude,15.4290890
 Heading,4
-Depth,11.790000000000001
+Depth,11.79
 DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,316
@@ -10390,7 +10390,7 @@ SoG,2.8
 Latitude,43.9447607
 Longitude,15.4290904
 Heading,6
-Depth,11.790000000000001
+Depth,11.79
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,314
@@ -10950,7 +10950,7 @@ Longitude,15.4291433
 Windspeed,8.5
 WindAngle,304
 Heading,13
-Depth,11.790000000000001
+Depth,11.79
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,304
@@ -11670,7 +11670,7 @@ WindAngle,316
 Latitude,43.9450270
 Longitude,15.4292254
 Heading,0
-Depth,11.620000000000001
+Depth,11.62
 DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,316
@@ -11732,7 +11732,7 @@ WindAngle,318
 Latitude,43.9450405
 Longitude,15.4292299
 Heading,358
-Depth,11.620000000000001
+Depth,11.62
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,318
@@ -11794,7 +11794,7 @@ WindAngle,318
 Latitude,43.9450539
 Longitude,15.4292338
 Heading,357
-Depth,11.620000000000001
+Depth,11.62
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,318
@@ -12282,7 +12282,7 @@ SoG,2.8
 Latitude,43.9451576
 Longitude,15.4292469
 Heading,353
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,321
@@ -12344,7 +12344,7 @@ SoG,2.8
 Latitude,43.9451692
 Longitude,15.4292488
 Heading,352
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,323
@@ -12406,7 +12406,7 @@ SoG,2.7
 Latitude,43.9451819
 Longitude,15.4292501
 Heading,350
-Depth,11.450000000000001
+Depth,11.45
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,323
@@ -13148,7 +13148,7 @@ Longitude,15.4292286
 Windspeed,8.6
 WindAngle,335
 Heading,331
-Depth,11.370000000000001
+Depth,11.37
 DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,335
@@ -13380,7 +13380,7 @@ CoG,343
 SoG,2.2
 Latitude,43.9453650
 Longitude,15.4292120
-Depth,11.450000000000001
+Depth,11.45
 DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,343
@@ -13490,7 +13490,7 @@ WindAngle,347
 Latitude,43.9453801
 Longitude,15.4292019
 Heading,320
-Depth,11.540000000000001
+Depth,11.54
 DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,347
@@ -13740,7 +13740,7 @@ WindAngle,344
 Latitude,43.9454050
 Longitude,15.4291756
 Heading,323
-Depth,11.370000000000001
+Depth,11.37
 DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,344
@@ -14112,7 +14112,7 @@ WindAngle,330
 Latitude,43.9454363
 Longitude,15.4291349
 Heading,335
-Depth,11.370000000000001
+Depth,11.37
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,330
@@ -14173,7 +14173,7 @@ WindAngle,329
 Heading,338
 Latitude,43.9454422
 Longitude,15.4291287
-Depth,11.200000000000001
+Depth,11.20
 DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,329
@@ -15771,7 +15771,7 @@ WindAngle,311
 Latitude,43.9456470
 Longitude,15.4291997
 Heading,4
-Depth,11.290000000000001
+Depth,11.29
 DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,311
@@ -15897,7 +15897,7 @@ WindAngle,312
 Latitude,43.9456670
 Longitude,15.4292083
 Heading,3
-Depth,11.290000000000001
+Depth,11.29
 DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,312
@@ -15961,7 +15961,7 @@ WindAngle,312
 Latitude,43.9456777
 Longitude,15.4292127
 Heading,2
-Depth,11.290000000000001
+Depth,11.29
 DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,312
@@ -16083,7 +16083,7 @@ WindAngle,313
 Latitude,43.9456994
 Longitude,15.4292192
 Heading,2
-Depth,11.540000000000001
+Depth,11.54
 DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,313
@@ -16645,7 +16645,7 @@ WindAngle,304
 Heading,7
 Latitude,43.9458020
 Longitude,15.4292534
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,304
@@ -17067,7 +17067,7 @@ SoG,2.7
 Latitude,43.9458833
 Longitude,15.4292933
 Heading,4
-Depth,11.450000000000001
+Depth,11.45
 DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,308
@@ -18305,7 +18305,7 @@ WindAngle,308
 Heading,5
 Latitude,43.9461449
 Longitude,15.4293793
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,308
@@ -18421,7 +18421,7 @@ WindAngle,308
 Heading,5
 Latitude,43.9461749
 Longitude,15.4293881
-Depth,11.870000000000001
+Depth,11.87
 DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,308
@@ -19091,7 +19091,7 @@ SoG,3.1
 Latitude,43.9463226
 Longitude,15.4294392
 Heading,4
-Depth,12.030000000000001
+Depth,12.03
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,310
@@ -19586,7 +19586,7 @@ CoG,12
 SoG,3.1
 Latitude,43.9464349
 Longitude,15.4294783
-Depth,11.950000000000001
+Depth,11.95
 DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,310
@@ -20072,7 +20072,7 @@ Heading,5
 Windspeed,8.5
 WindAngle,309
 Heading,5
-Depth,11.620000000000001
+Depth,11.62
 DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,309
@@ -20563,7 +20563,7 @@ Longitude,15.4295562
 Heading,4
 Windspeed,8.7
 WindAngle,311
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,311
@@ -21369,7 +21369,7 @@ SoG,3.1
 Latitude,43.9468352
 Longitude,15.4296189
 Heading,4
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,9.1
 WindAngle,312
@@ -21431,7 +21431,7 @@ SoG,3.1
 Latitude,43.9468495
 Longitude,15.4296239
 Heading,4
-Depth,11.700000000000001
+Depth,11.70
 DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,314
@@ -21866,7 +21866,7 @@ CoG,11
 SoG,3.1
 Latitude,43.9469508
 Longitude,15.4296544
-Depth,11.620000000000001
+Depth,11.62
 DepthOffset,-0.001
 Windspeed,9.1
 WindAngle,314
@@ -22108,7 +22108,7 @@ WindAngle,315
 Latitude,43.9470025
 Longitude,15.4296722
 Heading,4
-Depth,11.290000000000001
+Depth,11.29
 DepthOffset,-0.001
 Windspeed,9.0
 WindAngle,315

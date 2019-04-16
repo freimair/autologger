@@ -6,6 +6,7 @@ import datetime
 import json
 import os
 from threading import Lock
+import asyncio
 
 from geographiclib.geodesic import Geodesic
 import gpxpy.gpx
@@ -35,6 +36,8 @@ class Logbook:
         sanic_app.add_route(self.download_logbook, self.base + '/logbook.csv')
         sanic_app.add_route(self.download_track, self.base + '/track.gpx')
 
+        sanic_app.add_task(self.timer())
+
     """csv download"""
     async def download_logbook(self, request):
         return await response.file(self.currentPath + '.csv')
@@ -42,6 +45,11 @@ class Logbook:
     """gpx download"""
     async def download_track(self, request):
         return await response.file(self.currentPath + '.gpx')
+
+    async def timer(self):
+        while True:
+            await asyncio.sleep(5)
+            await self.broadcast(json.dumps({"logline": self.log("")}))
 
     #########################################################################################
     # API calls #############################################################################
@@ -120,12 +128,12 @@ class Logbook:
             self.recorder.distance = 0
 
     """create a new line in the logbook"""
-    def log(self, data, what):
+    def log(self, message):
         # assemble log line
         logline = dict()
         logline["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         logline.update(self.snapshot)
-        logline["Note"] = data.get(what)
+        logline["Note"] = message
 
         with open(self.currentPath + '.csv', 'a') as csvfile:
             csvfile.write(json.dumps(logline) + os.linesep)
@@ -153,9 +161,8 @@ class Logbook:
     #########################################################################################
 
     """the websocket endpoint handler
-    
+
     adds and removes websocket clients to the list of receivers.
-    distributes answers to clients that are subscribed to the answer.
     """
     async def feed(self, request, ws):
         self.websockets.add(ws)
@@ -164,11 +171,19 @@ class Logbook:
             async for command in ws:
                 answer = await self.onReceiveCommand(command, ws)
                 if answer:
-                    for client in self.websockets:
-                        if list(json.loads(answer))[0] in self.users.get(self.clients.get(ws)):
-                            await client.send(answer)
+                    await self.broadcast(answer)
         except:
             self.websockets.remove(ws)
+
+    """broadcast messages
+    
+    distributes answers to clients that are subscribed to the answer.
+    """
+    async def broadcast(self, data):
+        for client in self.websockets:
+            if list(json.loads(data))[0] in self.users.get(self.clients.get(client)):
+                await client.send(data)
+
 
     """command relay"""
     async def onReceiveCommand(self, data, ws):
@@ -208,12 +223,12 @@ class Logbook:
 
     """command parser 'status'"""
     async def parse_status(self, data, ws):
-        logline = self.log(data, "status")
+        logline = self.log(data.get("status"))
         return json.dumps({"status": data.get("status"), "logline": logline})
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):
-        logline = self.log(data, "message")
+        logline = self.log(data.get("message"))
 
         return json.dumps({"logline": logline})
 
