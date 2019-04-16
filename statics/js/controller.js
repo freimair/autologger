@@ -219,8 +219,6 @@ function jasonAuswerten(was) {
 
   /*
    * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
-   * 
-   * TODO this is GEFN for demonstration purposes. refactor if things get serious.
    */
   if(json.logline != undefined) {
     window.table.row.add(json.logline).draw();
@@ -293,37 +291,41 @@ var table;
 $(document).ready(function()
 {
   window.table = $("[data-role='table']").DataTable({
+	searching: false,
+	orderFixed: [[0, "desc"]],
 	columnDefs: [ {
 		targets: '_all',
 		defaultContent: "-"
 	}],
 	columns: [ {
-		title: "Zeitpunkt",
+		title: "Datum und Uhrzeit",
 		data: "DateTime"
 	}, {
 		title: "CoG",
-		data: "CoG"
+		data: "CoG",
+		className: "dt-right"
 	}, {
 		title: "SoG",
-		data: "SoG"
+		data: "SoG",
+		className: "dt-right"
 	}, {
-		title: "Länge",
-		data: "Latitude"
-	}, {
-		title: "Breite",
-		data: "Longitude"
+		title: "Position",
+		render: function(data, type, row) {
+			return row.Latitude + "/" + row.Longitude;
+		}
 	}, {
 		title: "MgK",
-		data: "Heading"
+		data: "Heading",
+		className: "dt-right"
 	}, {
-		title: "Windgeschwindigkeit",
-		data: "Windspeed"
-	}, {
-		title: "Windrichtung",
-		data: "WindAngle"
+		title: "scheinbarer Wind",
+		render: function(data, type, row) {
+			return row.Windspeed + "kn aus " + row.WindAngle + "°"
+		}
 	}, {
 		title: "Tiefe",
-		data: "Depth"
+		data: "Depth",
+		className: "dt-right"
 	}, {
 		title: "Bemerkung",
 		data: "Note"
