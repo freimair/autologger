@@ -25,6 +25,9 @@ class Logbook:
     users = dict()  # id -> subscriptions
     websockets = set()
 
+    """the logbook state"""
+    snapshot = dict()
+
     """init the logbook app by registering endpoints"""
     def __init__(self, sanic_app):
         sanic_app.add_websocket_route(self.feed, self.base + '/ws')
@@ -60,7 +63,7 @@ class Logbook:
     """
     async def incoming(self, name, value):
         try:
-            print(name + ": " + value)
+            self.snapshot.update({name: value})
         except:
             pass
 
@@ -120,9 +123,8 @@ class Logbook:
     def log(self, data, what):
         # assemble log line
         logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
-        logline += str(self.recorder.getDistanceTravelled()) + ","
-        logline += str(self.recorder.getCurrentSpeed()) + ","
-        logline += str(self.recorder.getCourseOverGround()) + ","
+        for key, value in self.snapshot.items():
+            logline += value + ","
         logline += data.get(what)
 
         with open(self.currentPath + '.csv', 'a') as csvfile:
