@@ -4,6 +4,7 @@ from utils import T
 from apps.logbook import Logbook
 from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
+from sources.MockDatasource import MockDatasource
 
 
 app = Sanic(__name__)
@@ -23,7 +24,7 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        self.sources=[GPSviaUSB(self)]
+        self.sources=[MockDatasource(self)]
         for current in self.sources:
             app.add_task(current.arm())
 
