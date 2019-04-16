@@ -186,12 +186,15 @@ class Logbook:
 
                 if len(lines) < 2:
                     # in case we have an empty logbook
-                    return '{"status": "landed"}'
+                    status = "landed"
                 else:
                     i = -1
-                    while lines[i].split(',')[-1] not in ['landed', 'sailing', 'reef', 'motoring']:
+                    status = ''
+                    while status not in ['landed', 'sailing', 'reef', 'motoring']:
+                        status = json.JSONDecoder().decode(lines[i]).get("Note", "")
                         i -= 1
-                    return '{"status": "' + lines[i].split(',')[-1] + '"}'
+                result = {"status": status}
+                return json.dumps(result)
             except:
                 await ws.send('{"error": "noLogbook"}')
         elif "logbooks" in data.get("get"):
@@ -206,16 +209,13 @@ class Logbook:
     """command parser 'status'"""
     async def parse_status(self, data, ws):
         logline = self.log(data, "status")
-        result = dict()
-        result["status"] = data.get("status")
-        result["logline"] = logline
-        return json.dumps(result)
+        return json.dumps({"status": data.get("status"), "logline": logline})
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):
         logline = self.log(data, "message")
 
-        return '{"logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
+        return json.dumps({"logline": logline})
 
     """command parser 'save'"""
     async def parse_save(self, data, ws):
@@ -255,9 +255,7 @@ class Logbook:
             lines = csvfile.read().splitlines()
 
         for logline in lines[-min(len(lines), 5):]:
-            result = dict()
-            result["logline"] = json.JSONDecoder().decode(logline)
-            await ws.send(json.dumps(result))
+            await ws.send(json.dumps({"logline": json.JSONDecoder().decode(logline)}))
 
 
     """command parser 'register'"""
