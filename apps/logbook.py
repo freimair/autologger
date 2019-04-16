@@ -122,13 +122,13 @@ class Logbook:
     """create a new line in the logbook"""
     def log(self, data, what):
         # assemble log line
-        logline = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + ","
-        for key, value in self.snapshot.items():
-            logline += value + ","
-        logline += data.get(what)
+        logline = dict()
+        logline["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        logline.update(self.snapshot)
+        logline["Note"] = data.get(what)
 
         with open(self.currentPath + '.csv', 'a') as csvfile:
-            csvfile.write(logline + os.linesep)
+            csvfile.write(json.dumps(logline) + os.linesep)
 
         return logline
 
@@ -206,8 +206,10 @@ class Logbook:
     """command parser 'status'"""
     async def parse_status(self, data, ws):
         logline = self.log(data, "status")
-
-        return '{"status":"' + data.get("status") + '","logline": "<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>"}'
+        result = dict()
+        result["status"] = data.get("status")
+        result["logline"] = logline
+        return json.dumps(result)
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):
@@ -252,12 +254,11 @@ class Logbook:
         with open(self.currentPath + '.csv', 'r') as csvfile:
             lines = csvfile.read().splitlines()
 
-        result = '{"logline": "'
-        for logline in lines[-5:]:
-            if logline[0] is not "{":  # we have less then 5 entries in our logbook
-                result += '<tr><td>' + logline.replace(',', '</td><td>') + '</td></tr>'
+        for logline in lines[-min(len(lines), 5):]:
+            result = dict()
+            result["logline"] = json.JSONDecoder().decode(logline)
+            await ws.send(json.dumps(result))
 
-        await ws.send(result + '"}')
 
     """command parser 'register'"""
     async def parse_register(self, data, ws):

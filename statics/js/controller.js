@@ -223,7 +223,7 @@ function jasonAuswerten(was) {
    * TODO this is GEFN for demonstration purposes. refactor if things get serious.
    */
   if(json.logline != undefined) {
-    $('#table tbody').append(json.logline);
+    window.table.row.add(json.logline).draw();
   }
 }
 
@@ -288,8 +288,48 @@ function gotoScreen(screen) {
 	guiScreen = screen;
 }
 
+var table;
+
 $(document).ready(function()
 {
+  window.table = $("[data-role='table']").DataTable({
+	columnDefs: [ {
+		targets: '_all',
+		defaultContent: "-"
+	}],
+	columns: [ {
+		title: "Zeitpunkt",
+		data: "DateTime"
+	}, {
+		title: "CoG",
+		data: "CoG"
+	}, {
+		title: "SoG",
+		data: "SoG"
+	}, {
+		title: "Länge",
+		data: "Latitude"
+	}, {
+		title: "Breite",
+		data: "Longitude"
+	}, {
+		title: "MgK",
+		data: "Heading"
+	}, {
+		title: "Windgeschwindigkeit",
+		data: "Windspeed"
+	}, {
+		title: "Windrichtung",
+		data: "WindAngle"
+	}, {
+		title: "Tiefe",
+		data: "Depth"
+	}, {
+		title: "Bemerkung",
+		data: "Note"
+	} ]
+  });
+
   // connect to server
   connect();
 
