@@ -9,7 +9,6 @@ import os
 from threading import Lock
 import asyncio
 
-from geographiclib.geodesic import Geodesic
 import gpxpy.gpx
 from sanic import response
 
