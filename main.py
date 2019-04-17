@@ -4,6 +4,7 @@ from utils import T
 from apps.logbook import Logbook
 from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
+from sources.Weatherstation import  Weatherstation
 from sources.MockDatasource import MockDatasource
 
 
