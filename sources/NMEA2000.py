@@ -14,6 +14,7 @@ class NMEA2000:
             127257: self.parse127257, # attitude
             128259: self.parse128259, # boat speed
             128267: self.parse128267, # depth
+            128275: self.parse128275, # distance log
             129025: self.parse129025, # lat/lon rapid
             129026: self.parse129026, # CoG/SoG
             130306: self.parse130306, # Wind speed
@@ -121,6 +122,34 @@ class NMEA2000:
         offset = int.from_bytes(data[5:7], byteorder="little", signed=True) * 0.001
         Range = data[7] * 10
         return [Data("Depth", str(depth)), Data("DepthOffset", str(offset))]
+
+
+    # distance log
+    # is FastPacket message. i.e. multi-part!
+    distanceLogAggregator = dict()
+    def parse128275(self, data):
+        #    DaysSince1970=N2kMsg.Get2ByteUInt(Index);
+        #    SecondsSinceMidnight=N2kMsg.Get4ByteDouble(0.0001,Index);
+        #    Log=N2kMsg.Get4ByteUDouble(1,Index);
+        #    TripLog=N2kMsg.Get4ByteUDouble(1,Index);
+
+        frameCounter = data[0] & 0b11111
+        sequenceCounter = data[0] & 0b11100000
+
+        if frameCounter == 0:
+            self.distanceLogAggregator.update({sequenceCounter: [data]})
+        else:
+            self.distanceLogAggregator[sequenceCounter].append(data)
+
+        if frameCounter > 1:
+            complete_frame = self.distanceLogAggregator[sequenceCounter][1][1:] + self.distanceLogAggregator[sequenceCounter][2][1:]
+
+            log = int.from_bytes(complete_frame[0:4], byteorder="little", signed=False) / 1852
+            tripLog = int.from_bytes(complete_frame[4:8], byteorder="little", signed=False) / 1852
+            del self.distanceLogAggregator[sequenceCounter]
+
+            return [Data("Log", '{:02.2f}'.format(log))]
+        return []
 
     # lat/lon rapid
     def parse129025(self, data):
