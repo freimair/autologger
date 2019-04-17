@@ -71,6 +71,28 @@ class Logbook:
 
     """gpx download"""
     async def download_track(self, request):
+        with open(self.currentPath + '.gpx', "w") as outfile:
+            gpx = gpxpy.gpx.GPX()
+            segment = gpxpy.gpx.GPXTrackSegment()
+            track = gpxpy.gpx.GPXTrack()
+            with open(self.currentPath + '.logbook', "r") as infile:
+                source = json.loads(infile.readline())
+                gpx.name = source.get("title")
+                track.name = source.get("title")
+                gpx.description = source.get("description")
+                track.description = source.get("description")
+            track.segments.append(segment)
+            gpx.tracks.append(track)
+
+            for line in open(self.currentPath + '.logbook', "r"):
+                source = json.loads(line)
+                try:
+                    gpx.tracks[0].segments[0].points.append(
+                        gpxpy.gpx.GPXTrackPoint(source["Latitude"], source["Longitude"], time=datetime.datetime.strptime(source["DateTime"], '%Y-%m-%d %H:%M:%S')))
+                except Exception:
+                    pass # first line is special
+
+            outfile.write(gpx.to_xml())
         return await response.file(self.currentPath + '.gpx')
 
     async def timer(self):
