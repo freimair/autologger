@@ -4,6 +4,7 @@ the logbook app
 
 import datetime
 import json
+import csv
 import os
 from threading import Lock
 import asyncio
@@ -40,6 +41,32 @@ class Logbook:
 
     """csv download"""
     async def download_logbook(self, request):
+        columns = set()
+        for line in reversed(list(open(self.currentPath + '.logbook', "r"))):
+            source = json.loads(line)
+            columns.update(source.keys())
+
+        columns.discard("id")
+        columns.discard("title")
+        columns.discard("description")
+
+        columns = sorted(columns)
+
+        with open(self.currentPath + '.csv', "w") as outfile:
+            for current in source:
+                outfile.write(current + ": " + source[current] + os.linesep)
+            outfile.write(os.linesep)
+
+            writer = csv.DictWriter(outfile, fieldnames=columns, restval="")
+            writer.writeheader()
+            for line in open(self.currentPath + '.logbook', "r"):
+                source = json.loads(line)
+                try:
+                    writer.writerow(source)
+                except:
+                    # the id, title, description columns are not in the list of columns
+                    pass
+
         return await response.file(self.currentPath + '.csv')
 
     """gpx download"""
@@ -117,7 +144,7 @@ class Logbook:
         self.current = logbookId
 
         # TODO optimize! read from last line
-        with open(self.currentPath + '.csv', 'r') as csvfile:
+        with open(self.currentPath + '.logbook', 'r') as csvfile:
             lines = csvfile.readlines()
 
         self.recorder = Recorder()
@@ -135,7 +162,7 @@ class Logbook:
         logline.update(self.snapshot)
         logline["Note"] = message
 
-        with open(self.currentPath + '.csv', 'a') as csvfile:
+        with open(self.currentPath + '.logbook', 'a') as csvfile:
             csvfile.write(json.dumps(logline) + os.linesep)
 
         return logline
@@ -147,11 +174,11 @@ class Logbook:
     def undo(self, data):
         # do we need to delete the last logline?
         if data.startswith('undo'):
-            f = open(self.dataPath + str(self.current) + '.csv', 'r')
+            f = open(self.dataPath + str(self.current) + '.logbook', 'r')
             lines = f.readlines()
             f.close()
 
-            f = open(self.dataPath + str(self.current) + '.csv', 'w')
+            f = open(self.dataPath + str(self.current) + '.logbook', 'w')
             f.writelines([item for item in lines[:-1]])
             f.close()
             return "last entry has been removed"
@@ -196,7 +223,7 @@ class Logbook:
         if "last" in data.get("get"):
             try:
                 # TODO optimize! read from last line
-                with open(self.currentPath + '.csv', 'r') as csvfile:
+                with open(self.currentPath + '.logbook', 'r') as csvfile:
                     lines = csvfile.read().splitlines()
 
                 if len(lines) < 2:
@@ -216,7 +243,7 @@ class Logbook:
             with os.scandir(self.dataPath) as entries:
                 result = '{"logbooks" : ['
                 for entry in entries:
-                    if entry.is_file() and entry.name.endswith(".csv"):
+                    if entry.is_file() and entry.name.endswith(".logbook"):
                         with open(self.dataPath + entry.name, 'r') as csvfile:
                             result += csvfile.readline() + ","
             await ws.send(result[:-1] + ']}')
@@ -240,13 +267,13 @@ class Logbook:
                 condition = True
                 while condition:
                     newLogbookId = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
-                    condition = os.path.isfile(self.dataPath + newLogbookId + '.csv')
+                    condition = os.path.isfile(self.dataPath + newLogbookId + '.logbook')
 
                 logbook["id"] = newLogbookId
 
                 self.current = newLogbookId
 
-                with open(self.currentPath + ".csv", 'w') as csvfile:
+                with open(self.currentPath + ".logbook", 'w') as csvfile:
                     csvfile.write(json.dumps(logbook) + '\n')
 
             self.load(self.current)
@@ -262,11 +289,11 @@ class Logbook:
     async def parse_subscribe(self, data, ws):
         self.users[self.clients[ws]].add(data.get("subscribe"))
 
-        if not "logline" in data.get("subscribe") or not os.path.exists(self.currentPath + ".csv"):
+        if not "logline" in data.get("subscribe") or not os.path.exists(self.currentPath + ".logbook"):
             return
 
         # and send the last 5 entries for now
-        with open(self.currentPath + '.csv', 'r') as csvfile:
+        with open(self.currentPath + '.logbook', 'r') as csvfile:
             lines = csvfile.read().splitlines()
 
         for logline in lines[-min(len(lines), 5):]:
