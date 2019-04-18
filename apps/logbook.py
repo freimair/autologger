@@ -22,9 +22,7 @@ class Logbook:
     dataPath = "statics/logbooks/"
 
     """websocket stuff"""
-    clients = dict()  # websocket -> id
-    users = dict()  # id -> subscriptions
-    websockets = set()
+    clients = set()
 
     """the logbook state"""
     snapshot = dict()
@@ -202,7 +200,7 @@ class Logbook:
     adds and removes websocket clients to the list of receivers.
     """
     async def feed(self, request, ws):
-        self.websockets.add(ws)
+        self.clients.add(ws)
 
         try:
             async for command in ws:
@@ -210,17 +208,15 @@ class Logbook:
                 if answer:
                     await self.broadcast(answer)
         except:
-            self.websockets.remove(ws)
+            self.clients.remove(ws)
 
     """broadcast messages
     
     distributes answers to clients that are subscribed to the answer.
     """
     async def broadcast(self, data):
-        for client in self.websockets:
-            if list(json.loads(data))[0] in self.users.get(self.clients.get(client)):
-                await client.send(data)
-
+        for client in self.clients:
+            await client.send(data)
 
     """command relay"""
     async def onReceiveCommand(self, data, ws):
@@ -294,24 +290,3 @@ class Logbook:
     """command parser 'load'"""
     async def parse_load(self, data, ws):
         self.load(data.get("load"))
-
-    """command parser 'subscribe'"""
-    async def parse_subscribe(self, data, ws):
-        self.users[self.clients[ws]].add(data.get("subscribe"))
-
-        if not "logline" in data.get("subscribe") or not os.path.exists(self.currentPath + ".logbook"):
-            return
-
-        # and send the last 5 entries for now
-        with open(self.currentPath + '.logbook', 'r') as csvfile:
-            lines = csvfile.read().splitlines()
-
-        for logline in lines[-min(len(lines), 5):]:
-            await ws.send(json.dumps({"logline": json.JSONDecoder().decode(logline)}))
-
-
-    """command parser 'register'"""
-    async def parse_register(self, data, ws):
-        self.clients[ws] = data.get("register")
-        self.users[self.clients[ws]] = set({'status'})
-

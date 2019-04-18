@@ -122,15 +122,6 @@ function showPosition(position)
  * ################################# Connection #################################
  * ##############################################################################
  */
-/*
- * the id we use to (re)connect to the server
- * 
- * TODO think again
- * - do we need some half-persistent client identification?
- * - would it be better to use a user system as proposed by Peter?
- * - anyhow, this id (which might eventually become a user id) can be persisted in a cookie file along with other settings
- */
-var id = Math.floor(Math.random() * 10000);
 
 var webSocket;
 
@@ -154,9 +145,7 @@ function connect() {
 	webSocket.onopen = function()
 	{
 	  jason.verbindung = 1;
-	  senden({"register":id})
 	  senden({"get": "last"});
-	  senden({"subscribe":"logline"})
 	  window.location = "#wahlpage";
 	}
 	webSocket.onclose = function() {
