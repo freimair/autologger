@@ -164,17 +164,6 @@ class Logbook:
     def load(self, logbookId):
         self.current = logbookId
 
-        # TODO optimize! read from last line
-        with open(self.currentPath + '.logbook', 'r') as csvfile:
-            lines = csvfile.readlines()
-
-        self.recorder = Recorder()
-        self.recorder.gpxfile = self.currentPath + ".gpx"
-        try:
-            self.recorder.distance = float(lines[-1].split(',')[1])
-        except:
-            self.recorder.distance = 0
-
     """create a new line in the logbook"""
     def log(self, message):
         # assemble log line
