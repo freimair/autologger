@@ -1,4 +1,5 @@
 import can
+import asyncio
 from collections import namedtuple
 from datetime import datetime, timedelta
 import math
@@ -28,19 +29,22 @@ class NMEA2000:
         self.bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=250000)
 
     async def arm(self):
-        while True:
-            message = self.bus.recv()
+        notifier = can.Notifier(self.bus, [self.incoming], loop=asyncio.get_event_loop())
 
-            # decode PGN
-            pgn = message.arbitration_id >> 8 & 0x1FFFF
-            if (pgn >> 8) & 0x0FF < 0xF0:
-                pgn = pgn & 0xFFFF00
+    async def incoming(self, message):
+        # decode PGN
+        pgn = message.arbitration_id >> 8 & 0x1FFFF
+        if (pgn >> 8) & 0x0FF < 0xF0:
+            pgn = pgn & 0xFFFF00
 
-            # decode values
-            values = self.PGNDecoders.get(pgn, lambda data: "not implemented yet")(message.data)
+        # decode values
+        values = self.PGNDecoders.get(pgn, lambda data: "not implemented yet")(message.data)
+        print(values)
+        if values == "not implemented yet":
+            return
 
-            for current in values:
-                await self.router.incoming(current.name, current.value)
+        for current in values:
+            await self.router.incoming(current.name, current.value)
 
     # system date time
     def parse126992(self, data):
