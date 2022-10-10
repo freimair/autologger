@@ -1,6 +1,6 @@
 from RF24 import RF24, rf24_datarate_e
 import OPi.GPIO as GPIO
-import time
+import asyncio
 
 
 class Weatherstation:
@@ -17,24 +17,26 @@ class Weatherstation:
         GPIO.setup("PA12", GPIO.IN)
 
         # setup radio
-        with self.radio as radio:
-            radio.begin()
-            radio.setChannel(2)
-            radio.setDataRate(rf24_datarate_e.RF24_2MBPS)
-            radio.enableDynamicPayloads()
-            radio.enableDynamicAck()
-            radio.enableAckPayload()
-            radio.printDetails()
+        self.radio.begin()
+        self.radio.setChannel(2)
+        self.radio.setDataRate(rf24_datarate_e.RF24_2MBPS)
+        self.radio.enableDynamicPayloads()
+        self.radio.enableDynamicAck()
+        self.radio.enableAckPayload()
+        self.radio.printDetails()
 
-            radio.powerUp()
-            radio.openReadingPipe(0, 0xe7e7e7e7e7)
-            radio.startListening()
+        self.radio.powerUp()
+        self.radio.openReadingPipe(0, 0xe7e7e7e7e7)
+        self.radio.startListening()
+
+        self.loop = asyncio.get_running_loop()
 
         GPIO.add_event_detect("PA12", GPIO.FALLING, callback=self.my_callback, bouncetime=200)
 
     def my_callback(self, channel):
         measurement = None
 
+        self.radio.whatHappened() # resets the IRQ pin to HIGH
         while not self.radio.available():
             time.sleep(1/100)
 
@@ -62,7 +64,7 @@ class Weatherstation:
             var2 = ((UT / 131072.0 - comp_T1 / 8192.0) * (UT / 131072.0 - comp_T1 / 8192.0)) * comp_T3
             tfine = var1 + var2
             temp = (var1 + var2) / 5120.0
-            self.router.incoming("AirTemperature", '{:02.1f}'.format(temp))
+            self.loop.call_soon_threadsafe(asyncio.create_task, self.router.incoming("AirTemperature", '{:02.1f}'.format(temp)))
 
             UP = float(int.from_bytes(measurement[0:3], byteorder='big') >> 4)
             comp_P1 = float(int.from_bytes(self.compensationData1[6:8], byteorder='little'))
@@ -80,13 +82,13 @@ class Weatherstation:
             var2 = var2/4.0 + comp_P4 * 65536.0
             var1 = (comp_P3 * var1 * var1 / 524288.0 + comp_P2 * var1) / 524288.0
             var1 = (1.0 + var1 / 32768.0) * comp_P1
-            if var1 is not 0.0:
+            if var1 != 0.0:
                 p = 1048576.0 - UP
                 p = (p - (var2 / 4096.0)) * 6250.0 / var1
                 var1 = comp_P9 * p * p / 2147483648.0
                 var2 = p * comp_P8 / 32768.0
                 p = p + (var1 + var2 + comp_P7) / 16.0
-            self.router.incoming("AirPressure", '{:02.1f}'.format(p))
+            self.loop.call_soon_threadsafe(asyncio.create_task, self.router.incoming("AirPressure", '{:02.1f}'.format(p)))
 
             UH = float(int.from_bytes(measurement[6:8], byteorder='big'))
             comp_H1 = float(self.compensationData1[25])
@@ -102,4 +104,4 @@ class Weatherstation:
                 h = 100.0
             elif h < 0:
                 h = 0.0
-            self.router.incoming("Humidity", '{:02.1f}'.format(h))
+            self.loop.call_soon_threadsafe(asyncio.create_task, self.router.incoming("Humidity", '{:02.1f}'.format(h)))

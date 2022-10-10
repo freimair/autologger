@@ -320,6 +320,15 @@ $(document).ready(function()
 		data: "Depth",
 		className: "dt-right"
 	}, {
+		title: "Lufttemperatur",
+		data: "AirTemperature"
+	}, {
+		title: "Luftdruck",
+		data: "AirPressure"
+	}, {
+		title: "Luftfeuchtigkeit",
+		data: "Humidity"
+	}, {
 		title: "Bemerkung",
 		data: "Note"
 	} ]

@@ -114,6 +114,28 @@ enable can0:
 - run
   - `sudo python3 cantest.py`
 
+## install RF24
+(https://nrf24.github.io/RF24/md_docs_python_wrapper.html)
+
+- `git clone https://github.com/tmrh20/RF24.git`
+- `./configure --driver=SPIDEV`
+- `make`
+- `sudo make install`
+
+- `sudo apt-get install libboost-python-dev` will add around 200MB of libs and stuff
+- make sure to have a good amount of memory available (500MB)! armbian default with 240MB physical ram will not suffice!
+  - `sudo fallocate -l 512M /swap`
+  - `sudo chmod 600 /swap`
+  - `sudo mkswap /swap`
+  - `sudo swapon /swap`
+- `python3 setup.py build`
+- `cd /usr/lib/$(ls /usr/lib/gcc | tail -1)`
+  - `sudo ln -s libboost_python3.so	libboost_python310.so` or whatever libboost_python3*.so is correct
+- `sudo python3 setup.py install`
+
+### Troubleshoot
+- in case there is some remnant of double-spi overlay, remove it: spi1.0 is up by default, with `spi_add_cs1` and some overlay that uses the cs1 (eg. `spi1-mcp2515`), spi1.1 gets booted up but disappears in our can0
+
 # TODO receiver
 - reactivate weather-station
 - solder new weather-station
