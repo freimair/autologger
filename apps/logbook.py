@@ -29,6 +29,9 @@ class Logbook:
 
     """init the logbook app by registering endpoints"""
     def __init__(self, sanic_app):
+        # make sure the dataPath exists
+        os.makedirs(self.dataPath, exist_ok=True)
+
         sanic_app.add_websocket_route(self.feed, self.base + '/ws')
         sanic_app.add_route(self.getGui, self.base)
         sanic_app.add_route(self.download_logbook, self.base + '/logbook.csv')
