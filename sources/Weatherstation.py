@@ -40,11 +40,11 @@ class Weatherstation:
 
         size = self.radio.getDynamicPayloadSize()
         result = self.radio.read(size)
-        if size is 8:
+        if size == 8:
             measurement = result
-        elif size is 26:
+        elif size == 26:
             self.compensationData1 = result
-        elif size is 16:
+        elif size == 7:
             self.compensationData2 = result
         else:
             print("got something we do not know what it is...")
