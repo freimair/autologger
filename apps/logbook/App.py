@@ -14,7 +14,7 @@ from sanic import response
 
 from utils import T
 
-class Logbook:
+class App:
     lock = Lock()
 
     """some path constant"""

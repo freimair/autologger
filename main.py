@@ -1,7 +1,7 @@
 from sanic import Sanic
 from sanic import response
 from utils import T
-from apps.logbook import Logbook
+from apps.logbook.App import App
 from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
 from sources.Weatherstation import  Weatherstation
@@ -29,7 +29,7 @@ class Router:
         for current in self.sources:
             app.add_task(current.arm())
 
-        self.apps=[Logbook(app)]
+        self.apps=[App(app)]
 
     def getGui(self):
         return T("main.html").render(tools=self.apps)
