@@ -9,10 +9,10 @@ import os
 from threading import Lock
 import asyncio
 
-import gpxpy.gpx
 from sanic import response
 
 from utils import T
+from apps.logbook.Logbook import Logbook
 
 class App:
     lock = Lock()
@@ -29,8 +29,6 @@ class App:
 
     """init the logbook app by registering endpoints"""
     def __init__(self, sanic_app):
-        # make sure the dataPath exists
-        os.makedirs(self.dataPath, exist_ok=True)
 
         sanic_app.add_websocket_route(self.feed, self.base + '/ws')
         sanic_app.add_route(self.getGui, self.base)
@@ -41,59 +39,11 @@ class App:
 
     """csv download"""
     async def download_logbook(self, request):
-        columns = set()
-        for line in reversed(list(open(self.currentPath + '.logbook', "r"))):
-            source = json.loads(line)
-            columns.update(source.keys())
-
-        columns.discard("id")
-        columns.discard("title")
-        columns.discard("description")
-
-        columns = sorted(columns)
-
-        with open(self.currentPath + '.csv', "w") as outfile:
-            for current in source:
-                outfile.write(current + ": " + source[current] + os.linesep)
-            outfile.write(os.linesep)
-
-            writer = csv.DictWriter(outfile, fieldnames=columns, restval="")
-            writer.writeheader()
-            for line in open(self.currentPath + '.logbook', "r"):
-                source = json.loads(line)
-                try:
-                    writer.writerow(source)
-                except:
-                    # the id, title, description columns are not in the list of columns
-                    pass
-
-        return await response.file(self.currentPath + '.csv')
+        return await response.file(self.current.download_logbook(request))
 
     """gpx download"""
     async def download_track(self, request):
-        with open(self.currentPath + '.gpx', "w") as outfile:
-            gpx = gpxpy.gpx.GPX()
-            segment = gpxpy.gpx.GPXTrackSegment()
-            track = gpxpy.gpx.GPXTrack()
-            with open(self.currentPath + '.logbook', "r") as infile:
-                source = json.loads(infile.readline())
-                gpx.name = source.get("title")
-                track.name = source.get("title")
-                gpx.description = source.get("description")
-                track.description = source.get("description")
-            track.segments.append(segment)
-            gpx.tracks.append(track)
-
-            for line in open(self.currentPath + '.logbook', "r"):
-                source = json.loads(line)
-                try:
-                    gpx.tracks[0].segments[0].points.append(
-                        gpxpy.gpx.GPXTrackPoint(source["Latitude"], source["Longitude"], time=datetime.datetime.strptime(source["DateTime"], '%Y-%m-%d %H:%M:%S')))
-                except Exception:
-                    pass # first line is special
-
-            outfile.write(gpx.to_xml())
-        return await response.file(self.currentPath + '.gpx')
+        return await response.file(self.current.download_track(request))
 
     async def timer(self):
         while True:
@@ -135,17 +85,17 @@ class App:
     The setter persists the new current logbook immediately.
     Hence, using self.current just works.
     """
-    __current = ""
+    __current = None
 
     @property
     def current(self):
         # TODO rethink? gets checked every time self.current is used (and it is used A LOT)
-        if self.__current is "":
+        if self.__current is None:
             try:
                 with open(self.dataPath + 'current', 'r') as csvfile:
                     lines = csvfile.readlines()
                 self.load(lines[0])
-            except:
+            except Exception:
                 pass
 
         return self.__current
@@ -153,45 +103,24 @@ class App:
     @current.setter
     def current(self, value):
         with open(self.dataPath + 'current', 'w') as csvfile:
-            csvfile.write(value)
+            csvfile.write(value.get_name())
         self.__current = value
-
-    """constructs the base path (without the extension) for a logbook"""
-    @property
-    def currentPath(self):
-        return self.dataPath + self.current
 
     """helper for changing the current logbook"""
     def load(self, logbookId):
-        self.current = logbookId
+        self.current = Logbook(logbookId)
 
     """create a new line in the logbook"""
     def log(self, message):
-        # assemble log line
-        logline = dict()
-        logline["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        logline.update(self.snapshot)
-        logline["Note"] = message
-
-        with open(self.currentPath + '.logbook', 'a') as csvfile:
-            csvfile.write(json.dumps(logline) + os.linesep)
-
-        return logline
+        return self.current.log(message, self.snapshot)
 
     """delete the last logline
     
     currently unused. may eventually become capable of removing any logline
     """
     def undo(self, data):
-        # do we need to delete the last logline?
         if data.startswith('undo'):
-            f = open(self.dataPath + str(self.current) + '.logbook', 'r')
-            lines = f.readlines()
-            f.close()
-
-            f = open(self.dataPath + str(self.current) + '.logbook', 'w')
-            f.writelines([item for item in lines[:-1]])
-            f.close()
+            self.current.undo(data)
             return "last entry has been removed"
 
     #########################################################################################
@@ -231,23 +160,7 @@ class App:
     async def parse_get(self, data, ws):
         if "last" in data.get("get"):
             try:
-                # TODO optimize! read from last line
-                with open(self.currentPath + '.logbook', 'r') as csvfile:
-                    lines = csvfile.read().splitlines()
-
-                if len(lines) < 2:
-                    # in case we have an empty logbook
-                    status = "landed"
-                else:
-                    i = -1
-                    status = ''
-                    while status not in ['landed', 'sailing', 'reef', 'motoring']:
-                        status = json.JSONDecoder().decode(lines[i]).get("Note", "")
-                        i -= 1
-                        if len(lines) < abs(i):
-                            status="landed"
-                result = {"status": status}
-                return json.dumps(result)
+                return self.current.get_last()
             except:
                 await ws.send('{"error": "noLogbook"}')
         elif "logbooks" in data.get("get"):
@@ -267,30 +180,15 @@ class App:
     """command parser 'message'"""
     async def parse_message(self, data, ws):
         logline = self.log(data.get("message"))
-
         return json.dumps({"logline": logline})
 
     """command parser 'save'"""
     async def parse_save(self, data, ws):
         logbook = data.get("save")
-        if logbook.get("id") is 0:
-            with self.lock:
-                condition = True
-                while condition:
-                    newLogbookId = datetime.datetime.utcnow().strftime("%Y%m%d%H%M%S%f")
-                    condition = os.path.isfile(self.dataPath + newLogbookId + '.logbook')
 
-                logbook["id"] = newLogbookId
+        self.current = Logbook(0, logbook["title"], logbook["description"])
 
-                self.current = newLogbookId
-
-                with open(self.currentPath + ".logbook", 'w') as csvfile:
-                    csvfile.write(json.dumps(logbook) + '\n')
-
-            self.load(self.current)
-            return await self.parse_get(json.JSONDecoder().decode('{"get": "last"}'))
-        else:
-            print("editing logbooks is not supported yet")
+        return self.current.get_last()
 
     """command parser 'load'"""
     async def parse_load(self, data, ws):
