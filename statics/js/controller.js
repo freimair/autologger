@@ -274,6 +274,29 @@ function gotoScreen(screen) {
 
 var table;
 
+function hideEmptyRows() {
+
+    // fetch visible columns
+    let visibleColumns = [];
+    window.table.columns()[0].forEach(function(current) {
+      if(window.table.column(current).visible())
+        visibleColumns.push(current);
+    });
+
+    // remove date/time column from filter
+    visibleColumns.shift();
+
+    // reset search
+    window.table.columns().search('');
+
+    // prepare new search and apply changes by doing a redraw
+    window.table.columns(visibleColumns).search('^(?:(?!-).)*$\r?\n?', true, true).draw();
+
+    // in case there is nothing left, remove the filter again. kind of a nasty hack, but it is GEFN
+    if(0 == window.table.page.info().end)
+      window.table.columns().search('').draw();
+}
+
 $(document).ready(function()
 {
   window.table = $("[data-role='table']").DataTable({
@@ -336,6 +359,9 @@ $(document).ready(function()
 		data: "Note"
 	} ]
   });
+
+  // react to visibility change of columns by filtering empty lines
+  window.table.on('column-visibility.dt', hideEmptyRows);
 
   // connect to server
   connect();

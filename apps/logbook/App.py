@@ -65,7 +65,6 @@ class App:
             result = dict()
             result["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             result.update(value)
-            result["Note"] = ""
 
             await self.broadcast(json.dumps({"logline": result}))
         except:
