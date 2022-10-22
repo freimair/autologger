@@ -304,7 +304,8 @@ $(document).ready(function()
 	}, {
 		title: "Position",
 		render: function(data, type, row) {
-			return row.Latitude + "/" + row.Longitude;
+			if(row.Latitude && row.Longitude)
+				return row.Latitude + "/" + row.Longitude;
 		}
 	}, {
 		title: "MgK",
@@ -313,7 +314,8 @@ $(document).ready(function()
 	}, {
 		title: "scheinbarer Wind",
 		render: function(data, type, row) {
-			return row.Windspeed + "kn aus " + row.WindAngle + "°"
+			if(row.Windspeed && row.WindAngle)
+				return row.Windspeed + "kn aus " + row.WindAngle + "°"
 		}
 	}, {
 		title: "Tiefe",
