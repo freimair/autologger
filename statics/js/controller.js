@@ -277,11 +277,15 @@ var table;
 $(document).ready(function()
 {
   window.table = $("[data-role='table']").DataTable({
-	searching: false,
+	dom: 'Bfrtip',
+	searching: true,
 	orderFixed: [[0, "desc"]],
 	columnDefs: [ {
 		targets: '_all',
 		defaultContent: "-"
+	}],
+	buttons: [{
+		extend: 'colvis'
 	}],
 	columns: [ {
 		title: "Datum und Uhrzeit",
