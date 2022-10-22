@@ -101,11 +101,10 @@ class Logbook:
         self.current = logbookId
 
     """create a new line in the logbook"""
-    def log(self, message, snapshot=None):
+    def log(self, message):
         # assemble log line
         logline = dict()
         logline["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        logline.update(snapshot)
         logline["Note"] = message
 
         with self.lock:

@@ -24,9 +24,6 @@ class App:
     """websocket stuff"""
     clients = set()
 
-    """the logbook state"""
-    snapshot = dict()
-
     """init the logbook app by registering endpoints"""
     def __init__(self, sanic_app):
 
@@ -35,8 +32,6 @@ class App:
         sanic_app.add_route(self.download_logbook, self.base + '/logbook.csv')
         sanic_app.add_route(self.download_track, self.base + '/track.gpx')
 
-        sanic_app.add_task(self.timer())
-
     """csv download"""
     async def download_logbook(self, request):
         return await response.file(self.current.download_logbook(request))
@@ -44,11 +39,6 @@ class App:
     """gpx download"""
     async def download_track(self, request):
         return await response.file(self.current.download_track(request))
-
-    async def timer(self):
-        while True:
-            await asyncio.sleep(5)
-            await self.broadcast(json.dumps({"logline": self.log("")}))
 
     #########################################################################################
     # API calls #############################################################################
@@ -70,7 +60,17 @@ class App:
     """
     async def incoming(self, name, value):
         try:
-            self.snapshot.update({name: value})
+            self.log(name + ", " + str(value))
+
+            result = dict()
+            result["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            result.update(value)
+            result["Note"] = ""
+
+            sepp = json.dumps(result)
+            fritz = json.dumps({"logline": sepp})
+
+            await self.broadcast(json.dumps({"logline": result}))
         except:
             pass
 
@@ -112,7 +112,7 @@ class App:
 
     """create a new line in the logbook"""
     def log(self, message):
-        return self.current.log(message, self.snapshot)
+        return self.current.log(message)
 
     """delete the last logline
     

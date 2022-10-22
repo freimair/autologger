@@ -2,6 +2,7 @@ from sanic import Sanic
 from sanic import response
 from utils import T
 from apps.logbook.App import App
+from apps.logbook.Accumulator import Accumulator
 from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
 from sources.Weatherstation import  Weatherstation
@@ -25,7 +26,7 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        self.sources=[MockDatasource(self)]
+        self.sources=[MockDatasource(Accumulator(app, self))]
         for current in self.sources:
             app.add_task(current.arm())
 
