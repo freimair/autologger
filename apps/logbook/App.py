@@ -67,9 +67,6 @@ class App:
             result.update(value)
             result["Note"] = ""
 
-            sepp = json.dumps(result)
-            fritz = json.dumps({"logline": sepp})
-
             await self.broadcast(json.dumps({"logline": result}))
         except:
             pass

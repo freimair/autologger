@@ -26,7 +26,8 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        self.sources=[MockDatasource(Accumulator(app, self))]
+        self.sources=[MockDatasource("mocktrip1.csv", 0.1, Accumulator(app, self, "telemetry")),
+                      MockDatasource("mockWeather1.csv", 4, Accumulator(app, self, "weather"))]
         for current in self.sources:
             app.add_task(current.arm())
 

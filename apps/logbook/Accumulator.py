@@ -3,11 +3,10 @@ import json
 
 class Accumulator:
 
-    """the logbook state"""
-    snapshot = dict()
-
-    def __init__(self, sanic_app, router):
+    def __init__(self, sanic_app, router, prefix):
         self.router = router
+        self.prefix = prefix
+        self.snapshot = dict()
 
         sanic_app.add_task(self.timer())
 
@@ -17,4 +16,4 @@ class Accumulator:
     async def timer(self):
         while True:
             await asyncio.sleep(5)
-            await self.router.incoming("telemetry", self.snapshot)
+            await self.router.incoming(self.prefix, self.snapshot)
