@@ -1,4 +1,4 @@
-var IE = document.all&&!window.opera;
+//var IE = document.all&&!window.opera;
 
 
 //Variable fürs ein- und ausklappen
@@ -6,7 +6,7 @@ var autoKlappe = 1;
 //Variable ausklappen ende
 
 //Variable für die Statusmeldung
-var statMess = "";
+//var statMess = "";
 //Variable Statusmeldung ende
 
 //Variable für das JSON und ob eine Verbindung zum Autologger Server besteht
@@ -24,104 +24,101 @@ User (als Int), Format: "user": {"id": int, "status": int, "log": int}
   status: Welchen Status an Bord hat der User. 0 = kein Status/keine Berechtigung für Logbuch, 1 = Skipper, 2 = Crew
   log: Wenn ein Logbuch aktiv ist, wird die ID hier angezeigt.
 Verbindung zum Server (wenn keine Verbindung besteht hat User keine Auswirkung), Format: verbindung: int
-  Eine Nachricht vom Server darf erst gesendet werden, wenn ein INIT Signal vom Client kommt - erst dann ist der Client bereit zu empfangen*/
-
-//Positionsarray um die Veränderung der Position berechnen zu können
-var posi = new Array(2);
-posi[0] = 200;
-posi[1] = 200;
-
-// Cookie Einstellungen
-$.cookie.json = true;
-
-/*
- * #############################################################################
- * #################################### Map ####################################
- * #############################################################################
- */
-//Variable fürs Drag
-var currentObj = "";
-var currentObjX = 0;
-var currentObjY = 0;
-var startX = 0;
-var startY = 0;
-var nowObjX = 0;
-var nowObjY = 0;
-var fensterBreite = 0;
-var fensterHohe = 0;
-var inJason = 0;
-
-document.onmousemove = doDrag;
-document.onmouseup = stopDrag;
-//Variable Drag ende
-
-//Dragfunktionen
-// TODO make available only when in desktop mode!
-function startDrag(obj)
-{
-   currentObj = obj;
-   var x = $(obj).offset();
-   startX = currentObjX - x.left;
-   startY = currentObjY - x.top;
-}
-function doDrag(ereignis)
-{
-
-  currentObjX = (IE) ? window.event.clientX : ereignis.pageX;
-  currentObjY = (IE) ? window.event.clientY : ereignis.pageY;
-
-  if (currentObj != "")
-  {
-    //currentObj.style.left = (currentObjX - startX) + "px";
-    //currentObj.style.top = (currentObjY - startY) + "px";
-    $(currentObj).css('left', (currentObjX - startX) + "px");
-    $(currentObj).css('top', (currentObjY - startY) + "px");
-    nowObjX = currentObjX - startX;
-    nowObjY = currentObjY - startY;
-  }
-}
-function stopDrag(ereignis)
-{
-  currentObj = "";
-}
-//Positionsfunktion
-function showPosition(position)
-{
-  var lat = position.coords.latitude;
-  var lon = position.coords.longitude;
-  var cog = Math.round(position.coords.heading);
-  var sog = (Math.round((position.coords.speed / 0.514) * 10)) / 10;
-  var lath = "N";
-  var lonh = "E";
-
-  if(lat < 0)
-  {
-    lath = "S";
-    lat = lat * -1;
-  }
-  if(lon < 0)
-  {
-    lonh = "W";
-    lon = lon * -1;
-  }
-  var latb = Math.floor(lat);
-  var latm = (Math.round((lat - latb) * 600)) / 10;
-  var lonb = Math.floor(lon);
-  var lonm = (Math.round((lon - lonb) * 600)) / 10;
-
-  $('.dataPos').html(latb + "°" + latm + "'" + lath + "<br>" + lonb + "°" + lonm + "'" + lonh);
-  $('.dataCog').html(cog + "°");
-  $('.dataSog').html(sog + " kts");
-  jumpTo(lon, lat, 10);
-  addMarker(layer_markers, lon, lat, " ");
-}
-
-
-/*
- * ##############################################################################
- * ################################# Connection #################################
- * ##############################################################################
- */
+//  Eine Nachricht vom Server darf erst gesendet werden, wenn ein INIT Signal vom Client kommt - erst dann ist der Client bereit zu empfangen*/
+//
+////Positionsarray um die Veränderung der Position berechnen zu können
+////var posi = new Array(2);
+//posi[0] = 200;
+//posi[1] = 200;
+//
+///*
+// * #############################################################################
+// * #################################### Map ####################################
+// * #############################################################################
+// */
+////Variable fürs Drag
+//var currentObj = "";
+//var currentObjX = 0;
+//var currentObjY = 0;
+//var startX = 0;
+//var startY = 0;
+//var nowObjX = 0;
+//var nowObjY = 0;
+//var fensterBreite = 0;
+//var fensterHohe = 0;
+//var inJason = 0;
+//
+//document.onmousemove = doDrag;
+//document.onmouseup = stopDrag;
+////Variable Drag ende
+//
+////Dragfunktionen
+//// TODO make available only when in desktop mode!
+//function startDrag(obj)
+//{
+//   currentObj = obj;
+//   var x = $(obj).offset();
+//   startX = currentObjX - x.left;
+//   startY = currentObjY - x.top;
+//}
+//function doDrag(ereignis)
+//{
+//
+//  currentObjX = (IE) ? window.event.clientX : ereignis.pageX;
+//  currentObjY = (IE) ? window.event.clientY : ereignis.pageY;
+//
+//  if (currentObj != "")
+//  {
+//    //currentObj.style.left = (currentObjX - startX) + "px";
+//    //currentObj.style.top = (currentObjY - startY) + "px";
+//    $(currentObj).css('left', (currentObjX - startX) + "px");
+//    $(currentObj).css('top', (currentObjY - startY) + "px");
+//    nowObjX = currentObjX - startX;
+//    nowObjY = currentObjY - startY;
+//  }
+//}
+//function stopDrag(ereignis)
+//{
+//  currentObj = "";
+//}
+////Positionsfunktion
+//function showPosition(position)
+//{
+//  var lat = position.coords.latitude;
+//  var lon = position.coords.longitude;
+//  var cog = Math.round(position.coords.heading);
+//  var sog = (Math.round((position.coords.speed / 0.514) * 10)) / 10;
+//  var lath = "N";
+//  var lonh = "E";
+//
+//  if(lat < 0)
+//  {
+//    lath = "S";
+//    lat = lat * -1;
+//  }
+//  if(lon < 0)
+//  {
+//    lonh = "W";
+//    lon = lon * -1;
+//  }
+//  var latb = Math.floor(lat);
+//  var latm = (Math.round((lat - latb) * 600)) / 10;
+//  var lonb = Math.floor(lon);
+//  var lonm = (Math.round((lon - lonb) * 600)) / 10;
+//
+//  $('.dataPos').html(latb + "°" + latm + "'" + lath + "<br>" + lonb + "°" + lonm + "'" + lonh);
+//  $('.dataCog').html(cog + "°");
+//  $('.dataSog').html(sog + " kts");
+//  jumpTo(lon, lat, 10);
+//  addMarker(layer_markers, lon, lat, " ");
+//}
+//
+//
+///*
+// * ##############################################################################
+// * ################################# Connection #################################
+// * ##############################################################################
+// */
 
 var webSocket;
 
@@ -339,17 +336,17 @@ $(document).ready(function()
   // connect to server
   connect();
 
-  drawmap();
-
-  if (navigator.geolocation)
-  {
-    navigator.geolocation.watchPosition(showPosition);
-  }
-  else
-  {
-    $('.dataPos').html('kein GPS');
-  }
-
+  //drawmap();
+//
+//  if (navigator.geolocation)
+//  {
+//    navigator.geolocation.watchPosition(showPosition);
+//  }
+//  else
+//  {
+//    $('.dataPos').html('kein GPS');
+//  }
+//
   $('.einklappen').click(function()
   {
 
@@ -455,11 +452,11 @@ $(document).ready(function()
        window.location = '#wahlpage';
   });
 
-   // IE helper
-  function getEventTarget(e) {
-      e = e || window.event;
-      return e.target || e.srcElement; 
-  }
+//   // IE helper
+//  function getEventTarget(e) {
+//      e = e || window.event;
+//      return e.target || e.srcElement; 
+//  }
 
   $('#logbookList').click(function(event) {
       var target = getEventTarget(event);

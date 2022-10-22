@@ -10,7 +10,7 @@
 }
 .schubRechts
 {
-  position: absolute;
+  position: relative;
   display: flex;
   width: 310px;
   height: 50px;
@@ -19,7 +19,7 @@
 }
 .schubLinks
 {
-  position: absolute;
+  position: relative;
   display: flex;
   width: 310px;
   height: 50px;
@@ -28,7 +28,7 @@
 }
 .schubMitte
 {
-  position: absolute;
+  position: relative;
   display: flex;
   width: 310px;
   height: 50px;
@@ -46,7 +46,6 @@
 
 #eingabefeld
 {
-  position: absolute;
   display: flex;
   width: 320px;
   height: 480px;
@@ -70,7 +69,7 @@
 }
 
 #table {
-  position: absolute;
+  position: relative;
   z-index: 1000;
   background: white;
 }
