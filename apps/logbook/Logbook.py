@@ -105,7 +105,7 @@ class Logbook:
         # assemble log line
         logline = dict()
         logline["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        logline["Note"] = message
+        logline["Data"] = message
 
         with self.lock:
             with open(self.currentPath + '.logbook', 'a') as csvfile:
@@ -153,6 +153,24 @@ class Logbook:
                     status="landed"
         result = {"status": status}
         return json.dumps(result)
+
+    def tail(self, span):
+        with open(self.currentPath + '.logbook', 'r') as csvfile:
+            lines = csvfile.read().splitlines()
+
+        result = []
+        for current in lines[1:min(span + 1, len(lines))]:
+            resulting_line = dict()
+            line = json.JSONDecoder().decode(current)
+            resulting_line['DateTime'] = line['DateTime']
+
+            sepp = line['Data'].split(',', 1)[1].strip()
+
+            data = json.JSONDecoder().decode(sepp)
+            resulting_line.update(data)
+            result.append(resulting_line)
+
+        return result
 
     def save(self):
         with self.lock:

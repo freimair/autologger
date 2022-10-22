@@ -145,7 +145,7 @@ function connect() {
 	webSocket.onopen = function()
 	{
 	  jason.verbindung = 1;
-	  senden({"get": "last"});
+	  senden({"get": "tail"});
 	  window.location = "#wahlpage";
 	}
 	webSocket.onclose = function() {

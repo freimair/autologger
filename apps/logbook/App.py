@@ -60,7 +60,7 @@ class App:
     """
     async def incoming(self, name, value):
         try:
-            self.log(name + ", " + str(value))
+            self.log(name + ", " + json.dumps(value))
 
             result = dict()
             result["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -158,6 +158,13 @@ class App:
         if "last" in data.get("get"):
             try:
                 return self.current.get_last()
+            except:
+                await ws.send('{"error": "noLogbook"}')
+        elif "tail" in data.get("get"):
+            try:
+                raw = self.current.tail(5)
+                for current in raw:
+                    await ws.send(json.dumps({"logline": current}))
             except:
                 await ws.send('{"error": "noLogbook"}')
         elif "logbooks" in data.get("get"):
