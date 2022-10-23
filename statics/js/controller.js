@@ -225,6 +225,27 @@ function jasonAuswerten(was) {
       window.chart_wind.data.datasets[1].data.push(json.logline.WindAngle);
       window.chart_wind.update();
     }
+    if(json.logline.Latitude & json.logline.Longitude) {
+      var newPosition = L.latLng([json.logline.Latitude, json.logline.Longitude]);
+      if(boatMarker) {
+        if(window.track) {
+          window.track.getLatLngs().push(newPosition);
+        } else {
+          var latlngs = [
+            boatMarker.getLatLng(),
+            newPosition
+          ];
+
+          // TODO do not draw a line every time but wait for a min distance
+          // TODO memorize and delete these polylines sometime
+          window.track = L.polyline(latlngs, {color: 'red'}).addTo(window.map);
+        }
+        boatMarker.setLatLng(newPosition);
+      } else
+        boatMarker = L.marker([json.logline.Latitude, json.logline.Longitude]).addTo(window.map);
+      window.map.panTo(newPosition);
+
+    }
   }
 }
 
@@ -293,6 +314,9 @@ var table;
 var chart_SoG;
 var chart_weather;
 var chart_wind;
+var map;
+var boatMarker;
+var track;
 
 function getVisibleColumns() {
 
@@ -473,14 +497,30 @@ $(document).ready(function()
         intersect: false,
       },
       scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Kn'
+          }
+        },
         y1: {
           type: 'linear',
           display: true,
-          position: 'right'
+          position: 'right',
+          title: {
+            display: true,
+            text: '°'
+          }
         }
       }
     }
 });
+
+window.map = L.map('map').setView([44, 15.5], 13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
   // connect to server
   connect();
