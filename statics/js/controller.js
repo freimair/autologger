@@ -209,9 +209,15 @@ function jasonAuswerten(was) {
   if(json.logline != undefined) {
     window.table.row.add(json.logline).draw();
     if(json.logline.SoG) {
-      window.chart1.data.labels.push(json.logline.DateTime);
-      window.chart1.data.datasets[0].data.push(json.logline.SoG);
-      window.chart1.update();
+      window.chart_SoG.data.labels.push(json.logline.DateTime);
+      window.chart_SoG.data.datasets[0].data.push(json.logline.SoG);
+      window.chart_SoG.update();
+    }
+    if(json.logline.AirTemperature && json.logline.AirPressure) {
+      window.chart_weather.data.labels.push(json.logline.DateTime);
+      window.chart_weather.data.datasets[0].data.push(json.logline.AirTemperature);
+      window.chart_weather.data.datasets[1].data.push(json.logline.AirPressure);
+      window.chart_weather.update();
     }
   }
 }
@@ -376,8 +382,7 @@ $(document).ready(function()
   window.table.on('column-visibility.dt', hideEmptyRows);
 
 
-  const ctx = document.getElementById('chart1');
-  window.chart1 = new Chart(ctx, {
+  window.chart_SoG = new Chart(document.getElementById('chart_SoG'), {
       type: 'line',
       data: {
           labels: [],
@@ -385,9 +390,10 @@ $(document).ready(function()
               label: 'SoG',
               data: [],
               fill: false,
-              borderColor: 'rgb(75, 192, 192)',
+              borderColor: 'rgb(0, 255, 0)',
               tension: 0.1
-          }]
+          }
+        ]
       },
       options: {
           scales: {
@@ -395,6 +401,41 @@ $(document).ready(function()
                   beginAtZero: true
               }
           }
+      }
+  });
+
+  window.chart_weather = new Chart(document.getElementById('chart_weather'), {
+      type: 'line',
+      data: {
+          labels: [],
+          datasets: [{
+              label: 'AirTemp',
+              data: [],
+              fill: false,
+              borderColor: 'rgb(255, 0, 255)',
+              tension: 0.1,
+              yAxisID: 'y'
+          },{
+            label: 'AirPressure',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(0, 0, 255)',
+            tension: 0.1,
+            yAxisID: 'y1'
+        }
+        ]
+      }, options: {
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        scales: {
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right'
+          }
+        }
       }
   });
 
