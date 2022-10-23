@@ -219,6 +219,12 @@ function jasonAuswerten(was) {
       window.chart_weather.data.datasets[1].data.push(json.logline.AirPressure);
       window.chart_weather.update();
     }
+    if(json.logline.Windspeed && json.logline.WindAngle) {
+      window.chart_wind.data.labels.push(json.logline.DateTime);
+      window.chart_wind.data.datasets[0].data.push(json.logline.Windspeed);
+      window.chart_wind.data.datasets[1].data.push(json.logline.WindAngle);
+      window.chart_wind.update();
+    }
   }
 }
 
@@ -284,7 +290,9 @@ function gotoScreen(screen) {
 }
 
 var table;
-var chart1;
+var chart_SoG;
+var chart_weather;
+var chart_wind;
 
 function getVisibleColumns() {
 
@@ -438,6 +446,41 @@ $(document).ready(function()
         }
       }
   });
+
+  window.chart_wind = new Chart(document.getElementById('chart_wind'), {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Windspeed',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(255, 0, 0)',
+            tension: 0.1,
+            yAxisID: 'y'
+        },{
+          label: 'Direction',
+          data: [],
+          fill: false,
+          borderColor: 'rgb(0, 0, 255)',
+          tension: 0.1,
+          yAxisID: 'y1'
+      }
+      ]
+    }, options: {
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: {
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right'
+        }
+      }
+    }
+});
 
   // connect to server
   connect();
