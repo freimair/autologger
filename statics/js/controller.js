@@ -430,7 +430,11 @@ $(document).ready(function()
       options: {
           scales: {
               y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: 'Kn'
+                  }
               }
           }
       }
@@ -462,10 +466,20 @@ $(document).ready(function()
           intersect: false,
         },
         scales: {
+          y: {
+            title: {
+              display: true,
+              text: '°C'
+            }
+          },
           y1: {
             type: 'linear',
             display: true,
-            position: 'right'
+            position: 'right',
+            title: {
+              display: true,
+              text: 'Pa'
+            }
           }
         }
       }
