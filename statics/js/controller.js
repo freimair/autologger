@@ -407,7 +407,10 @@ $(document).ready(function()
 	}, {
 		title: "Status",
 		data: "status"
-	} ]
+	}, {
+    title: "Nachricht",
+    data: "message"
+  } ]
   });
 
   // react to visibility change of columns by filtering empty lines
