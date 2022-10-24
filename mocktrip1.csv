@@ -61,7 +61,7 @@ DepthOffset,-0.001
 Windspeed,7.0
 WindAngle,321
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9433839
 Longitude,15.4287032
@@ -113,7 +113,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,320
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,348
 Windspeed,7.2
@@ -162,7 +162,7 @@ DepthOffset,-0.001
 Windspeed,7.4
 WindAngle,323
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Heading,347
 Windspeed,7.4
 WindAngle,323
@@ -256,7 +256,7 @@ DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,324
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Heading,346
 Latitude,43.9434218
 Longitude,15.4286985
@@ -308,7 +308,7 @@ DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,324
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Heading,345
 Windspeed,7.9
 WindAngle,324
@@ -362,7 +362,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,325
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,344
 Heading,344
@@ -409,7 +409,7 @@ DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,330
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,344
 Windspeed,7.8
@@ -454,7 +454,7 @@ SoG,2.0
 Windspeed,7.9
 WindAngle,329
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,343
 Windspeed,7.9
@@ -499,7 +499,7 @@ DepthOffset,-0.001
 Windspeed,8.1
 WindAngle,328
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,354
 SoG,2.0
@@ -548,7 +548,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,331
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,353
 SoG,2.0
@@ -597,7 +597,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,331
 SpeedThroughWater,1.9
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,352
 SoG,1.9
@@ -648,7 +648,7 @@ DepthOffset,-0.001
 Windspeed,8.1
 WindAngle,332
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,350
 SoG,1.9
@@ -695,7 +695,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,331
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,351
 SoG,1.8
@@ -804,7 +804,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,333
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,351
 SoG,1.8
@@ -859,7 +859,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,333
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,350
 SoG,1.9
@@ -908,7 +908,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,333
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 CoG,348
 SoG,1.9
 Heading,335
@@ -956,7 +956,7 @@ DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,335
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,346
 SoG,1.9
@@ -1003,7 +1003,7 @@ DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,337
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,344
 SoG,1.9
@@ -1056,7 +1056,7 @@ DepthOffset,-0.001
 Windspeed,9.0
 WindAngle,336
 SpeedThroughWater,1.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,343
 SoG,1.9
@@ -1111,7 +1111,7 @@ DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,337
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 CoG,342
 SoG,1.9
 Latitude,43.9435704
@@ -1167,7 +1167,7 @@ DepthOffset,-0.001
 Windspeed,9.2
 WindAngle,339
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,342
 SoG,1.8
@@ -1222,7 +1222,7 @@ DepthOffset,-0.001
 Windspeed,9.2
 WindAngle,335
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 CoG,342
 SoG,1.7
 Heading,326
@@ -1274,7 +1274,7 @@ DepthOffset,-0.001
 Windspeed,9.0
 WindAngle,341
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,324
 CoG,340
@@ -1323,7 +1323,7 @@ DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,341
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Heading,322
 CoG,338
 SoG,1.7
@@ -1371,7 +1371,7 @@ DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,342
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,320
 CoG,338
@@ -1420,7 +1420,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,343
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,317
 CoG,338
@@ -1465,7 +1465,7 @@ DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,349
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,315
 Windspeed,8.4
@@ -1512,7 +1512,7 @@ DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,349
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9436326
 Longitude,15.4286465
@@ -1563,7 +1563,7 @@ DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,352
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,310
 Windspeed,8.4
@@ -1614,7 +1614,7 @@ DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,357
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9436464
 Longitude,15.4286391
@@ -1667,7 +1667,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,359
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,305
 Windspeed,8.3
@@ -1720,7 +1720,7 @@ DepthOffset,-0.001
 Windspeed,8.1
 WindAngle,359
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9436581
 Longitude,15.4286301
@@ -1777,7 +1777,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,3
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9436638
 Longitude,15.4286235
@@ -1830,7 +1830,7 @@ DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,4
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,299
 Windspeed,7.9
@@ -1930,7 +1930,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,5
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Latitude,43.9436789
 Longitude,15.4286062
 Heading,294
@@ -1977,7 +1977,7 @@ DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,10
 SpeedThroughWater,1.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,293
 Windspeed,8.5
@@ -2028,7 +2028,7 @@ DepthOffset,-0.001
 Windspeed,8.5
 WindAngle,9
 SpeedThroughWater,1.2
-SoG,1273.9
+SoG,1.2
 Heading,293
 Latitude,43.9436867
 Longitude,15.4285930
@@ -2122,7 +2122,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,11
 SpeedThroughWater,1.2
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,293
 Latitude,43.9436917
@@ -2167,7 +2167,7 @@ Heading,294
 CoG,292
 SoG,1.2
 SpeedThroughWater,1.2
-SoG,1273.9
+SoG,1.2
 Heading,294
 Windspeed,8.2
 WindAngle,8
@@ -2253,7 +2253,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,4
 SpeedThroughWater,1.2
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,285
 SoG,1.2
@@ -2304,7 +2304,7 @@ DepthOffset,-0.001
 Windspeed,8.1
 WindAngle,1
 SpeedThroughWater,0.3
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,282
 SoG,1.2
@@ -2357,7 +2357,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,1
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,280
 SoG,1.1
@@ -2410,7 +2410,7 @@ DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,0
 SpeedThroughWater,0.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,277
 SoG,1.1
@@ -2465,7 +2465,7 @@ DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,357
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,275
 SoG,1.1
@@ -2520,7 +2520,7 @@ DepthOffset,-0.001
 Windspeed,7.5
 WindAngle,353
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,274
 SoG,1.1
@@ -2617,7 +2617,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,346
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,272
 SoG,1.1
@@ -2670,7 +2670,7 @@ DepthOffset,-0.001
 Windspeed,7.0
 WindAngle,342
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,273
 SoG,1.1
@@ -2729,7 +2729,7 @@ DepthOffset,-0.001
 Windspeed,7.1
 WindAngle,338
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,273
 SoG,1.0
@@ -2778,7 +2778,7 @@ DepthOffset,-0.001
 Windspeed,6.9
 WindAngle,338
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,275
 SoG,1.0
@@ -2835,7 +2835,7 @@ DepthOffset,-0.001
 Windspeed,6.7
 WindAngle,336
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,277
 SoG,1.0
@@ -2938,7 +2938,7 @@ DepthOffset,-0.001
 Windspeed,6.6
 WindAngle,326
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,342
 CoG,281
@@ -2989,7 +2989,7 @@ DepthOffset,-0.001
 Windspeed,6.7
 WindAngle,323
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,346
 CoG,285
@@ -3032,7 +3032,7 @@ DepthOffset,-0.001
 Windspeed,6.4
 WindAngle,325
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,350
 CoG,288
@@ -3085,7 +3085,7 @@ DepthOffset,-0.001
 Windspeed,6.4
 WindAngle,321
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,354
 Windspeed,6.4
@@ -3136,7 +3136,7 @@ DepthOffset,-0.001
 Windspeed,6.4
 WindAngle,312
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,359
 Windspeed,6.4
@@ -3185,7 +3185,7 @@ DepthOffset,-0.001
 Windspeed,6.2
 WindAngle,316
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9437132
 Longitude,15.4284664
@@ -3236,7 +3236,7 @@ DepthOffset,-0.001
 Windspeed,6.3
 WindAngle,309
 SpeedThroughWater,0.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9437168
 Longitude,15.4284657
@@ -3287,7 +3287,7 @@ DepthOffset,-0.001
 Windspeed,6.5
 WindAngle,306
 SpeedThroughWater,0.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,12
 Windspeed,6.5
@@ -3340,7 +3340,7 @@ DepthOffset,-0.001
 Windspeed,6.7
 WindAngle,303
 SpeedThroughWater,0.8
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9437251
 Longitude,15.4284649
@@ -3445,7 +3445,7 @@ DepthOffset,-0.001
 Windspeed,6.9
 WindAngle,297
 SpeedThroughWater,1.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,24
 Windspeed,6.9
@@ -3494,7 +3494,7 @@ DepthOffset,-0.001
 Windspeed,7.0
 WindAngle,294
 SpeedThroughWater,1.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,27
 Windspeed,7.0
@@ -3549,7 +3549,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,291
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,29
 Windspeed,7.2
@@ -3604,7 +3604,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,289
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,31
 Windspeed,7.2
@@ -3657,7 +3657,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,287
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,32
 Windspeed,7.2
@@ -3706,7 +3706,7 @@ DepthOffset,-0.001
 Windspeed,7.3
 WindAngle,286
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,33
 Windspeed,7.3
@@ -3763,7 +3763,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,285
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,33
 Latitude,43.9437659
@@ -3812,7 +3812,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,284
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,33
 Windspeed,7.2
@@ -3859,7 +3859,7 @@ DepthOffset,-0.001
 Windspeed,7.2
 WindAngle,287
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,33
 Windspeed,7.2
@@ -3910,7 +3910,7 @@ DepthOffset,-0.001
 Windspeed,7.3
 WindAngle,288
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 CoG,49
 SoG,1.5
 Log,3971.30
@@ -3961,7 +3961,7 @@ DepthOffset,-0.001
 Windspeed,7.5
 WindAngle,285
 SpeedThroughWater,1.5
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,31
 Windspeed,7.5
@@ -4012,7 +4012,7 @@ DepthOffset,-0.001
 Windspeed,7.4
 WindAngle,287
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,53
 SoG,1.6
@@ -4111,7 +4111,7 @@ DepthOffset,-0.001
 Windspeed,7.9
 WindAngle,289
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,53
 SoG,1.6
@@ -4162,7 +4162,7 @@ DepthOffset,-0.001
 Windspeed,7.7
 WindAngle,291
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,52
 SoG,1.7
@@ -4213,7 +4213,7 @@ DepthOffset,-0.001
 Windspeed,7.6
 WindAngle,293
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,52
 SoG,1.7
@@ -4260,7 +4260,7 @@ DepthOffset,-0.001
 Windspeed,7.5
 WindAngle,293
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,50
 SoG,1.7
@@ -4363,7 +4363,7 @@ DepthOffset,-0.001
 Windspeed,7.5
 WindAngle,292
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,48
 SoG,1.7
@@ -4414,7 +4414,7 @@ DepthOffset,-0.001
 Windspeed,7.6
 WindAngle,293
 SpeedThroughWater,1.6
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,46
 SoG,1.7
@@ -4467,7 +4467,7 @@ DepthOffset,-0.001
 Windspeed,7.8
 WindAngle,294
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,45
 SoG,1.7
@@ -4520,7 +4520,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,295
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,44
 SoG,1.7
@@ -4575,7 +4575,7 @@ DepthOffset,-0.001
 Windspeed,8.0
 WindAngle,297
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 CoG,43
 SoG,1.7
@@ -4626,7 +4626,7 @@ DepthOffset,-0.001
 Windspeed,8.1
 WindAngle,298
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,22
 CoG,42
@@ -4679,7 +4679,7 @@ DepthOffset,-0.001
 Windspeed,8.2
 WindAngle,295
 SpeedThroughWater,1.7
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,21
 CoG,41
@@ -4732,7 +4732,7 @@ DepthOffset,-0.001
 Windspeed,8.3
 WindAngle,295
 SpeedThroughWater,2.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,21
 CoG,39
@@ -4781,7 +4781,7 @@ DepthOffset,-0.001
 Windspeed,8.4
 WindAngle,296
 SpeedThroughWater,2.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,21
 CoG,38
@@ -4828,7 +4828,7 @@ DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,295
 SpeedThroughWater,2.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,21
 CoG,37
@@ -4977,7 +4977,7 @@ DepthOffset,-0.001
 Windspeed,8.6
 WindAngle,298
 SpeedThroughWater,2.0
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9439019
 Longitude,15.4286984
@@ -5034,7 +5034,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,296
 SpeedThroughWater,2.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,20
 Windspeed,8.7
@@ -5129,7 +5129,7 @@ DepthOffset,-0.001
 Windspeed,8.8
 WindAngle,299
 SpeedThroughWater,2.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,19
 Windspeed,8.8
@@ -5184,7 +5184,7 @@ DepthOffset,-0.001
 Windspeed,8.8
 WindAngle,300
 SpeedThroughWater,2.1
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Latitude,43.9439367
 Longitude,15.4287291
@@ -5237,7 +5237,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,299
 SpeedThroughWater,2.2
-SoG,1273.9
+SoG,1.2
 Heading,18
 Windspeed,8.7
 WindAngle,299
@@ -5281,7 +5281,7 @@ DepthOffset,-0.001
 Windspeed,8.8
 WindAngle,300
 SpeedThroughWater,2.2
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,18
 Windspeed,8.8
@@ -5332,7 +5332,7 @@ DepthOffset,-0.001
 Windspeed,8.9
 WindAngle,299
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Heading,18
 Windspeed,8.9
 WindAngle,299
@@ -5384,7 +5384,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,300
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Heading,17
 Windspeed,8.7
 WindAngle,300
@@ -5432,7 +5432,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,300
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,17
 Windspeed,8.7
@@ -5487,7 +5487,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,299
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Latitude,43.9439960
 Longitude,15.4287747
 Heading,16
@@ -5539,7 +5539,7 @@ DepthOffset,-0.001
 Windspeed,8.7
 WindAngle,301
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,16
 Windspeed,8.7
@@ -5586,7 +5586,7 @@ DepthOffset,-0.001
 Windspeed,8.8
 WindAngle,301
 SpeedThroughWater,2.4
-SoG,1273.9
+SoG,1.2
 Log,3971.30
 Heading,15
 Latitude,43.9440164
