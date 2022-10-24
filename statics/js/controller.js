@@ -405,8 +405,8 @@ $(document).ready(function()
 		title: "Luftfeuchtigkeit",
 		data: "Humidity"
 	}, {
-		title: "Bemerkung",
-		data: "Note"
+		title: "Status",
+		data: "status"
 	} ]
   });
 
@@ -595,8 +595,14 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   $('#reffButton').click(function() {
     senden({status: "reef"});
   });
-  $('#hafenButton, #ankerButton, #bojeButton').click(function() {
-    senden({status: "landed"});
+  $('#hafenButton').click(function() {
+    senden({status: "landed-harbor"});
+  });
+  $('#ankerButton').click(function() {
+    senden({status: "landed-anchor"});
+  });
+  $('#bojeButton').click(function() {
+    senden({status: "landed-buoy"});
   });
   $('#sonstigesButton').click(function(){
     lastGuiScreen = guiScreen;
