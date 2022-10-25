@@ -201,12 +201,6 @@ $(document).ready(function()
        window.location = '#wahlpage';
   });
 
-//   // IE helper
-//  function getEventTarget(e) {
-//      e = e || window.event;
-//      return e.target || e.srcElement; 
-//  }
-
   $('#logbookList').click(function(event) {
       var target = getEventTarget(event);
       senden({"load":target.name});
