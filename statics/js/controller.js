@@ -575,6 +575,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>'
+}).addTo(map);
 
   // connect to server
   connect();
