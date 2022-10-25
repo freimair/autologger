@@ -231,12 +231,12 @@ function jasonAuswerten(was) {
     }
     if(json.logline.Latitude & json.logline.Longitude) {
       var newPosition = L.latLng([json.logline.Latitude, json.logline.Longitude]);
-      if(boatMarker) {
+      if(window.boatMarker) {
         if(window.track) {
           window.track.getLatLngs().push(newPosition);
         } else {
           var latlngs = [
-            boatMarker.getLatLng(),
+            window.boatMarker.getLatLng(),
             newPosition
           ];
 
@@ -244,9 +244,9 @@ function jasonAuswerten(was) {
           // TODO memorize and delete these polylines sometime
           window.track = L.polyline(latlngs, {color: 'red'}).addTo(window.map);
         }
-        boatMarker.setLatLng(newPosition);
+        window.boatMarker.setLatLng(newPosition);
       } else
-        boatMarker = L.marker([json.logline.Latitude, json.logline.Longitude]).addTo(window.map);
+        window.boatMarker = L.marker([json.logline.Latitude, json.logline.Longitude]).addTo(window.map);
       window.map.panTo(newPosition);
 
     }
@@ -347,22 +347,8 @@ let safetyBriefing = `<h3>Befehlskette</h3>
 
 let note = `<textarea></textarea>`
 
-var map;
-var boatMarker;
-var track;
-
 $(document).ready(function()
 {
-window.map = L.map('map').setView([44, 15.5], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>'
-}).addTo(map);
-
   // connect to server
   connect();
 
