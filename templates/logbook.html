@@ -38,6 +38,7 @@
   </head>
   <body>
     <div id="eingabefeld"> <!-- onmousedown="startDrag('#eingabefeld');">-->
+      <div id="popup"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
       <div data-role="page" data-theme="d" id="loaderpage">
         <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
           <h1>Logbook - starting up</h1>
@@ -296,9 +297,13 @@
 	          <button data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</button>
 	          <button data-icon="anker" data-iconpos="top" data-corners="false" id="ankerButton">Anker</button>
 	          <button data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</button>
+	          <button data-icon="pen" data-iconpos="top" id="safetyBriefingButton" data-corners="false">Safety Briefing</button>
 	          <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
 	          <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
-	          <textarea name="sonstigesArea" id="sonstigesArea" style="height: 50px;" data-corners="false"></textarea>
+	          <div id="sonstigesArea">
+	              <h1 id="sonstigesSubject"></h1>
+	              <div id="sonstigesContent"></div>
+	          </div>
 	          <button data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</button>
 	          <button data-icon="back" data-iconpos="top" data-corners="false" id="backButton">Zurück</button>
           </div>

@@ -207,6 +207,10 @@ function jasonAuswerten(was) {
    * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
    */
   if(json.logline != undefined) {
+    if(json.logline.message) {
+      tmp = json.logline.message;
+      json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').show()" >Show</button>';
+    }
     window.table.row.add(json.logline).draw();
     if(json.logline.SoG) {
       window.chart_SoG.data.labels.push(json.logline.DateTime);
@@ -309,6 +313,39 @@ function gotoScreen(screen) {
 	
 	guiScreen = screen;
 }
+
+let safetyBriefing = `<h3>Befehlskette</h3>
+<input type="checkbox" checked> im Zweifel alles melden
+
+<h3>Bewegung an Bord</h3>
+<br /><input type="checkbox"> Außerhalb von Cockpit nur auf Anweisung
+<br /><input type="checkbox"> Schuhe
+<br /><input type="checkbox"> nicht laufen, nicht springen
+<br /><input type="checkbox"> Ordnung halten
+<br /><input type="checkbox"> alles Schwimmer?
+
+<h3>Gefahren durch</h3>
+<br /><input type="checkbox"> Großbaum
+<br /><input type="checkbox"> Winschen
+<br /><input type="checkbox"> Klampen/Klemmen
+<br /><input type="checkbox"> Leinen
+<br /><input type="checkbox"> Kollisionsvermeidung
+<br /><input type="checkbox"> Niedergang
+<br /><input type="checkbox"> Stolperfallen
+<br /><input type="checkbox"> Nächtliches Strullern
+<br /><input type="checkbox"> SmartPhone
+
+<h3>Maßnahmen</h3>
+<br /><input type="checkbox"> Rettungswesten und Lifebelt
+<br /><input type="checkbox"> Man over board: MOB-Taste drücken, Alarm, hinzeigen
+<br /><input type="checkbox"> Feuerlöscher/-decke
+<br /><input type="checkbox"> Distress-Taste
+<br /><input type="checkbox"> Verbandskasten
+<br /><input type="checkbox"> Grab-Bag
+<br /><input type="checkbox"> Motor Bedienung
+`
+
+let note = `<textarea></textarea>`
 
 var table;
 var chart_SoG;
@@ -607,13 +644,34 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   $('#bojeButton').click(function() {
     senden({status: "landed-buoy"});
   });
+  $('#safetyBriefingButton').click(function(){
+    lastGuiScreen = guiScreen;
+    $("#sonstigesSubject").html("Sicherheitseinweisung")
+    $("#sonstigesContent").html(safetyBriefing);
+    gotoScreen("custom");
+  });
   $('#sonstigesButton').click(function(){
     lastGuiScreen = guiScreen;
+    $("#sonstigesSubject").html("Notiz")
+    $("#sonstigesContent").html(note);
     gotoScreen("custom");
   });
   $('#speichernButton').click(function()
   {
-    senden({message: $('#sonstigesArea').val()});
+    // persist checkboxes
+    $('#sonstigesContent input:checkbox').each(function(index, value) {
+      if(value.checked)
+        value.setAttribute("checked", "checked");
+      else
+        value.removeAttribute("checked");
+    });
+
+    // persist textarea
+    $('#sonstigesContent textarea').each(function(index, value) {
+      value.innerText = $(value).val();
+    });
+
+    senden({message: {subject: $('#sonstigesSubject').html(), content: $('#sonstigesContent').html()}});
     gotoScreen(lastGuiScreen);
   });
   //$('#speicherUser').click(function(){window.location = "#wahlpage"});
@@ -624,6 +682,10 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   {
     //window.location = '#startpage';
   });
+  $('#popup-close').click(function()
+  {
+    $('#popup').hide();
+  })
 
   /*
    * ##############################################################################

@@ -51,7 +51,7 @@
   height: 480px;
   right: 20px;
   top: 50px;
-  overflow: hidden;
+  overflow: scroll;
   z-index: 2;
 
 }
