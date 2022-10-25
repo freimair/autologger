@@ -135,6 +135,13 @@ function jasonAuswerten(was) {
         window.boatMarker = L.marker([json.logline.Latitude, json.logline.Longitude]).addTo(window.map);
       window.map.panTo(newPosition);
     }
+    if(json.logline.Latitude & json.logline.Longitude & json.logline.SoG) {
+        $("#dataPos").text(json.logline.Latitude + "/" + json.logline.Longitude);
+        $("#dataCoG").text(json.logline.CoG);
+        $("#dataSoG").text(json.logline.SoG);
+    }
+    if(json.logline.status)
+        $("#dataStatus").text(json.logline.status);
   }
 }
 

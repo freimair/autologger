@@ -65,16 +65,6 @@ function gotoScreen(screen) {
 
 $(document).ready(function()
 {
-//
-//  if (navigator.geolocation)
-//  {
-//    navigator.geolocation.watchPosition(showPosition);
-//  }
-//  else
-//  {
-//    $('.dataPos').html('kein GPS');
-//  }
-//
   $('.einklappen').click(function()
   {
 
