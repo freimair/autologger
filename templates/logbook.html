@@ -25,14 +25,6 @@
     <link rel="stylesheet" type="text/css" href="j/leaflet.css">
     <script src="j/leaflet.js"></script>
 
-    <script src="j/openlayer.js"></script>
-    <script src="j/openstreetmap.js"></script>
-    <script src="j/harbours.js"></script>
-    <script src="j/maps.js"></script>
-    <script src="j/util.js"></script>
-
-    <script type="text/javascript" src="js/tom.js"></script>
-    <script type="text/javascript" src="js/osm.js"></script>
     <script src="js/controller.js"></script>
 
   </head>
@@ -383,12 +375,16 @@
       </div>
     </div>
     
-    <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
+    <div id="table">
+      <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
+    </div>
 
-    <canvas id="chart_SoG" width="400" height="75"></canvas>
-    <canvas id="chart_weather" width="400" height="75"></canvas>
-    <canvas id="chart_wind" width="400" height="75"></canvas>
+    <div id="chart">
+      <canvas id="chart_SoG" width="400" height="75"></canvas>
+      <canvas id="chart_weather" width="400" height="75"></canvas>
+      <canvas id="chart_wind" width="400" height="75"></canvas>
+    </div>
 
     <div id="map" style="height: 300px;"></div>
 
