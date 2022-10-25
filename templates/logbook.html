@@ -12,29 +12,24 @@
 
     <script src="j/jquery-3.5.1.min.js"></script>
 
+    <script src="js/controller.js"></script>
+    <script src="js/communications.js"></script>
+
     <link rel="stylesheet" type="text/css" href="j/jquery.dataTables.min.css">
     <script type="text/javascript" charset="utf8" src="j/jquery.dataTables.min.js"></script>
-
-
     <link rel="stylesheet" type="text/css" href="j/buttons.dataTables.min.css">
     <script type="text/javascript" charset="utf8" src="j/dataTables.buttons.min.js"></script>
     <script type="text/javascript" charset="utf8" src="j/buttons.colVis.min.js"></script>
+    <script src="js/table.js"></script>
 
     <script src="j/chart.js"></script>
+    <script src="js/chart.js"></script>
 
     <link rel="stylesheet" type="text/css" href="j/leaflet.css">
     <script src="j/leaflet.js"></script>
+    <script src="js/map.js"></script>
 
-    <script src="j/openlayer.js"></script>
-    <script src="j/openstreetmap.js"></script>
-    <script src="j/harbours.js"></script>
-    <script src="j/maps.js"></script>
-    <script src="j/util.js"></script>
-
-    <script type="text/javascript" src="js/tom.js"></script>
-    <script type="text/javascript" src="js/osm.js"></script>
-    <script src="js/controller.js"></script>
-
+    <script src="js/message_templates.js"></script>
   </head>
   <body>
     <div id="eingabefeld"> <!-- onmousedown="startDrag('#eingabefeld');">-->
@@ -383,12 +378,16 @@
       </div>
     </div>
     
-    <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
+    <div id="table">
+      <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
+    </div>
 
-    <canvas id="chart_SoG" width="400" height="75"></canvas>
-    <canvas id="chart_weather" width="400" height="75"></canvas>
-    <canvas id="chart_wind" width="400" height="75"></canvas>
+    <div id="chart">
+      <canvas id="chart_SoG" width="400" height="75"></canvas>
+      <canvas id="chart_weather" width="400" height="75"></canvas>
+      <canvas id="chart_wind" width="400" height="75"></canvas>
+    </div>
 
     <div id="map" style="height: 300px;"></div>
 
@@ -401,10 +400,10 @@
           <td width="25%" height="20" align="center" valign="middle">Status</td>
         </tr>
         <tr>
-          <td width="25%" height="40" align="center" valign="middle"><span class="dataPos"></span></td>
-          <td width="25%" height="40" align="center" valign="middle"><span class="dataCog"></span></td>
-          <td width="25%" height="40" align="center" valign="middle"><span class="dataSog"></span></td>
-          <td width="25%" height="40" align="center" valign="middle"><span class="dataAntrieb"></span></td>
+          <td width="25%" height="40" align="center" valign="middle"><span id="dataPos"></span></td>
+          <td width="25%" height="40" align="center" valign="middle"><span id="dataCoG"></span></td>
+          <td width="25%" height="40" align="center" valign="middle"><span id="dataSoG"></span></td>
+          <td width="25%" height="40" align="center" valign="middle"><span id="dataStatus"></span></td>
         </tr>
       </table>
     </div>
