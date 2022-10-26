@@ -20,17 +20,29 @@ class App:
     """some path constant"""
     base = "logbook"
     dataPath = "statics/logbooks/"
+    message_template_source_path = "apps/logbook/message_templates/"
+    message_template_destination_file = "statics/js/message_templates.js"
 
     """websocket stuff"""
     clients = set()
 
     """init the logbook app by registering endpoints"""
     def __init__(self, sanic_app):
+        self.compile_message_templates();
 
         sanic_app.add_websocket_route(self.feed, self.base + '/ws')
         sanic_app.add_route(self.getGui, self.base)
         sanic_app.add_route(self.download_logbook, self.base + '/logbook.csv')
         sanic_app.add_route(self.download_track, self.base + '/track.gpx')
+
+    def compile_message_templates(self):
+        with open(self.message_template_destination_file, 'w') as output:
+            output.write('var message_templates = {};\n')
+            with os.scandir(self.message_template_source_path) as files:
+                for template in files:
+                    if template.is_file() and template.name.endswith(".html"):
+                        with open(self.message_template_source_path + template.name, 'r') as templatefile:
+                            output.write('message_templates.' + template.name.removesuffix('.html') + " = `" + templatefile.read() + "`\n");
 
     """csv download"""
     async def download_logbook(self, request):

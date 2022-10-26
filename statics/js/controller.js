@@ -122,13 +122,13 @@ $(document).ready(function()
   $('#safetyBriefingButton').click(function(){
     lastGuiScreen = guiScreen;
     $("#sonstigesSubject").html("Sicherheitseinweisung")
-    $("#sonstigesContent").html(safetyBriefing);
+    $("#sonstigesContent").html(window.message_templates.safety_briefing);
     gotoScreen("custom");
   });
   $('#sonstigesButton').click(function(){
     lastGuiScreen = guiScreen;
     $("#sonstigesSubject").html("Notiz")
-    $("#sonstigesContent").html(note);
+    $("#sonstigesContent").html(window.message_templates.note);
     gotoScreen("custom");
   });
   $('#speichernButton').click(function()
