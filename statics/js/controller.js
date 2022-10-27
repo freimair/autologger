@@ -125,11 +125,8 @@ $(document).ready(function()
     $("#sonstigesContent").html(window.message_templates.safety_briefing);
     gotoScreen("custom");
   });
-  $('#safetyBriefingButton').click(function(){
-    lastGuiScreen = guiScreen;
-    $("#sonstigesSubject").html("Wetterbericht")
-    $("#sonstigesContent").html(window.message_templates.weather);
-    gotoScreen("custom");
+  $('#weatherReportButton').click(function(){
+    senden({command: 'weather_report'});
   });
   $('#sonstigesButton').click(function(){
     lastGuiScreen = guiScreen;
