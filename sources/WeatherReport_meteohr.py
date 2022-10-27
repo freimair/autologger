@@ -13,6 +13,11 @@ class WeatherReport:
         self.router = router
 
     async def arm(self):
+        # use python scheduler
+        # import sched, time
+        # scheduler = sched.scheduler(time.time, time.sleep)
+        # scheduler.enterabs(time.time()+5, self.fetchWeather)
+        # scheduler.round(number)
         WeatherReport.fetchWeather()
 
     @classmethod
