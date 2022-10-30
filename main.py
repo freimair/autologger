@@ -7,6 +7,7 @@ from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
 from sources.Weatherstation import  Weatherstation
 from sources.MockDatasource import MockDatasource
+from sources.WeatherReport_meteohr import WeatherReport
 
 
 app = Sanic(__name__)

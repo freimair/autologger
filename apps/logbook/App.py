@@ -13,6 +13,7 @@ from sanic import response
 
 from utils import T
 from apps.logbook.Logbook import Logbook
+from sources.WeatherReport_meteohr import WeatherReport
 
 class App:
     lock = Lock()
@@ -210,6 +211,15 @@ class App:
         logline.update(entry)
 
         return json.dumps({"logline": logline})
+
+    async def parse_command(self, data, ws):
+        if "weather_report" in data.get("command"):
+            weatherReport = WeatherReport.fetchWeather();
+            entry = dict()
+            entry["message"] = dict()
+            entry["message"]["subject"] = "Wetterbericht"
+            entry["message"]["content"] = weatherReport
+            return await self.parse_message(entry, ws)
 
     """command parser 'save'"""
     async def parse_save(self, data, ws):
