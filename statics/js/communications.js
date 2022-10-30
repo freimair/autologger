@@ -97,7 +97,7 @@ function jasonAuswerten(was) {
       tmp = json.logline.message;
       json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').show()" >Show</button>';
     }
-    window.table.row.add(json.logline).draw();
+    window.table.add(json.logline);
     if(json.logline.SoG) {
       window.chart_SoG.data.labels.push(json.logline.DateTime);
       window.chart_SoG.data.datasets[0].data.push(json.logline.SoG);
