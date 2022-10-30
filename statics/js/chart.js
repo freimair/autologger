@@ -1,122 +1,155 @@
-var chart_SoG;
-var chart_weather;
-var chart_wind;
+var chart;
 
-$(document).ready(function()
-{
-    window.chart_SoG = new Chart(document.getElementById('chart_SoG'), {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'SoG',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(0, 255, 0)',
-                tension: 0.1
-            }
-        ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                    display: true,
-                    text: 'Kn'
-                    }
-                }
-            }
-        }
-    });
+class Charts {
+  chart_SoG;
+  chart_weather;
+  chart_wind;
 
-    window.chart_weather = new Chart(document.getElementById('chart_weather'), {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'AirTemp',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(255, 0, 255)',
-                tension: 0.1,
-                yAxisID: 'y'
-            },{
-            label: 'AirPressure',
-            data: [],
-            fill: false,
-            borderColor: 'rgb(0, 0, 255)',
-            tension: 0.1,
-            yAxisID: 'y1'
-        }
-        ]
-        }, options: {
-        interaction: {
-            mode: 'index',
-            intersect: false,
-        },
-        scales: {
-            y: {
-            title: {
-                display: true,
-                text: '°C'
-            }
-            },
-            y1: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            title: {
-                display: true,
-                text: 'Pa'
-            }
-            }
-        }
-        }
-    });
-
-    window.chart_wind = new Chart(document.getElementById('chart_wind'), {
-    type: 'line',
-    data: {
+  constructor() {
+    this.chart_SoG = new Chart(document.getElementById("chart_SoG"), {
+      type: "line",
+      data: {
         labels: [],
-        datasets: [{
-            label: 'Windspeed',
+        datasets: [
+          {
+            label: "SoG",
             data: [],
             fill: false,
-            borderColor: 'rgb(255, 0, 0)',
+            borderColor: "rgb(0, 255, 0)",
             tension: 0.1,
-            yAxisID: 'y'
-        },{
-            label: 'Direction',
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Kn",
+            },
+          },
+        },
+      },
+    });
+
+    this.chart_weather = new Chart(document.getElementById("chart_weather"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "AirTemp",
             data: [],
             fill: false,
-            borderColor: 'rgb(0, 0, 255)',
+            borderColor: "rgb(255, 0, 255)",
             tension: 0.1,
-            yAxisID: 'y1'
-        }
-        ]
-    }, options: {
+            yAxisID: "y",
+          },
+          {
+            label: "AirPressure",
+            data: [],
+            fill: false,
+            borderColor: "rgb(0, 0, 255)",
+            tension: 0.1,
+            yAxisID: "y1",
+          },
+        ],
+      },
+      options: {
         interaction: {
-        mode: 'index',
-        intersect: false,
+          mode: "index",
+          intersect: false,
         },
         scales: {
-        y: {
+          y: {
             title: {
+              display: true,
+              text: "°C",
+            },
+          },
+          y1: {
+            type: "linear",
             display: true,
-            text: 'Kn'
-            }
+            position: "right",
+            title: {
+              display: true,
+              text: "Pa",
+            },
+          },
         },
-        y1: {
-            type: 'linear',
-            display: true,
-            position: 'right',
-            title: {
-            display: true,
-            text: '°'
-            }
-        }
-        }
-    }
+      },
     });
+
+    this.chart_wind = new Chart(document.getElementById("chart_wind"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Windspeed",
+            data: [],
+            fill: false,
+            borderColor: "rgb(255, 0, 0)",
+            tension: 0.1,
+            yAxisID: "y",
+          },
+          {
+            label: "Direction",
+            data: [],
+            fill: false,
+            borderColor: "rgb(0, 0, 255)",
+            tension: 0.1,
+            yAxisID: "y1",
+          },
+        ],
+      },
+      options: {
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: "Kn",
+            },
+          },
+          y1: {
+            type: "linear",
+            display: true,
+            position: "right",
+            title: {
+              display: true,
+              text: "°",
+            },
+          },
+        },
+      },
+    });
+  }
+
+  add(incoming) {
+    if (incoming.SoG) {
+      this.chart_SoG.data.labels.push(incoming.DateTime);
+      this.chart_SoG.data.datasets[0].data.push(incoming.SoG);
+      this.chart_SoG.update();
+    }
+    if (incoming.AirTemperature && incoming.AirPressure) {
+      this.chart_weather.data.labels.push(incoming.DateTime);
+      this.chart_weather.data.datasets[0].data.push(incoming.AirTemperature);
+      this.chart_weather.data.datasets[1].data.push(incoming.AirPressure);
+      this.chart_weather.update();
+    }
+    if (incoming.Windspeed && incoming.WindAngle) {
+      this.chart_wind.data.labels.push(incoming.DateTime);
+      this.chart_wind.data.datasets[0].data.push(incoming.Windspeed);
+      this.chart_wind.data.datasets[1].data.push(incoming.WindAngle);
+      this.chart_wind.update();
+    }
+  }
+}
+$(document).ready(function () {
+  window.chart = new Charts();
 });

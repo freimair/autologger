@@ -98,23 +98,7 @@ function jasonAuswerten(was) {
       json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').show()" >Show</button>';
     }
     window.table.add(json.logline);
-    if(json.logline.SoG) {
-      window.chart_SoG.data.labels.push(json.logline.DateTime);
-      window.chart_SoG.data.datasets[0].data.push(json.logline.SoG);
-      window.chart_SoG.update();
-    }
-    if(json.logline.AirTemperature && json.logline.AirPressure) {
-      window.chart_weather.data.labels.push(json.logline.DateTime);
-      window.chart_weather.data.datasets[0].data.push(json.logline.AirTemperature);
-      window.chart_weather.data.datasets[1].data.push(json.logline.AirPressure);
-      window.chart_weather.update();
-    }
-    if(json.logline.Windspeed && json.logline.WindAngle) {
-      window.chart_wind.data.labels.push(json.logline.DateTime);
-      window.chart_wind.data.datasets[0].data.push(json.logline.Windspeed);
-      window.chart_wind.data.datasets[1].data.push(json.logline.WindAngle);
-      window.chart_wind.update();
-    }
+    window.chart.add(json.logline);
     if(json.logline.Latitude & json.logline.Longitude) {
       var newPosition = L.latLng([json.logline.Latitude, json.logline.Longitude]);
       if(window.boatMarker) {
