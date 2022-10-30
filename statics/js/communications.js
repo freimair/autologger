@@ -99,26 +99,7 @@ function jasonAuswerten(was) {
     }
     window.table.add(json.logline);
     window.chart.add(json.logline);
-    if(json.logline.Latitude & json.logline.Longitude) {
-      var newPosition = L.latLng([json.logline.Latitude, json.logline.Longitude]);
-      if(window.boatMarker) {
-        if(window.track) {
-          window.track.getLatLngs().push(newPosition);
-        } else {
-          var latlngs = [
-            window.boatMarker.getLatLng(),
-            newPosition
-          ];
-
-          // TODO do not draw a line every time but wait for a min distance
-          // TODO memorize and delete these polylines sometime
-          window.track = L.polyline(latlngs, {color: 'red'}).addTo(window.map);
-        }
-        window.boatMarker.setLatLng(newPosition);
-      } else
-        window.boatMarker = L.marker([json.logline.Latitude, json.logline.Longitude]).addTo(window.map);
-      window.map.panTo(newPosition);
-    }
+    window.map.add(json.logline);
     if(json.logline.Latitude & json.logline.Longitude & json.logline.SoG) {
         $("#dataPos").text(json.logline.Latitude + "/" + json.logline.Longitude);
         $("#dataCoG").text(json.logline.CoG);
