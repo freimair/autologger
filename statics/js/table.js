@@ -94,6 +94,10 @@ class Table {
     this.table.columns([0, 11, 12]).visible(true);
   }
 
+  clear() {
+    this.table.rows().remove().draw();
+  }
+
   add(content) {
     this.table.row.add(content).draw();
   }

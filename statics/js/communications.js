@@ -28,6 +28,9 @@ function connect() {
 	webSocket.onopen = function()
 	{
 	  connected = 1;
+	  window.table.clear();
+	  window.chart.clear();
+	  window.map.clear();
 	  senden({"get": "tail"});
 	  window.location = "#wahlpage";
 	}

@@ -18,6 +18,11 @@ class MyMap {
     }).addTo(this.map);
   }
 
+  clear() {
+    if(this.track)
+        this.track.setLatLngs([]);
+  }
+
   add(incoming) {
     if (incoming.Latitude & incoming.Longitude) {
       var newPosition = L.latLng([incoming.Latitude, incoming.Longitude]);

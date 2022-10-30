@@ -130,6 +130,15 @@ class Charts {
     });
   }
 
+  clear() {
+    this.chart_SoG.data.labels = [];
+    this.chart_SoG.data.datasets[0].data = [];
+    this.chart_weather.data.labels = [];
+    this.chart_weather.data.datasets[0].data = [];
+    this.chart_wind.data.labels = [];
+    this.chart_wind.data.datasets[0].data = [];
+  }
+
   add(incoming) {
     if (incoming.SoG) {
       this.chart_SoG.data.labels.push(incoming.DateTime);
