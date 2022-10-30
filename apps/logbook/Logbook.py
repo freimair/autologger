@@ -159,7 +159,7 @@ class Logbook:
             lines = csvfile.read().splitlines()
 
         result = []
-        for current in lines[-min(span + 1, len(lines)):]:
+        for current in lines[-min(span + 1, len(lines) - 1):]:
             resulting_line = dict()
             line = json.JSONDecoder().decode(current)
             resulting_line['DateTime'] = line['DateTime']
