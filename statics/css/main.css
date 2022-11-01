@@ -77,3 +77,9 @@
     opacity: 0;
   }
 }
+
+.windarrow {
+  height:65px;
+  margin-top:-65px;
+  transform-origin: bottom left !important;
+}
