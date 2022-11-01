@@ -5,6 +5,7 @@ class MyMap {
   boatMarker;
   track;
   wind;
+  windIndicators;
 
   constructor() {
     this.map = L.map("map").setView([44, 15.5], 13);
@@ -18,12 +19,14 @@ class MyMap {
       attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>',
     }).addTo(this.map);
 
-    this.icon = L.icon({
-        iconUrl: 'images/45kn.svg',
-        className: 'windarrow'
-    });
 
-    this.windtest = L.marker(L.latLng(43.94387, 15.428656), {icon: this.icon, rotationAngle:35}).addTo(this.map);
+    this.windIndicators = {};
+    [5, 10, 15, 20, 25, 30, 35, 40, 45].forEach((current) => {
+        this.windIndicators[current] = L.icon({
+            iconUrl: 'images/' + current + 'kn.svg',
+            className: 'windarrow'
+        });
+    });
   }
 
   clear() {
@@ -51,6 +54,9 @@ class MyMap {
           incoming.Longitude,
         ]).addTo(this.map);
       this.map.panTo(newPosition);
+    }
+    if(incoming.Windspeed && incoming.WindAngle) {
+        L.marker(this.boatMarker.getLatLng(), {icon: this.windIndicators[Math.floor(incoming.Windspeed / 5) * 5], rotationAngle:35}).addTo(this.map);
     }
   }
 }
