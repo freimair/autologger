@@ -6,6 +6,7 @@ class MyMap {
   track;
   wind;
   windIndicators;
+  windArrows = [];
 
   constructor() {
     this.map = L.map("map").setView([44, 15.5], 13);
@@ -56,7 +57,12 @@ class MyMap {
       this.map.panTo(newPosition);
     }
     if(incoming.Windspeed && incoming.WindAngle) {
-        L.marker(this.boatMarker.getLatLng(), {icon: this.windIndicators[Math.floor(incoming.Windspeed / 5) * 5], rotationAngle:35}).addTo(this.map);
+        if(this.windArrows && 1 < this.windArrows.length) {
+            if(10 < this.map.distance(this.windArrows[this.windArrows.length-1].getLatLng(), this.boatMarker.getLatLng()))
+                this.windArrows.push(L.marker(this.boatMarker.getLatLng(), {icon: this.windIndicators[Math.floor(incoming.Windspeed / 5) * 5], rotationAngle:incoming.WindAngle}).addTo(this.map));
+        } else {
+            this.windArrows.push(L.marker(this.boatMarker.getLatLng(), {icon: this.windIndicators[Math.floor(incoming.Windspeed / 5) * 5], rotationAngle:incoming.WindAngle}).addTo(this.map));
+        }
     }
   }
 }
