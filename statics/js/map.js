@@ -20,6 +20,12 @@ class MyMap {
       attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>',
     }).addTo(this.map);
 
+    this.map.on("zoomend", (e) => {
+      let ratio = 40 - 2 * e.target.getZoom();
+      for (let i = 0; i < this.windArrows.length; i++) {
+        this.windArrows[i].setOpacity(i % ratio == 0 ? 1 : 0);
+      }
+    });
 
     this.windIndicators = {};
     [5, 10, 15, 20, 25, 30, 35, 40, 45].forEach((current) => {
