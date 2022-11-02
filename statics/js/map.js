@@ -20,6 +20,12 @@ class MyMap {
       attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>',
     }).addTo(this.map);
 
+    this.map.addControl(new L.Control.ScaleNautic({
+      metric: false,
+      imperial: false,
+      nautic: true
+    }));
+
     this.map.on("zoomend", (e) => {
       let ratio = 40 - 2 * e.target.getZoom();
       for (let i = 0; i < this.windArrows.length; i++) {
