@@ -12,6 +12,20 @@ var lastGuiScreen = "";
 var guiScreen = "landed";
 
 function gotoScreen(screen) {
+  switch(screen) {
+    case "home":
+      $('.homeScreen').hide();
+      $("#home").show();
+      return;
+    case "loaderpage":
+      $('.homeScreen').hide();
+      $('#loaderpage').show();
+      return;
+    case "fehler":
+      $('.homeScreen').hide();
+      $('#fehlerpage').show();
+      return;
+  }
 
 	$('#controls').children().hide();
 	
@@ -83,6 +97,36 @@ $(document).ready(function()
       autoKlappe = 0;
     }
   });
+
+  /*
+   * ##############################################################################
+   * ## Widget Controls ###########################################################
+   * ##############################################################################
+   */
+
+  $('#showMapButton').click(function() {
+    $('#map').dialog();
+  })
+
+  $('#showGraphButton').click(function() {
+    $('#chart').dialog();
+  })
+
+  $('#showTableButton').click(function() {
+    $('#table').dialog();
+  })
+
+  $('#showLogbookControlsButton').click(function() {
+    $('#wahlpage').dialog();
+  })
+
+  $('#showSettingsButton').click(function() {
+    $('#settingsPage').dialog();
+  })
+
+  $('#showHudButton').click(function() {
+    $('#HUD').dialog();
+  })
   
   /*
    * ##############################################################################

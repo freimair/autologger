@@ -23,7 +23,7 @@ function connect() {
 	{
 	  connected = 0;
 	  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
-	  window.location = "#fehlerpage";
+	  gotoScreen('fehler');
 	};
 	webSocket.onopen = function()
 	{
@@ -32,10 +32,10 @@ function connect() {
 	  window.chart.clear();
 	  window.map.clear();
 	  senden({"get": "tail"});
-	  window.location = "#wahlpage";
+	  gotoScreen('home');
 	}
 	webSocket.onclose = function() {
-	  window.location = "#loaderpage";
+	  gotoScreen('loaderpage');
 	  setTimeout(connect, 2000);
 	}
 	webSocket.onmessage = function(event)
