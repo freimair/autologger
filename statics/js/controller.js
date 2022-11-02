@@ -28,6 +28,8 @@ function gotoScreen(screen) {
   }
 
 	$('#controls').children().hide();
+	$('#safetyBriefingButton').show();
+	$('#weatherReportButton').show();
 	
 	switch(screen) {
 	case "landing":
