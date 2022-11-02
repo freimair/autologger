@@ -55,11 +55,15 @@ class MyMap {
           this.track = L.polyline(latlngs, { color: "red" }).addTo(this.map);
         }
         this.boatMarker.setLatLng(newPosition);
+        this.boatMarker.setRotationAngle(incoming.CoG);
       } else
         this.boatMarker = L.marker([
           incoming.Latitude,
           incoming.Longitude,
-        ]).addTo(this.map);
+        ], {
+          icon: L.icon({iconUrl:"images/boat.svg", className: "boatmarker"}),
+          rotationAngle: incoming.CoG
+        }).addTo(this.map);
       this.map.panTo(newPosition);
     }
     if(incoming.Windspeed && incoming.WindAngle) {
