@@ -225,9 +225,11 @@ $(document).ready(function()
    * ##############################################################################
    */
   $('#createLogbookButton').click(function() {
+      $('#settingsPage').dialog('close');
       gotoScreen('createLogbookPage');
   });
   $('#loadLogbookButton').click(function() {
+      $('#settingsPage').dialog('close');
       senden({'get':'logbooks'})
       gotoScreen('loadLogbookPage');
   });
@@ -248,16 +250,12 @@ $(document).ready(function()
    */
   $('#saveLogbookButton').click(function() {
        senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
-       window.location = '#wahlpage';
-       $('.homeButton').show(); // in case we had no logbook available before
+       gotoScreen('home');
+  });
+  $('.cancelButton').click(function() {
+       gotoScreen('home');
   });
   $('.homeButton').click(function() {
        window.location = '#wahlpage';
-  });
-
-  $('#logbookList').click(function(event) {
-      var target = getEventTarget(event);
-      senden({"load":target.name});
-      window.location = '#wahlpage';
   });
 });
