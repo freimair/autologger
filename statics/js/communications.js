@@ -108,8 +108,10 @@ function jasonAuswerten(was) {
         $("#dataCoG").text(json.logline.CoG);
         $("#dataSoG").text(json.logline.SoG);
     }
-    if(json.logline.status)
+    if(json.logline.status) {
         $("#dataStatus").text(json.logline.status);
+        gotoScreen(json.logline.status);
+    }
   }
 }
 

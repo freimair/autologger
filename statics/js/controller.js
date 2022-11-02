@@ -155,13 +155,13 @@ $(document).ready(function()
     senden({status: "reef"});
   });
   $('#hafenButton').click(function() {
-    senden({status: "landed-harbor"});
+    senden({status: "landed"});
   });
   $('#ankerButton').click(function() {
-    senden({status: "landed-anchor"});
+    senden({status: "landed"});
   });
   $('#bojeButton').click(function() {
-    senden({status: "landed-buoy"});
+    senden({status: "landed"});
   });
   $('#safetyBriefingButton').click(function(){
     lastGuiScreen = guiScreen;
