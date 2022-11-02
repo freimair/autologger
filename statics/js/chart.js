@@ -95,7 +95,7 @@ class Charts {
             yAxisID: "y",
           },
           {
-            label: "Direction",
+            label: "Angle",
             data: [],
             fill: false,
             borderColor: "rgb(0, 0, 255)",

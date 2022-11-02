@@ -62,132 +62,42 @@
       <button id="showLogbookControlsButton">Logbook</button>
       <button id="showSettingsButton">Settings</button>
     </div>
-    <div id="popup" style="display: none;"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
-    <div class="homeScreen" id="fehlerpage">
-      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-        <h1>Logbook Error</h1>
-      </div>
+    <div id="popup" style="display: none;" title="Details"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
+    <div class="homeScreen" id="fehlerpage" title="Fehler">
 
-      <div role="main" class="ui-content">
-        <div class="schubfeld">
-          <div class="schubRechts">
-            <div class="klappe1d">
-              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-            <div class="klappe1u">
-              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-          </div>
-          <div class="schubMitte">
-            <h4>Controller</h4>
-          </div>
-          <div class="schubLinks">
-
-          </div>
-        </div>
-        <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td align="center" valign="middle"><span id="fehler"></span></td>
-          </tr>
-        </table>
-        <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
-      </div>
+      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="middle"><span id="fehler"></span></td>
+        </tr>
+      </table>
+      <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
     </div>
 
     <div class="homeScreen" id="createLogbookPage">
-      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-        <h1>create Logbook</h1>
-        <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
-        <a id="saveLogbookButton" class="ui-btn-right ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-save">Speichern</a>
-      </div>
-
-      <div role="main" class="ui-content">
-        <div class="schubfeld">
-          <div class="schubRechts">
-            <div class="klappe1d">
-              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-            <div class="klappe1u">
-              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-          </div>
-          <div class="schubMitte">
-            <h4>Controller</h4>
-          </div>
-          <div class="schubLinks">
-
-          </div>
-        </div>
-        <label for="text-3">Bezeichnung:</label>
-        <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
-        <label for="logbookDescription">Beschreibung:</label>
-        <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
-      </div>
+      <h1>Create Logbook</h1>
+      <label for="text-3">Bezeichnung:</label>
+      <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
+      <label for="logbookDescription">Beschreibung:</label>
+      <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
     </div>
 
     <div class="homeScreen" id="loadLogbookPage">
-      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-        <h1>load Logbook</h1>
-        <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
-      </div>
-
-      <div role="main" class="ui-content">
-        <div class="schubfeld">
-          <div class="schubRechts">
-            <div class="klappe1d">
-              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-            <div class="klappe1u">
-              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-          </div>
-          <div class="schubMitte">
-            <h4>Controller</h4>
-          </div>
-          <div class="schubLinks">
-
-          </div>
-        </div>
-        <ul data-role="listview" data-inset="true" id="logbookList">
-        </ul>
-      </div>
+      <h1>Load Logbook</h1>
+      <ul data-role="listview" data-inset="true" id="logbookList">
+      </ul>
     </div>
 
-    <div class="homeScreen" id="settingsPage">
+    <div id="settingsPage" style="display: none;" title="Logbook Settings">
       <ul data-role="listview" data-inset="false" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list ui-listview ui-group-theme-d">
         <li data-icon="plus"><a id="createLogbookButton" href="#">New Logbook</a></li>
         <li data-icon="search"><a id="loadLogbookButton" href="#">Load Logbook</a></li>
         <li data-icon="save"><a id="exportLogbookButton">Export Logbook</a></li>
         <li data-icon="save"><a id="exportGpxButton">Export GPX</a></li>
-        <li data-icon="gear"><a id="settingsButton" href="#">Settings</a></li>
         <li data-icon="power"><a id="quitButton" href="#">Quit</a></li>
       </ul>
     </div>
 
-    <div class="homeScreen" id="wahlpage">
-
-      <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-        <h1>Logbook</h1>
-        <a href="#moreMenu" class="ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-bars">more</a>
-      </div>
-
-      <div role="main" class="ui-content">
-        <div class="schubfeld">
-          <div class="schubRechts">
-            <div class="klappe1d">
-              <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-            <div class="klappe1u">
-              <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-            </div>
-          </div>
-          <div class="schubMitte">
-            <h4>Controller</h4>
-          </div>
-          <div class="schubLinks">
-
-          </div>
-        </div>
+    <div id="wahlpage" style="display: none;" title="Logbook Controls">
         <div id="controls">
           <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
           <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
@@ -212,20 +122,20 @@
       </div>
     </div>
     
-    <div id="table" style="display: none;">
+    <div id="table" style="display: none;" title="Table">
       <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
     </div>
 
-    <div id="chart" style="display: none;">
+    <div id="chart" style="display: none;" title="Graph">
       <canvas id="chart_SoG" width="400" height="75"></canvas>
       <canvas id="chart_weather" width="400" height="75"></canvas>
       <canvas id="chart_wind" width="400" height="75"></canvas>
     </div>
 
-    <div id="map" style="height: 1000px; display: none;"></div>
+    <div id="map" style="height: 1000px; display: none;" title="Map"></div>
 
-    <div id="HUD" style="display: none;">
+    <div id="HUD" style="display: none;" title="HUD">
       <table border="0" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <td width="25%" height="20" align="center" valign="middle">Position</td>

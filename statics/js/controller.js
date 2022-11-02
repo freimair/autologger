@@ -21,6 +21,14 @@ function gotoScreen(screen) {
       $('.homeScreen').hide();
       $('#loaderpage').show();
       return;
+    case "createLogbookPage":
+      $('.homeScreen').hide();
+      $('#createLogbookPage').show();
+      return;
+    case "loadLogbookPage":
+      $('.homeScreen').hide();
+      $('#loadLogbookPage').show();
+      return;
     case "fehler":
       $('.homeScreen').hide();
       $('#fehlerpage').show();
@@ -217,20 +225,17 @@ $(document).ready(function()
    * ##############################################################################
    */
   $('#createLogbookButton').click(function() {
-      window.location = '#createLogbookPage';
+      gotoScreen('createLogbookPage');
   });
   $('#loadLogbookButton').click(function() {
       senden({'get':'logbooks'})
-      window.location = '#loadLogbookPage';
+      gotoScreen('loadLogbookPage');
   });
   $('#exportLogbookButton').click(function() {
       window.location = '/logbook/logbook.csv';
   });
   $('#exportGpxButton').click(function() {
       window.location = '/logbook/track.gpx';
-  });
-  $('#settingsButton').click(function() {
-      window.location = '#settingsPage';
   });
   $('#quitButton').click(function() {
       window.location = window.location.origin;
