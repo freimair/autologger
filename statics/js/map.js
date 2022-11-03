@@ -26,6 +26,14 @@ class MyMap {
       nautic: true
     }));
 
+    let options = {
+      unit: 'nauticalmiles',
+      showBearings: true,
+      clearMeasurementsOnStop: false,
+      showClearControl: true
+    };
+    L.control.polylineMeasure(options).addTo(this.map);
+
     this.map.on("zoomend", (e) => {
       let ratio = 40 - 2 * e.target.getZoom();
       for (let i = 0; i < this.windArrows.length; i++) {
