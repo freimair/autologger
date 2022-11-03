@@ -34,7 +34,7 @@ class MyMap {
     });
 
     this.windIndicators = {};
-    [5, 10, 15, 20, 25, 30, 35, 40, 45].forEach((current) => {
+    [0, 5, 10, 15, 20, 25, 30, 35, 40, 45].forEach((current) => {
         this.windIndicators[current] = L.icon({
             iconUrl: 'images/' + current + 'kn.svg',
             className: 'windarrow'
