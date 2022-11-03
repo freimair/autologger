@@ -6,7 +6,8 @@ from apps.logbook.Accumulator import Accumulator
 from sources.GPSviaUSB import GPSviaUSB
 from sources.NMEA2000 import NMEA2000
 from sources.Weatherstation import  Weatherstation
-from sources.MockDatasource import MockDatasource
+from sources.ReplayDatasource import ReplayDatasource
+from sources.GeneratorDatasource import GeneratorDatasource
 from sources.WeatherReport_meteohr import WeatherReport
 
 
@@ -27,8 +28,13 @@ async def feed(request, ws):
 
 class Router:
     def __init__(self, app):
-        self.sources=[MockDatasource("mocktrip1.csv", 0.1, Accumulator(app, self, "telemetry")),
-                      MockDatasource("mockWeather1.csv", 4, Accumulator(app, self, "weather"))]
+        #self.sources=[ReplayDatasource("mocktrip1.csv", 0.1, Accumulator(app, self, "telemetry")),
+        #              ReplayDatasource("mockWeather1.csv", 4, Accumulator(app, self, "weather"))]
+        self.sources=[]
+        #windAccumulator = Accumulator(app, self, "telemetry")
+        #self.sources=[GeneratorDatasource("Windspeed", 0, 45, 1, 0.2, windAccumulator),
+        #              GeneratorDatasource("WindAngle", 0, 360, 0.2, 0.2, windAccumulator),
+        #              ReplayDatasource("20221021.logbook", 0.2, Accumulator(app, self, "telemetry"))]
         for current in self.sources:
             app.add_task(current.arm())
 
