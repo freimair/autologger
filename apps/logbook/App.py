@@ -198,7 +198,7 @@ class App:
         logline["DateTime"] = sepp['DateTime']
         logline.update(entry)
 
-        return json.dumps({"status": data.get("status"), "logline": logline})
+        return json.dumps({"logline": logline})
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):

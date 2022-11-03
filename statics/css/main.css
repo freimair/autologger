@@ -90,3 +90,7 @@
   margin-left:-10px;
   transform-origin: center !important;
 }
+
+#map {
+  overflow: hidden;
+}

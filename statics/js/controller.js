@@ -12,8 +12,32 @@ var lastGuiScreen = "";
 var guiScreen = "landed";
 
 function gotoScreen(screen) {
+  switch(screen) {
+    case "home":
+      $('.homeScreen').hide();
+      $("#home").show();
+      return;
+    case "loaderpage":
+      $('.homeScreen').hide();
+      $('#loaderpage').show();
+      return;
+    case "createLogbookPage":
+      $('.homeScreen').hide();
+      $('#createLogbookPage').show();
+      return;
+    case "loadLogbookPage":
+      $('.homeScreen').hide();
+      $('#loadLogbookPage').show();
+      return;
+    case "fehler":
+      $('.homeScreen').hide();
+      $('#fehlerpage').show();
+      return;
+  }
 
 	$('#controls').children().hide();
+	$('#safetyBriefingButton').show();
+	$('#weatherReportButton').show();
 	
 	switch(screen) {
 	case "landing":
@@ -83,6 +107,48 @@ $(document).ready(function()
       autoKlappe = 0;
     }
   });
+
+  /*
+   * ##############################################################################
+   * ## Widget Controls ###########################################################
+   * ##############################################################################
+   */
+
+  $('#showMapButton').click(function() {
+    $('#map').dialog({
+      width: 500,
+      height: 500,
+      open: function( event, ui ) {window.map.refresh()},
+      resizeStop: function( event, ui ) {window.map.refresh()}
+    });
+    //window.map.refresh();
+  })
+
+  $('#showGraphButton').click(function() {
+    $('#chart').dialog({
+      width: 800,
+      height: 500
+    });
+  })
+
+  $('#showTableButton').click(function() {
+    $('#table').dialog({
+      width: 500,
+      height: 500
+    });
+  })
+
+  $('#showLogbookControlsButton').click(function() {
+    $('#wahlpage').dialog();
+  })
+
+  $('#showSettingsButton').click(function() {
+    $('#settingsPage').dialog();
+  })
+
+  $('#showHudButton').click(function() {
+    $('#HUD').dialog();
+  })
   
   /*
    * ##############################################################################
@@ -111,13 +177,13 @@ $(document).ready(function()
     senden({status: "reef"});
   });
   $('#hafenButton').click(function() {
-    senden({status: "landed-harbor"});
+    senden({status: "landed"});
   });
   $('#ankerButton').click(function() {
-    senden({status: "landed-anchor"});
+    senden({status: "landed"});
   });
   $('#bojeButton').click(function() {
-    senden({status: "landed-buoy"});
+    senden({status: "landed"});
   });
   $('#safetyBriefingButton').click(function(){
     lastGuiScreen = guiScreen;
@@ -171,20 +237,19 @@ $(document).ready(function()
    * ##############################################################################
    */
   $('#createLogbookButton').click(function() {
-      window.location = '#createLogbookPage';
+      $('#settingsPage').dialog('close');
+      gotoScreen('createLogbookPage');
   });
   $('#loadLogbookButton').click(function() {
+      $('#settingsPage').dialog('close');
       senden({'get':'logbooks'})
-      window.location = '#loadLogbookPage';
+      gotoScreen('loadLogbookPage');
   });
   $('#exportLogbookButton').click(function() {
       window.location = '/logbook/logbook.csv';
   });
   $('#exportGpxButton').click(function() {
       window.location = '/logbook/track.gpx';
-  });
-  $('#settingsButton').click(function() {
-      window.location = '#settingsPage';
   });
   $('#quitButton').click(function() {
       window.location = window.location.origin;
@@ -197,16 +262,12 @@ $(document).ready(function()
    */
   $('#saveLogbookButton').click(function() {
        senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
-       window.location = '#wahlpage';
-       $('.homeButton').show(); // in case we had no logbook available before
+       gotoScreen('home');
+  });
+  $('.cancelButton').click(function() {
+       gotoScreen('home');
   });
   $('.homeButton').click(function() {
        window.location = '#wahlpage';
-  });
-
-  $('#logbookList').click(function(event) {
-      var target = getEventTarget(event);
-      senden({"load":target.name});
-      window.location = '#wahlpage';
   });
 });

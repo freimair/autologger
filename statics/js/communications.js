@@ -23,7 +23,7 @@ function connect() {
 	{
 	  connected = 0;
 	  $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
-	  window.location = "#fehlerpage";
+	  gotoScreen('fehler');
 	};
 	webSocket.onopen = function()
 	{
@@ -32,10 +32,10 @@ function connect() {
 	  window.chart.clear();
 	  window.map.clear();
 	  senden({"get": "tail"});
-	  window.location = "#wahlpage";
+	  gotoScreen('home');
 	}
 	webSocket.onclose = function() {
-	  window.location = "#loaderpage";
+	  gotoScreen('loaderpage');
 	  setTimeout(connect, 2000);
 	}
 	webSocket.onmessage = function(event)
@@ -73,9 +73,8 @@ function jasonAuswerten(was) {
   if(json.logbooks != undefined) {
     $('#logbookList').empty();
     json.logbooks.forEach(function(item) {
-      $('#logbookList').append('<li data-icon="carat-r"><a name="' + item.id + '">' + item.title + "</a></li>");
+      $('#logbookList').append('<li data-icon="carat-r"><a onclick="senden({\'load\':' + item.id + '})">' + item.title + "</a></li>");
     });
-    $('#logbookList').listview().listview("refresh");
   }
 
   /*
@@ -98,7 +97,7 @@ function jasonAuswerten(was) {
   if(json.logline != undefined) {
     if(json.logline.message) {
       tmp = json.logline.message;
-      json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').show()" >Show</button>';
+      json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
     }
     window.table.add(json.logline);
     window.chart.add(json.logline);
@@ -108,8 +107,10 @@ function jasonAuswerten(was) {
         $("#dataCoG").text(json.logline.CoG);
         $("#dataSoG").text(json.logline.SoG);
     }
-    if(json.logline.status)
+    if(json.logline.status) {
         $("#dataStatus").text(json.logline.status);
+        gotoScreen(json.logline.status);
+    }
   }
 }
 

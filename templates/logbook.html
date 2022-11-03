@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="css/main.css"/>
 
     <script src="j/jquery-3.5.1.min.js"></script>
+    <script src="j/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="j/jquery-ui.css">
+
 
     <script src="js/controller.js"></script>
     <script src="js/communications.js"></script>
@@ -34,367 +37,108 @@
     <script src="js/message_templates.js"></script>
   </head>
   <body>
-    <div id="eingabefeld"> <!-- onmousedown="startDrag('#eingabefeld');">-->
-      <div id="popup"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
-      <div data-role="page" data-theme="d" id="loaderpage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Logbook - starting up</h1>
-        </div>
+    <div class="homeScreen" id="loaderpage">
+      <h1>Logbook - starting up</h1>
 
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
+      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" height="30">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="center" height="25" valign="middle">Verbinde mit Server ...</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle">
+            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="homeScreen"  id="home" style="display: none;">
+      <button id="showMapButton">Map</button>
+      <button id="showGraphButton">Graph</button>
+      <button id="showTableButton">Table</button>
+      <button id="showHudButton">HUD</button>
+      <button id="showLogbookControlsButton">Logbook</button>
+      <button id="showSettingsButton">Settings</button>
+    </div>
+    <div id="popup" style="display: none;" title="Details"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
+    <div class="homeScreen" id="fehlerpage" title="Fehler">
 
-            </div>
+      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="middle"><span id="fehler"></span></td>
+        </tr>
+      </table>
+      <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
+    </div>
+
+    <div class="homeScreen" id="createLogbookPage">
+      <h1>Create Logbook</h1>
+      <label for="text-3">Bezeichnung:</label>
+      <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
+      <label for="logbookDescription">Beschreibung:</label>
+      <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
+      <button id="saveLogbookButton">Save</button>
+      <button class="cancelButton">Cancel</button>
+    </div>
+
+    <div class="homeScreen" id="loadLogbookPage">
+      <h1>Load Logbook</h1>
+      <ul data-role="listview" data-inset="true" id="logbookList">
+      </ul>
+      <button class="cancelButton">Cancel</button>
+    </div>
+
+    <div id="settingsPage" style="display: none;" title="Logbook Settings">
+      <ul data-role="listview" data-inset="false" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list ui-listview ui-group-theme-d">
+        <li data-icon="plus"><a id="createLogbookButton" href="#">New Logbook</a></li>
+        <li data-icon="search"><a id="loadLogbookButton" href="#">Load Logbook</a></li>
+        <li data-icon="save"><a id="exportLogbookButton">Export Logbook</a></li>
+        <li data-icon="save"><a id="exportGpxButton">Export GPX</a></li>
+        <li data-icon="power"><a id="quitButton" href="#">Quit</a></li>
+      </ul>
+    </div>
+
+    <div id="wahlpage" style="display: none;" title="Logbook Controls">
+        <div id="controls">
+          <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
+          <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
+          <button data-icon="boat" data-iconpos="top" id="segelButton" data-corners="false">Segel</button>
+          <button data-icon="engine" data-iconpos="top" id="motorButton" data-corners="false">Motor</button>
+          <button data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Anlegen</button>
+          <button data-icon="boat" data-iconpos="top" id="ablegenButton" data-corners="false">Ablegen</button>
+          <button data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</button>
+          <button data-icon="anker" data-iconpos="top" data-corners="false" id="ankerButton">Anker</button>
+          <button data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</button>
+          <button data-icon="pen" data-iconpos="top" id="safetyBriefingButton" data-corners="false">Safety Briefing</button>
+          <button data-icon="pen" data-iconpos="top" id="weatherReportButton" data-corners="false">Weather Report</button>
+          <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
+          <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
+          <div id="sonstigesArea">
+              <h1 id="sonstigesSubject"></h1>
+              <div id="sonstigesContent"></div>
           </div>
-          <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-            <tr>
-              <td align="center" height="30">&nbsp;</td>
-            </tr>
-            <tr>
-              <td align="center" height="25" valign="middle">Verbinde mit Server ...</td>
-            </tr>
-            <tr>
-              <td align="center" valign="middle">
-                <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-              </td>
-            </tr>
-          </table>
-
-        </div>
-      </div>
-
-      <div data-role="page" data-theme="d" id="createLogbookPage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>create Logbook</h1>
-          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
-          <a id="saveLogbookButton" class="ui-btn-right ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-save">Speichern</a>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-          <label for="text-3">Bezeichnung:</label>
-          <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
-          <label for="logbookDescription">Beschreibung:</label>
-          <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
-        </div>
-      </div>
-
-      <div data-role="page" data-theme="d" id="loadLogbookPage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>load Logbook</h1>
-          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-          <ul data-role="listview" data-inset="true" id="logbookList">
-          </ul>
-        </div>
-      </div>
-
-      <div data-role="page" data-theme="d" id="settingsPage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Logbook Settings</h1>
-          <a class="homeButton ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-back">Zurück</a>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-
-          <div class="ui-body">
-            <div class="ui-bar ui-bar-d">
-              <h3>Common</h3>
-            </div>
-            <div class="ui-body ui-body-d">
-              <div data-role="collapsible">
-                <h4>active views</h4>
-                <fieldset data-role="controlgroup" data-iconpos="right">
-                  <input type="checkbox" name="cbControls" id="cbControls">
-                  <label for="cbControls">controls</label>
-                  <input type="checkbox" name="cbMap" id="cbMap">
-                  <label for="cbMap">map</label>
-                  <input type="checkbox" name="cbHud" id="cbHud">
-                  <label for="cbHud">HUD</label>
-                  <input type="checkbox" name="cbTable" id="cbTable">
-                  <label for="cbTable">table</label>
-                  <input type="checkbox" name="cbGraph" id="cbGraph">
-                  <label for="cbGraph">graph</label>
-                  <input type="checkbox" name="cbViewsElse" id="cbViewsElse">
-                  <label for="cbViewsElse">...</label>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <div class="ui-body">
-            <div class="ui-bar ui-bar-d">
-              <h3>Controls</h3>
-            </div>
-            <div class="ui-body ui-body-d">
-              <div data-role="collapsible">
-                <h4>Available controls</h4>
-                <fieldset data-role="controlgroup" data-iconpos="right">
-                  <input type="checkbox" name="cbLanded" id="cbLanded">
-                  <label for="cbLanded">landed</label>
-                  <input type="checkbox" name="cdSailing" id="cdSailing">
-                  <label for="cdSailing">sailing</label>
-                  <input type="checkbox" name="cdReef" id="cdReef">
-                  <label for="cdReef">reef</label>
-                  <input type="checkbox" name="cbMotoring" id="cbMotoring">
-                  <label for="cbMotoring">motoring</label>
-                  <input type="checkbox" name="cdStrecktau" id="cdStrecktau">
-                  <label for="cdStrecktau">Strecktau</label>
-                  <input type="checkbox" name="cbLivevests" id="cbLivevests">
-                  <label for="cbLivevests">live vests</label>
-                  <input type="checkbox" name="cbMob" id="cbMob">
-                  <label for="cbMob">mob</label>
-                  <input type="checkbox" name="cbWatch" id="cbWatch">
-                  <label for="cbWatch">Watch</label>
-                  <input type="checkbox" name="cbControlsElse" id="cbControlsElse">
-                  <label for="cbControlsElse">...</label>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <div class="ui-body">
-            <div class="ui-bar ui-bar-d">
-              <h3>Table</h3>
-            </div>
-            <div class="ui-body ui-body-d">
-              <div data-role="collapsible">
-                <h4>visible Columns</h4>
-                <fieldset data-role="controlgroup" data-iconpos="right">
-                  <input type="checkbox" name="cbCoG" id="cbCoG">
-                  <label for="cbCoG">CoG</label>
-                  <input type="checkbox" name="cbSoG" id="cbSoG">
-                  <label for="cbSoG">SoG</label>
-                  <input type="checkbox" name="cbWindspeed" id="cbWindspeed">
-                  <label for="cbWindspeed">Windspeed</label>
-                  <input type="checkbox" name="cbDistance" id="cbDistance">
-                  <label for="cbDistance">distance</label>
-                  <input type="checkbox" name="cbColumnsElse" id="cbColumnsElse">
-                  <label for="cbColumnsElse">...</label>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <div class="ui-body">
-            <div class="ui-bar ui-bar-d">
-              <h3>Graph</h3>
-            </div>
-            <div class="ui-body ui-body-d">
-              <ul>
-                <li>create graphs</li>
-                <li>add data series</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-role="page" data-theme="d" id="wahlpage">
-        <div data-role="panel" data-position-fixed="true" id="moreMenu" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open" data-position="left" data-display="overlay" data-theme="d">
-          <div class="ui-panel-inner">
-            <ul data-role="listview" data-inset="false" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list ui-listview ui-group-theme-d">
-              <li data-icon="plus"><a id="createLogbookButton" href="#">New Logbook</a></li>
-              <li data-icon="search"><a id="loadLogbookButton" href="#">Load Logbook</a></li>
-              <li data-icon="save"><a id="exportLogbookButton">Export Logbook</a></li>
-              <li data-icon="save"><a id="exportGpxButton">Export GPX</a></li>
-              <li data-icon="gear"><a id="settingsButton" href="#">Settings</a></li>
-              <li data-icon="power"><a id="quitButton" href="#">Quit</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Logbook</h1>
-          <a href="#moreMenu" class="ui-btn-left ui-btn ui-btn-inline ui-corner-all ui-btn-icon-left ui-icon-bars">more</a>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-          <div id="controls">
-	          <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
-	          <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
-	          <button data-icon="boat" data-iconpos="top" id="segelButton" data-corners="false">Segel</button>
-	          <button data-icon="engine" data-iconpos="top" id="motorButton" data-corners="false">Motor</button>
-	          <button data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Anlegen</button>
-	          <button data-icon="boat" data-iconpos="top" id="ablegenButton" data-corners="false">Ablegen</button>
-	          <button data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</button>
-	          <button data-icon="anker" data-iconpos="top" data-corners="false" id="ankerButton">Anker</button>
-	          <button data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</button>
-	          <button data-icon="pen" data-iconpos="top" id="safetyBriefingButton" data-corners="false">Safety Briefing</button>
-	          <button data-icon="pen" data-iconpos="top" id="weatherReportButton" data-corners="false">Weather Report</button>
-	          <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
-	          <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
-	          <div id="sonstigesArea">
-	              <h1 id="sonstigesSubject"></h1>
-	              <div id="sonstigesContent"></div>
-	          </div>
-	          <button data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</button>
-	          <button data-icon="back" data-iconpos="top" data-corners="false" id="backButton">Zurück</button>
-          </div>
-        </div>
-      </div>
-
-      <div data-role="page" data-theme="d" id="fehlerpage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Logbook Error</h1>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-          <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-            <tr>
-              <td align="center" valign="middle"><span id="fehler"></span></td>
-            </tr>
-          </table>
-          <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
-        </div>
-      </div>
-
-
-      <div data-role="page" data-theme="d" id="userpage">
-        <div data-role="header" data-position="fixed" data-fullscreen="true" data-tap-toggle="false">
-          <h1>Logbook User</h1>
-        </div>
-
-        <div role="main" class="ui-content">
-          <div class="schubfeld">
-            <div class="schubRechts">
-              <div class="klappe1d">
-                <input type="button" data-icon="arrow-d" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-              <div class="klappe1u">
-                <input type="button" data-icon="arrow-u" data-iconpos="notext" value="Icon only" class="einklappen">
-              </div>
-            </div>
-            <div class="schubMitte">
-              <h4>Controller</h4>
-            </div>
-            <div class="schubLinks">
-
-            </div>
-          </div>
-
-          <label for="nname" class="ui-hidden-accessible">Familienname</label>
-          <input type="text" name="nname" id="nname" value="" data-clear-btn="true" placeholder="Familienname" data-corners="false"/>
-          <label for="vname" class="ui-hidden-accessible">Vorname</label>
-          <input type="text" name="vname" id="vname" value="" data-clear-btn="true" placeholder="Vorname" data-corners="false"/>
-          <label for="gebdat">Geburtsdatum</label>
-          <input type="date" name="gebdat" id="gebdat" value="" data-clear-btn="true" placeholder="Geburtsdatum" data-corners="false"/>
-          <label for="gebort" class="ui-hidden-accessible">Geburtsort</label>
-          <input type="text" name="gebort" id="gebort" value="" data-clear-btn="true" placeholder="Geburtsort" data-corners="false"/>
-          <label for="staat" class="ui-hidden-accessible">Statsbürgerschaft</label>
-          <input type="text" name="staat" id="staat" value="" data-clear-btn="true" placeholder="Staatsbürgerschaft" data-corners="false"/>
-          <label for="rpnr" class="ui-hidden-accessible">Reisepassnummer</label>
-          <input type="text" name="rpnr" id="rpnr" value="" data-clear-btn="true" placeholder="Reisepassnummer" data-corners="false"/>
-          <br>
-          <button data-icon="save" data-iconpos="top" id="speicherUser" data-corners="false">Speichern</button>
+          <button data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</button>
+          <button data-icon="back" data-iconpos="top" data-corners="false" id="backButton">Zurück</button>
         </div>
       </div>
     </div>
     
-    <div id="table">
+    <div id="table" style="display: none;" title="Table">
       <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
     </div>
 
-    <div id="chart">
+    <div id="chart" style="display: none;" title="Graph">
       <canvas id="chart_SoG" width="400" height="75"></canvas>
       <canvas id="chart_weather" width="400" height="75"></canvas>
       <canvas id="chart_wind" width="400" height="75"></canvas>
     </div>
 
-    <div id="map" style="height: 300px;"></div>
+    <div id="map" style="display: none;" title="Map"></div>
 
-    <div data-role="footer" data-position="fixed" data-fullscreen="true" id="HUD">
+    <div id="HUD" style="display: none;" title="HUD">
       <table border="0" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <td width="25%" height="20" align="center" valign="middle">Position</td>
