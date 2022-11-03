@@ -115,15 +115,27 @@ $(document).ready(function()
    */
 
   $('#showMapButton').click(function() {
-    $('#map').dialog();
+    $('#map').dialog({
+      width: 500,
+      height: 500,
+      open: function( event, ui ) {window.map.refresh()},
+      resizeStop: function( event, ui ) {window.map.refresh()}
+    });
+    //window.map.refresh();
   })
 
   $('#showGraphButton').click(function() {
-    $('#chart').dialog();
+    $('#chart').dialog({
+      width: 800,
+      height: 500
+    });
   })
 
   $('#showTableButton').click(function() {
-    $('#table').dialog();
+    $('#table').dialog({
+      width: 500,
+      height: 500
+    });
   })
 
   $('#showLogbookControlsButton').click(function() {

@@ -81,6 +81,10 @@ class MyMap {
         }
     }
   }
+
+  refresh() {
+    this.map.invalidateSize(false);
+  }
 }
 
 $(document).ready(function () {
