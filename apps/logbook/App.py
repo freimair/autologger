@@ -174,7 +174,7 @@ class App:
                 await ws.send('{"error": "noLogbook"}')
         elif "tail" in data.get("get"):
             try:
-                raw = self.current.tail(5)
+                raw = self.current.tail(550)
                 for current in raw:
                     await ws.send(json.dumps({"logline": current}))
             except:
