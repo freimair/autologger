@@ -228,7 +228,7 @@ $(document).ready(function()
   });
   $('#popup-close').click(function()
   {
-    $('#popup').hide();
+    $('#popup').dialog('close');
   })
 
   /*
