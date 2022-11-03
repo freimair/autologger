@@ -74,7 +74,7 @@ class MyMap {
         }).addTo(this.map);
       this.map.panTo(newPosition);
     }
-    if(incoming.Windspeed && incoming.WindAngle) {
+    if(incoming.Windspeed && incoming.WindAngle && this.boatMarker) {
         if(this.windArrows && 1 < this.windArrows.length) {
             if(50 < this.map.distance(this.windArrows[this.windArrows.length-1].getLatLng(), this.boatMarker.getLatLng())) {
                 let newWindArrow = L.marker(this.boatMarker.getLatLng(), {icon: this.windIndicators[Math.round(incoming.Windspeed / 5) * 5], rotationAngle:incoming.WindAngle}).addTo(this.map);
