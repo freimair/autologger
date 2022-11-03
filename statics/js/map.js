@@ -45,6 +45,8 @@ class MyMap {
   clear() {
     if(this.track)
         this.track.setLatLngs([]);
+    this.windArrows.forEach((current) => {current.remove()});
+    this.windArrows = [];
   }
 
   add(incoming) {
