@@ -77,3 +77,16 @@
     opacity: 0;
   }
 }
+
+.windarrow {
+  height:65px;
+  margin-top:-65px;
+  transform-origin: bottom left !important;
+}
+
+.boatmarker {
+  height:40px;
+  margin-top:-20px;
+  margin-left:-10px;
+  transform-origin: center !important;
+}
