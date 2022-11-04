@@ -2,10 +2,12 @@ var hud;
 
 class Hud {
     add(incoming) {
-        if(incoming.Latitude && incoming.Longitude && incoming.SoG) {
-            $("#dataPos").text(incoming.Latitude + "/" + incoming.Longitude);
+        if(incoming.CoG && incoming.SoG) {
             $("#dataCoG").text(incoming.CoG);
             $("#dataSoG").text(incoming.SoG);
+        }
+        if(incoming.Windspeed && incoming.WindAngle) {
+            $("#dataWind").text(incoming.Windspeed + "kn aus " + incoming.WindAngle + "°");
         }
         if(incoming.status) {
             $("#dataStatus").text(incoming.status);
