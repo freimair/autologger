@@ -1,7 +1,3 @@
-//Variable fürs ein- und ausklappen
-var autoKlappe = 1;
-//Variable ausklappen ende
-
 /*
  * ##############################################################################
  * ######################### Controls GUI State machine #########################
@@ -89,25 +85,6 @@ function gotoScreen(screen) {
 
 $(document).ready(function()
 {
-  $('.einklappen').click(function()
-  {
-
-    if(autoKlappe == 0)
-    {
-      $('.klappe1u').hide();
-      $('.klappe1d').show();
-      $('#eingabefeld').animate({height: '480px'});
-      autoKlappe = 1;
-    }
-    else
-    {
-      $('.klappe1u').show();
-      $('.klappe1d').hide();
-      $('#eingabefeld').animate({height: '50px'});
-      autoKlappe = 0;
-    }
-  });
-
   /*
    * ##############################################################################
    * ## Widget Controls ###########################################################
@@ -121,7 +98,6 @@ $(document).ready(function()
       open: function( event, ui ) {window.map.refresh()},
       resizeStop: function( event, ui ) {window.map.refresh()}
     });
-    //window.map.refresh();
   })
 
   $('#showGraphButton').click(function() {
@@ -266,8 +242,5 @@ $(document).ready(function()
   });
   $('.cancelButton').click(function() {
        gotoScreen('home');
-  });
-  $('.homeButton').click(function() {
-       window.location = '#wahlpage';
   });
 });
