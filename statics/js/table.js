@@ -86,8 +86,8 @@ class Table {
       ],
     });
 
-    // react to visibility change of columns by filtering empty lines
-    //this.table.on('column-visibility.dt', hideEmptyRows);
+    // redraw table on changed visibility of columns
+    this.table.on('column-visibility.dt', () => {this.table.draw();});
 
     // only show certain columns by default. save that to local storage? or to logbook?
     this.table.columns().visible(false);
@@ -105,37 +105,25 @@ class Table {
     }
     this.table.row.add(content).draw();
   }
-
-  getVisibleColumns() {
-    // fetch visible columns
-    let visibleColumns = [];
-    this.table.columns()[0].forEach(function (current) {
-      if (this.table.column(current).visible()) visibleColumns.push(current);
-    });
-
-    return visibleColumns;
-  }
-
-  hideEmptyRows() {
-    visibleColumns = this.getVisibleColumns();
-
-    // remove date/time column from filter
-    visibleColumns.shift();
-
-    // reset search
-    window.table.columns().search("");
-
-    // prepare new search and apply changes by doing a redraw
-    this.table
-      .columns(visibleColumns)
-      .search("^(?:(?!-).)*$\r?\n?", true, true)
-      .draw();
-
-    // in case there is nothing left, remove the filter again. kind of a nasty hack, but it is GEFN
-    if (0 == this.table.page.info().end) this.table.columns().search("").draw();
-  }
 }
 
 $(document).ready(function () {
   window.table = new Table();
 });
+
+// plugin for hiding empty table rows
+// - according to visible columns
+// - excluding DateTime column
+$.fn.dataTable.ext.search.push(
+  function( settings, searchData, index, rowData, counter ) {
+    let show = false;
+
+    settings.aoColumns.forEach((current) => {
+      if(current.bVisible && current.idx != 0) // exclude DateTime
+        show |= searchData[current.idx] !== '-';
+    });
+
+    return show;
+  }
+);
+
