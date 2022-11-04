@@ -98,15 +98,7 @@ function jasonAuswerten(was) {
     window.table.add(json.logline);
     window.chart.add(json.logline);
     window.map.add(json.logline);
-    if(json.logline.Latitude & json.logline.Longitude & json.logline.SoG) {
-        $("#dataPos").text(json.logline.Latitude + "/" + json.logline.Longitude);
-        $("#dataCoG").text(json.logline.CoG);
-        $("#dataSoG").text(json.logline.SoG);
-    }
-    if(json.logline.status) {
-        $("#dataStatus").text(json.logline.status);
-        gotoScreen(json.logline.status);
-    }
+    window.hud.add(json.logline);
   }
 }
 

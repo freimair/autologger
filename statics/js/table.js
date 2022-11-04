@@ -99,9 +99,9 @@ class Table {
   }
 
   add(content) {
-    if(json.logline.message) {
-      tmp = json.logline.message;
-      json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
+    if(content.message) {
+      let tmp = content.message;
+      content.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
     }
     this.table.row.add(content).draw();
   }
