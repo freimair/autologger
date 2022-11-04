@@ -32,6 +32,7 @@ function connect() {
 	  window.chart.clear();
 	  window.map.clear();
 	  senden({"get": "tail"});
+	  senden({"get": "last"});
 	  gotoScreen('home');
 	}
 	webSocket.onclose = function() {
