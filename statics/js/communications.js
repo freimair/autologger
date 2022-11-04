@@ -95,10 +95,6 @@ function jasonAuswerten(was) {
    * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
    */
   if(json.logline != undefined) {
-    if(json.logline.message) {
-      tmp = json.logline.message;
-      json.logline.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
-    }
     window.table.add(json.logline);
     window.chart.add(json.logline);
     window.map.add(json.logline);
