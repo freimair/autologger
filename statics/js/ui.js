@@ -109,8 +109,8 @@ $(document).ready(function()
 
   $('#showTableButton').click(function() {
     $('#table').dialog({
-      width: 500,
-      height: 500
+      width: 700,
+      height: 1000
     });
   })
 
@@ -243,4 +243,6 @@ $(document).ready(function()
   $('.cancelButton').click(function() {
        gotoScreen('home');
   });
+
+  $('#showTableButton').click();
 });
