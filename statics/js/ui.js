@@ -83,6 +83,46 @@ function gotoScreen(screen) {
 	guiScreen = screen;
 }
 
+function createDialog(htmlTag) {
+
+  // load from cookie
+  //cookie = decodeURIComponent(document.cookie);
+
+	cookie = {
+        HUD: {
+          position: [123, 123],
+          width: 500,
+          height: 500,
+          show: true
+        },
+        graph: {
+          position: [123, 123],
+          width: 500,
+          height: 500,
+          show: true
+        },
+        table: {
+          position: [321, 123],
+          width: 500,
+          height: 500,
+          show: true
+        }};
+  layoutTag = "windows=";
+
+  $('#' + htmlTag).dialog({
+    width: cookie[htmlTag]['width'],
+    height: cookie[htmlTag]['height'],
+	position: { my: "left top", at: "left+"+ cookie[htmlTag]['position'][0]+" top+" + cookie[htmlTag]['position'][1], of: window},
+	autoOpen: cookie[htmlTag]['show'],
+	close: function(event, ui) {
+      // save to cookie
+    },
+   resizeStop: function(event, ui) {
+      // save to cookie
+    }
+  });
+}
+
 $(document).ready(function()
 {
   /*
@@ -92,38 +132,44 @@ $(document).ready(function()
    */
 
   $('#showMapButton').click(function() {
-    $('#map').dialog({
+    createDialog('map');
+    /*$('#map').dialog({
       width: 500,
       height: 500,
       open: function( event, ui ) {window.map.refresh()},
       resizeStop: function( event, ui ) {window.map.refresh()}
-    });
+    });*/
   })
 
   $('#showGraphButton').click(function() {
-    $('#chart').dialog({
+    createDialog('chart');
+    /*$('#chart').dialog({
       width: 800,
       height: 500
-    });
+    });*/
   })
 
   $('#showTableButton').click(function() {
-    $('#table').dialog({
+    createDialog('table');
+    /*$('#table').dialog({
       width: 700,
       height: 1000
-    });
+    });*/
   })
 
   $('#showLogbookControlsButton').click(function() {
-    $('#wahlpage').dialog();
+    createDialog('wahlpage');
+//    $('#wahlpage').dialog();
   })
 
   $('#showSettingsButton').click(function() {
-    $('#settingsPage').dialog();
+    createDialog('settingsPage');
+//    $('#settingsPage').dialog();
   })
 
   $('#showHudButton').click(function() {
-    $('#HUD').dialog();
+    createDialog('HUD');
+//    $('#HUD').dialog();
   })
   
   /*
