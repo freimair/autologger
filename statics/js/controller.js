@@ -48,9 +48,84 @@ function jasonAuswerten(was) {
   }
 }
 
+class DisplayAble {
+  htmlTag;
+
+  constructor(htmlTag) {
+    this.htmlTag = htmlTag;
+
+    DisplayAble.createDialog(htmlTag);
+  }
+
+  static createDialog(htmlTag) {
+
+    // load from cookie
+    //cookie = decodeURIComponent(document.cookie);
+
+    let cookie = {
+          HUD: {
+            position: [100, 100],
+            width: 500,
+            height: 500,
+            show: true
+          },
+          map: {
+            position: [300, 300],
+            width: 500,
+            height: 500,
+            show: false
+          },
+          chart: {
+            position: [400, 400],
+            width: 500,
+            height: 500,
+            show: false
+          },
+          wahlpage: {
+            position: [500, 500],
+            width: 500,
+            height: 500,
+            show: true
+          },
+          settingsPage: {
+            position: [600, 600],
+            width: 500,
+            height: 500,
+            show: false
+          },
+          table: {
+            position: [700, 700],
+            width: 500,
+            height: 500,
+            show: true
+          }};
+    let layoutTag = "windows=";
+    let htmlTagWOClassifier = htmlTag.replace('#', '');
+    $(htmlTag).dialog({
+      width: cookie[htmlTagWOClassifier]['width'],
+      height: cookie[htmlTagWOClassifier]['height'],
+    position: { my: "left top", at: "left+"+ cookie[htmlTagWOClassifier]['position'][0]+" top+" + cookie[htmlTagWOClassifier]['position'][1], of: window},
+    autoOpen: cookie[htmlTagWOClassifier]['show'],
+    close: function(event, ui) {
+        // save to cookie
+      },
+    resizeStop: function(event, ui) {
+        // save to cookie
+      }
+    });
+  }
+
+  show() {
+    $(this.htmlTag).dialog('open');
+  }
+}
+
 $(document).ready(function()
 {
+  window.map = new MyMap('#map');
+  window.chart = new Charts('#chart');
+  window.hud = new Hud('#HUD');
+  window.table = new Table('#table');
   // connect to server
   connect();
 });
-

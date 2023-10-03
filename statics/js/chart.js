@@ -1,11 +1,12 @@
 var chart;
 
-class Charts {
+class Charts extends DisplayAble {
   chart_SoG;
   chart_weather;
   chart_wind;
 
-  constructor() {
+  constructor(htmlTag) {
+    super(htmlTag);
     this.chart_SoG = new Chart(document.getElementById("chart_SoG"), {
       type: "line",
       data: {
@@ -179,7 +180,3 @@ class Charts {
     }
   }
 }
-
-$(document).ready(function () {
-  window.chart = new Charts();
-});

@@ -1,6 +1,6 @@
 var map;
 
-class MyMap {
+class MyMap extends DisplayAble {
   map;
   boatMarker;
   track;
@@ -8,7 +8,8 @@ class MyMap {
   windIndicators;
   windArrows = [];
 
-  constructor() {
+  constructor(htmlTag) {
+    super(htmlTag);
     this.map = L.map("map").setView([44, 15.5], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
@@ -100,7 +101,3 @@ class MyMap {
     this.map.invalidateSize(false);
   }
 }
-
-$(document).ready(function () {
-  window.map = new MyMap();
-});

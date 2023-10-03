@@ -1,9 +1,10 @@
 var table;
 
-class Table {
+class Table extends DisplayAble {
   table;
 
-  constructor() {
+  constructor(htmlTag) {
+    super(htmlTag);
     this.table = $("[data-role='table']").DataTable({
       dom: "Bfrtip",
       searching: true,
@@ -106,10 +107,6 @@ class Table {
     this.table.row.add(content).draw();
   }
 }
-
-$(document).ready(function () {
-  window.table = new Table();
-});
 
 // plugin for hiding empty table rows
 // - according to visible columns

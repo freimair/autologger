@@ -83,46 +83,6 @@ function gotoScreen(screen) {
 	guiScreen = screen;
 }
 
-function createDialog(htmlTag) {
-
-  // load from cookie
-  //cookie = decodeURIComponent(document.cookie);
-
-	cookie = {
-        HUD: {
-          position: [123, 123],
-          width: 500,
-          height: 500,
-          show: true
-        },
-        graph: {
-          position: [123, 123],
-          width: 500,
-          height: 500,
-          show: true
-        },
-        table: {
-          position: [321, 123],
-          width: 500,
-          height: 500,
-          show: true
-        }};
-  layoutTag = "windows=";
-
-  $('#' + htmlTag).dialog({
-    width: cookie[htmlTag]['width'],
-    height: cookie[htmlTag]['height'],
-	position: { my: "left top", at: "left+"+ cookie[htmlTag]['position'][0]+" top+" + cookie[htmlTag]['position'][1], of: window},
-	autoOpen: cookie[htmlTag]['show'],
-	close: function(event, ui) {
-      // save to cookie
-    },
-   resizeStop: function(event, ui) {
-      // save to cookie
-    }
-  });
-}
-
 $(document).ready(function()
 {
   /*
@@ -132,7 +92,7 @@ $(document).ready(function()
    */
 
   $('#showMapButton').click(function() {
-    createDialog('map');
+    window.map.show();
     /*$('#map').dialog({
       width: 500,
       height: 500,
@@ -142,34 +102,25 @@ $(document).ready(function()
   })
 
   $('#showGraphButton').click(function() {
-    createDialog('chart');
-    /*$('#chart').dialog({
-      width: 800,
-      height: 500
-    });*/
+    window.chart.show();
   })
 
   $('#showTableButton').click(function() {
-    createDialog('table');
-    /*$('#table').dialog({
-      width: 700,
-      height: 1000
-    });*/
+    window.table.show();
   })
 
   $('#showLogbookControlsButton').click(function() {
-    createDialog('wahlpage');
-//    $('#wahlpage').dialog();
+    DisplayAble.createDialog('#wahlpage');
+    $('#wahlpage').dialog('open');
   })
 
   $('#showSettingsButton').click(function() {
-    createDialog('settingsPage');
-//    $('#settingsPage').dialog();
+    DisplayAble.createDialog('#settingsPage');
+    $('#settingsPage').dialog('open');
   })
 
   $('#showHudButton').click(function() {
-    createDialog('HUD');
-//    $('#HUD').dialog();
+    window.hud.show();
   })
   
   /*
@@ -289,6 +240,4 @@ $(document).ready(function()
   $('.cancelButton').click(function() {
        gotoScreen('home');
   });
-
-  $('#showTableButton').click();
 });

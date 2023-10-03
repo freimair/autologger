@@ -1,6 +1,11 @@
 var hud;
 
-class Hud {
+class Hud extends DisplayAble {
+
+    constructor(htmlTag) {
+        super(htmlTag);
+    }
+
     add(incoming) {
         if(incoming.CoG && incoming.SoG) {
             $("#dataCoG").text(incoming.CoG);
@@ -15,7 +20,3 @@ class Hud {
         }
     }
 }
-
-$(document).ready(function () {
-  window.hud = new Hud();
-});
