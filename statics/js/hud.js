@@ -2,7 +2,7 @@ var hud;
 
 class Hud extends DisplayAble {
 
-    constructor(htmlTag) {
+    constructor() {
         $('body').append(`
       <div id="HUD" style="display: none;" title="HUD">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -21,7 +21,8 @@ class Hud extends DisplayAble {
         </table>
       </div>
         `);
-        super(htmlTag);
+
+        super('#HUD');
     }
 
     add(incoming) {

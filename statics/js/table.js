@@ -11,7 +11,8 @@ class Table extends DisplayAble {
     </div>
     `);
 
-    super(htmlTag);
+    super('#table');
+
     this.table = $("[data-role='table']").DataTable({
       dom: "Bfrtip",
       searching: true,

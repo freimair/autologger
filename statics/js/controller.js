@@ -132,8 +132,9 @@ $(document).ready(async function()
   // connect to server
   await connect();
 
-  window.map = new MyMap('#map');
-  window.chart = new Charts('#chart');
-  window.hud = new Hud('#HUD');
-  window.table = new Table('#table');
+  window.map = new MyMap();
+  window.chart = new Charts();
+  window.hud = new Hud();
+  window.table = new Table();
+  window.logbookControls = new LogbookControls();
 });

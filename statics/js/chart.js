@@ -5,7 +5,7 @@ class Charts extends DisplayAble {
   chart_weather;
   chart_wind;
 
-  constructor(htmlTag) {
+  constructor() {
     $('body').append(`
     <div id="chart" style="display: none;" title="Graph">
       <canvas id="chart_SoG" width="400" height="75"></canvas>
@@ -13,7 +13,9 @@ class Charts extends DisplayAble {
       <canvas id="chart_wind" width="400" height="75"></canvas>
     </div>
     `);
-    super(htmlTag);
+
+    super('#chart');
+
     this.chart_SoG = new Chart(document.getElementById("chart_SoG"), {
       type: "line",
       data: {

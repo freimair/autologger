@@ -8,11 +8,13 @@ class MyMap extends DisplayAble {
   windIndicators;
   windArrows = [];
 
-  constructor(htmlTag) {
+  constructor() {
     $('body').append(`
     <div id="map" style="display: none;" title="Map"></div>
     `);
-    super(htmlTag);
+
+    super('#map');
+
     this.map = L.map("map").setView([44, 15.5], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
