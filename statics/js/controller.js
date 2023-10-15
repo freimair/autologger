@@ -120,7 +120,10 @@ class DisplayAble {
   }
 
   show() {
-    $(this.htmlTag).dialog('open');
+    if($(this.htmlTag).dialog('isOpen'))
+      $(this.htmlTag).dialog('close');
+    else
+      $(this.htmlTag).dialog('open');
   }
 }
 
