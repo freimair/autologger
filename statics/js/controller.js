@@ -68,22 +68,22 @@ class DisplayAble {
 
     let cookie = {
           HUD: {
-            position: [100, 100],
-            width: 500,
-            height: 500,
+            position: [5, 50],
+            width: 750,
+            height: 150,
             show: true
           },
           map: {
-            position: [300, 300],
-            width: 500,
-            height: 500,
-            show: false
+            position: [765, 50],
+            width: 800,
+            height: 380,
+            show: true
           },
           chart: {
-            position: [400, 400],
-            width: 500,
-            height: 500,
-            show: false
+            position: [765, 430],
+            width: 800,
+            height: 525,
+            show: true
           },
           wahlpage: {
             position: [500, 500],
@@ -98,9 +98,9 @@ class DisplayAble {
             show: false
           },
           table: {
-            position: [700, 700],
-            width: 500,
-            height: 500,
+            position: [5, 200],
+            width: 750,
+            height: 755,
             show: true
           }};
     let layoutTag = "windows=";
