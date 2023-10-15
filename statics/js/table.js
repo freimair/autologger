@@ -4,6 +4,13 @@ class Table extends DisplayAble {
   table;
 
   constructor(htmlTag) {
+    $('body').append(`
+    <div id="table" style="display: none;" title="Table">
+      <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
+      </table>
+    </div>
+    `);
+
     super(htmlTag);
     this.table = $("[data-role='table']").DataTable({
       dom: "Bfrtip",

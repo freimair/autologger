@@ -6,6 +6,13 @@ class Charts extends DisplayAble {
   chart_wind;
 
   constructor(htmlTag) {
+    $('body').append(`
+    <div id="chart" style="display: none;" title="Graph">
+      <canvas id="chart_SoG" width="400" height="75"></canvas>
+      <canvas id="chart_weather" width="400" height="75"></canvas>
+      <canvas id="chart_wind" width="400" height="75"></canvas>
+    </div>
+    `);
     super(htmlTag);
     this.chart_SoG = new Chart(document.getElementById("chart_SoG"), {
       type: "line",

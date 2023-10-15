@@ -9,6 +9,9 @@ class MyMap extends DisplayAble {
   windArrows = [];
 
   constructor(htmlTag) {
+    $('body').append(`
+    <div id="map" style="display: none;" title="Map"></div>
+    `);
     super(htmlTag);
     this.map = L.map("map").setView([44, 15.5], 13);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
