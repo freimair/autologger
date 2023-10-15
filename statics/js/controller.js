@@ -75,7 +75,13 @@ class DisplayAble {
           },
           map: {
             position: [765, 50],
-            width: 800,
+            width: 590,
+            height: 380,
+            show: true
+          },
+          logbookControls: {
+            position: [1365, 50],
+            width: 200,
             height: 380,
             show: true
           },
@@ -83,12 +89,6 @@ class DisplayAble {
             position: [765, 430],
             width: 800,
             height: 525,
-            show: true
-          },
-          wahlpage: {
-            position: [500, 500],
-            width: 500,
-            height: 500,
             show: true
           },
           settingsPage: {
