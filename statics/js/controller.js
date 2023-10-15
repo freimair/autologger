@@ -41,10 +41,14 @@ function jasonAuswerten(was) {
    * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
    */
   if(json.logline != undefined) {
-    window.table.add(json.logline);
-    window.chart.add(json.logline);
-    window.map.add(json.logline);
-    window.hud.add(json.logline);
+    if(window.table != undefined)
+      window.table.add(json.logline);
+    if(window.chart != undefined)
+      window.chart.add(json.logline);
+    if(window.map != undefined)
+      window.map.add(json.logline);
+    if(window.hud != undefined)
+      window.hud.add(json.logline);
   }
 }
 
@@ -120,12 +124,13 @@ class DisplayAble {
   }
 }
 
-$(document).ready(function()
+$(document).ready(async function()
 {
+  // connect to server
+  await connect();
+
   window.map = new MyMap('#map');
   window.chart = new Charts('#chart');
   window.hud = new Hud('#HUD');
   window.table = new Table('#table');
-  // connect to server
-  connect();
 });

@@ -2,12 +2,14 @@ var index = 0;
 
 function senden(was) {}
 
-function connect() {
-    setTimeout(init, 1000);
+async function connect() {
+    await new Promise(r => setTimeout(r, 300));
+    init();
 }
 
-function init() {
+async function init() {
     gotoScreen('home');
+    await new Promise(r => setTimeout(r, 200));
     // index=208 is an example weather report
     for (index = 0; index < 250; index++)
         jasonAuswerten(fixtures[index]);
