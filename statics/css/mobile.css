@@ -1,1 +1,31 @@
+* {
+  box-sizing: border-box;
+}
 
+#apps {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 95%;
+  margin-right: 5%;
+  transform-origin: center center;
+  transform: scale(1);
+  transition: transform 0.5s;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (orientation: landscape) {
+  #apps {
+    flex-direction: row;
+  }
+}

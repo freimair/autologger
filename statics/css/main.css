@@ -94,3 +94,7 @@
 #map {
   overflow: hidden;
 }
+
+body, html {
+  height: 100%;
+}
