@@ -60,77 +60,18 @@ class DisplayAble {
     this.htmlTag = "#" + name.toLowerCase();
     $(DisplayAble.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
 
-    DisplayAble.createDialog(this.htmlTag);
-  }
-
-  static createDialog(htmlTag) {
-
-    // load from cookie
-    //cookie = decodeURIComponent(document.cookie);
-
-    let cookie = {
-          hud: {
-            position: [5, 50],
-            width: 750,
-            height: 150,
-            show: true
-          },
-          map: {
-            position: [765, 50],
-            width: 590,
-            height: 380,
-            show: true
-          },
-          logbookcontrols: {
-            position: [1365, 50],
-            width: 200,
-            height: 380,
-            show: true
-          },
-          plots: {
-            position: [765, 430],
-            width: 800,
-            height: 525,
-            show: true
-          },
-          settingsPage: {
-            position: [600, 600],
-            width: 500,
-            height: 500,
-            show: false
-          },
-          table: {
-            position: [5, 200],
-            width: 750,
-            height: 755,
-            show: true
-          }};
-    let layoutTag = "windows=";
-    let htmlTagWOClassifier = htmlTag.replace('#', '');
-    $(htmlTag).dialog({
-      width: cookie[htmlTagWOClassifier]['width'],
-      height: cookie[htmlTagWOClassifier]['height'],
-    position: { my: "left top", at: "left+"+ cookie[htmlTagWOClassifier]['position'][0]+" top+" + cookie[htmlTagWOClassifier]['position'][1], of: window},
-    autoOpen: cookie[htmlTagWOClassifier]['show'],
-    close: function(event, ui) {
-        // save to cookie
-      },
-    resizeStop: function(event, ui) {
-        // save to cookie
-      }
-    });
+    window.windowManager.register(this.htmlTag);
   }
 
   show() {
-    if($(this.htmlTag).dialog('isOpen'))
-      $(this.htmlTag).dialog('close');
-    else
-      $(this.htmlTag).dialog('open');
+    window.windowManager.show(this.htmlTag);
   }
 }
 
 $(document).ready(async function()
 {
+  WindowManager.update();
+
   // connect to server
   await connect();
 
@@ -140,3 +81,5 @@ $(document).ready(async function()
   window.table = new Table();
   window.logbookControls = new LogbookControls();
 });
+
+addEventListener("resize", (event) => {WindowManager.update()});
