@@ -6,15 +6,11 @@ class Plots extends DisplayAble {
   plot_wind;
 
   constructor() {
-    $(DisplayAble.parentTag).append(`
-    <div id="plots" class="app" title="Plots">
+    super(Plots.name, `
       <canvas id="plot_SoG" width="400" height="75"></canvas>
       <canvas id="plot_weather" width="400" height="75"></canvas>
       <canvas id="plot_wind" width="400" height="75"></canvas>
-    </div>
     `);
-
-    super('#plots');
 
     this.plot_SoG = new Chart(document.getElementById("plot_SoG"), {
       type: "line",

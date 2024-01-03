@@ -87,31 +87,27 @@ function gotoScreen(screen) {
 
 class LogbookControls extends DisplayAble {
     constructor() {
-        $(DisplayAble.parentTag).append(`
-        <div id="logbookControls" style="display: none;" title="Logbook Controls">
-          <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
-          <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
-          <button data-icon="boat" data-iconpos="top" id="segelButton" data-corners="false">Segel</button>
-          <button data-icon="engine" data-iconpos="top" id="motorButton" data-corners="false">Motor</button>
-          <button data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Anlegen</button>
-          <button data-icon="boat" data-iconpos="top" id="ablegenButton" data-corners="false">Ablegen</button>
-          <button data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</button>
-          <button data-icon="anker" data-iconpos="top" data-corners="false" id="ankerButton">Anker</button>
-          <button data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</button>
-          <button data-icon="pen" data-iconpos="top" id="safetyBriefingButton" data-corners="false">Safety Briefing</button>
-          <button data-icon="pen" data-iconpos="top" id="weatherReportButton" data-corners="false">Weather Report</button>
-          <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
-          <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
-          <div id="sonstigesArea">
-              <h1 id="sonstigesSubject"></h1>
-              <div id="sonstigesContent"></div>
-          </div>
-          <button data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</button>
-          <button data-icon="back" data-iconpos="top" data-corners="false" id="backButton">Zurück</button>
-        </div>
+        super(LogbookControls.name, `
+            <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
+            <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
+            <button data-icon="boat" data-iconpos="top" id="segelButton" data-corners="false">Segel</button>
+            <button data-icon="engine" data-iconpos="top" id="motorButton" data-corners="false">Motor</button>
+            <button data-icon="poller" data-iconpos="top" id="anlegenButton" data-corners="false">Anlegen</button>
+            <button data-icon="boat" data-iconpos="top" id="ablegenButton" data-corners="false">Ablegen</button>
+            <button data-icon="poller" data-iconpos="top" id="hafenButton" data-corners="false">Hafen</button>
+            <button data-icon="anker" data-iconpos="top" data-corners="false" id="ankerButton">Anker</button>
+            <button data-icon="boje" data-iconpos="top" id="bojeButton" data-corners="false">Boje</button>
+            <button data-icon="pen" data-iconpos="top" id="safetyBriefingButton" data-corners="false">Safety Briefing</button>
+            <button data-icon="pen" data-iconpos="top" id="weatherReportButton" data-corners="false">Weather Report</button>
+            <button data-icon="pen" data-iconpos="top" id="sonstigesButton" data-corners="false">Sonstiges</button>
+            <button data-icon="rettungsring" data-iconpos="top" data-theme="d" id="pobButton" data-corners="false">Person über Bord</button>
+            <div id="sonstigesArea">
+                <h1 id="sonstigesSubject"></h1>
+                <div id="sonstigesContent"></div>
+            </div>
+            <button data-icon="save" data-iconpos="top" id="speichernButton" data-corners="false">Speichern</button>
+            <button data-icon="back" data-iconpos="top" data-corners="false" id="backButton">Zurück</button>
         `);
-
-        super('#logbookControls');
 
         /*
         * ##############################################################################

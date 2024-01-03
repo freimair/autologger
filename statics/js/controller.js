@@ -54,11 +54,13 @@ function jasonAuswerten(was) {
 
 class DisplayAble {
   static parentTag = "#apps";
+  htmlTag;
 
-  constructor(htmlTag) {
-    this.htmlTag = htmlTag;
+  constructor(name, content) {
+    this.htmlTag = "#" + name.toLowerCase();
+    $(DisplayAble.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
 
-    DisplayAble.createDialog(htmlTag);
+    DisplayAble.createDialog(this.htmlTag);
   }
 
   static createDialog(htmlTag) {
@@ -67,7 +69,7 @@ class DisplayAble {
     //cookie = decodeURIComponent(document.cookie);
 
     let cookie = {
-          HUD: {
+          hud: {
             position: [5, 50],
             width: 750,
             height: 150,
@@ -79,13 +81,13 @@ class DisplayAble {
             height: 380,
             show: true
           },
-          logbookControls: {
+          logbookcontrols: {
             position: [1365, 50],
             width: 200,
             height: 380,
             show: true
           },
-          chart: {
+          plots: {
             position: [765, 430],
             width: 800,
             height: 525,
