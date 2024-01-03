@@ -6,7 +6,7 @@ class Charts extends DisplayAble {
   chart_wind;
 
   constructor() {
-    $('body').append(`
+    $(DisplayAble.parentTag).append(`
     <div id="chart" style="display: none;" title="Graph">
       <canvas id="chart_SoG" width="400" height="75"></canvas>
       <canvas id="chart_weather" width="400" height="75"></canvas>

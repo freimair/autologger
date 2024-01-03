@@ -53,7 +53,7 @@ function jasonAuswerten(was) {
 }
 
 class DisplayAble {
-  htmlTag;
+  static parentTag = "#apps";
 
   constructor(htmlTag) {
     this.htmlTag = htmlTag;

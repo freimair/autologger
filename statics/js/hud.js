@@ -3,7 +3,7 @@ var hud;
 class Hud extends DisplayAble {
 
     constructor() {
-        $('body').append(`
+        $(DisplayAble.parentTag).append(`
       <div id="HUD" style="display: none;" title="HUD">
         <table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>

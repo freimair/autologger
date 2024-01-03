@@ -9,7 +9,7 @@ class MyMap extends DisplayAble {
   windArrows = [];
 
   constructor() {
-    $('body').append(`
+    $(DisplayAble.parentTag).append(`
     <div id="map" style="display: none;" title="Map"></div>
     `);
 

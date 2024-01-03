@@ -87,7 +87,7 @@ function gotoScreen(screen) {
 
 class LogbookControls extends DisplayAble {
     constructor() {
-        $('body').append(`
+        $(DisplayAble.parentTag).append(`
         <div id="logbookControls" style="display: none;" title="Logbook Controls">
           <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
           <button data-icon="boat" data-iconpos="top" id="unreefButton" data-corners="false">Ausreffen</button>
