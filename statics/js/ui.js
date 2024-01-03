@@ -16,8 +16,8 @@ $(document).ready(function()
     });*/
   })
 
-  $('#showGraphButton').click(function() {
-    window.chart.show();
+  $('#showPlotButton').click(function() {
+    window.plots.show();
   })
 
   $('#showTableButton').click(function() {

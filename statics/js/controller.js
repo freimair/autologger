@@ -43,8 +43,8 @@ function jasonAuswerten(was) {
   if(json.logline != undefined) {
     if(window.table != undefined)
       window.table.add(json.logline);
-    if(window.chart != undefined)
-      window.chart.add(json.logline);
+    if(window.plots != undefined)
+      window.plots.add(json.logline);
     if(window.map != undefined)
       window.map.add(json.logline);
     if(window.hud != undefined)
@@ -133,7 +133,7 @@ $(document).ready(async function()
   await connect();
 
   window.map = new MyMap();
-  window.chart = new Charts();
+  window.plots = new Plots();
   window.hud = new Hud();
   window.table = new Table();
   window.logbookControls = new LogbookControls();
