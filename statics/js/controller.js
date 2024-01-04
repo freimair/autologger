@@ -41,16 +41,47 @@ function jasonAuswerten(was) {
    * if we receive a logline because we are subscribed to the logline feed, we append the line to the table.
    */
   if(json.logline != undefined) {
-    window.table.add(json.logline);
-    window.chart.add(json.logline);
-    window.map.add(json.logline);
-    window.hud.add(json.logline);
+    if(window.table != undefined)
+      window.table.add(json.logline);
+    if(window.plots != undefined)
+      window.plots.add(json.logline);
+    if(window.map != undefined)
+      window.map.add(json.logline);
+    if(window.hud != undefined)
+      window.hud.add(json.logline);
   }
 }
 
-$(document).ready(function()
+class DisplayAble {
+  static parentTag = "#apps";
+  static tocTag = "#toc";
+  htmlTag;
+
+  constructor(name, content) {
+    this.htmlTag = "#" + name.toLowerCase();
+    $(DisplayAble.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
+    $(DisplayAble.tocTag).append(`<a href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
+
+    window.windowManager.register(this.htmlTag);
+  }
+
+  show() {
+    window.windowManager.show(this.htmlTag);
+  }
+}
+
+$(document).ready(async function()
 {
+  WindowManager.update();
+
   // connect to server
-  connect();
+  await connect();
+
+  window.map = new MyMap();
+  window.plots = new Plots();
+  window.hud = new Hud();
+  window.table = new Table();
+  window.logbookControls = new LogbookControls();
 });
 
+addEventListener("resize", (event) => {WindowManager.update()});

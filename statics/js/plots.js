@@ -1,12 +1,18 @@
-var chart;
+var plots;
 
-class Charts {
-  chart_SoG;
-  chart_weather;
-  chart_wind;
+class Plots extends DisplayAble {
+  plot_SoG;
+  plot_weather;
+  plot_wind;
 
   constructor() {
-    this.chart_SoG = new Chart(document.getElementById("chart_SoG"), {
+    super(Plots.name, `
+      <canvas id="plot_SoG" width="400" height="75"></canvas>
+      <canvas id="plot_weather" width="400" height="75"></canvas>
+      <canvas id="plot_wind" width="400" height="75"></canvas>
+    `);
+
+    this.plot_SoG = new Chart(document.getElementById("plot_SoG"), {
       type: "line",
       data: {
         labels: [],
@@ -33,7 +39,7 @@ class Charts {
       },
     });
 
-    this.chart_weather = new Chart(document.getElementById("chart_weather"), {
+    this.plot_weather = new Chart(document.getElementById("plot_weather"), {
       type: "line",
       data: {
         labels: [],
@@ -81,7 +87,7 @@ class Charts {
       },
     });
 
-    this.chart_wind = new Chart(document.getElementById("chart_wind"), {
+    this.plot_wind = new Chart(document.getElementById("plot_wind"), {
       type: "line",
       data: {
         labels: [],
@@ -131,55 +137,51 @@ class Charts {
   }
 
   clear() {
-    this.chart_SoG.data.labels = [];
-    this.chart_SoG.data.datasets[0].data = [];
-    this.chart_weather.data.labels = [];
-    this.chart_weather.data.datasets[0].data = [];
-    this.chart_wind.data.labels = [];
-    this.chart_wind.data.datasets[0].data = [];
+    this.plot_SoG.data.labels = [];
+    this.plot_SoG.data.datasets[0].data = [];
+    this.plot_weather.data.labels = [];
+    this.plot_weather.data.datasets[0].data = [];
+    this.plot_wind.data.labels = [];
+    this.plot_wind.data.datasets[0].data = [];
   }
 
   add(incoming) {
     if (incoming.SoG) {
-      this.chart_SoG.data.labels.push(incoming.DateTime);
-      this.chart_SoG.data.datasets[0].data.push(incoming.SoG);
+      this.plot_SoG.data.labels.push(incoming.DateTime);
+      this.plot_SoG.data.datasets[0].data.push(incoming.SoG);
 
-      if (150 < this.chart_SoG.data.labels.length) {
-        this.chart_SoG.data.labels.shift();
-        this.chart_SoG.data.datasets[0].data.shift();
+      if (150 < this.plot_SoG.data.labels.length) {
+        this.plot_SoG.data.labels.shift();
+        this.plot_SoG.data.datasets[0].data.shift();
       }
 
-      this.chart_SoG.update();
+      this.plot_SoG.update();
     }
     if (incoming.AirTemperature && incoming.AirPressure) {
-      this.chart_weather.data.labels.push(incoming.DateTime);
-      this.chart_weather.data.datasets[0].data.push(incoming.AirTemperature);
-      this.chart_weather.data.datasets[1].data.push(incoming.AirPressure);
+      this.plot_weather.data.labels.push(incoming.DateTime);
+      this.plot_weather.data.datasets[0].data.push(incoming.AirTemperature);
+      this.plot_weather.data.datasets[1].data.push(incoming.AirPressure);
 
-      if (150 < this.chart_weather.data.labels.length) {
-        this.chart_weather.data.labels.shift();
-        this.chart_weather.data.datasets[0].data.shift();
-        this.chart_weather.data.datasets[1].data.shift();
+      if (150 < this.plot_weather.data.labels.length) {
+        this.plot_weather.data.labels.shift();
+        this.plot_weather.data.datasets[0].data.shift();
+        this.plot_weather.data.datasets[1].data.shift();
       }
 
-      this.chart_weather.update();
+      this.plot_weather.update();
     }
     if (incoming.Windspeed && incoming.WindAngle) {
-      this.chart_wind.data.labels.push(incoming.DateTime);
-      this.chart_wind.data.datasets[0].data.push(incoming.Windspeed);
-      this.chart_wind.data.datasets[1].data.push(incoming.WindAngle);
+      this.plot_wind.data.labels.push(incoming.DateTime);
+      this.plot_wind.data.datasets[0].data.push(incoming.Windspeed);
+      this.plot_wind.data.datasets[1].data.push(incoming.WindAngle);
 
-      if (150 < this.chart_wind.data.labels.length) {
-        this.chart_wind.data.labels.shift();
-        this.chart_wind.data.datasets[0].data.shift();
-        this.chart_wind.data.datasets[1].data.shift();
+      if (150 < this.plot_wind.data.labels.length) {
+        this.plot_wind.data.labels.shift();
+        this.plot_wind.data.datasets[0].data.shift();
+        this.plot_wind.data.datasets[1].data.shift();
       }
 
-      this.chart_wind.update();
+      this.plot_wind.update();
     }
   }
 }
-
-$(document).ready(function () {
-  window.chart = new Charts();
-});

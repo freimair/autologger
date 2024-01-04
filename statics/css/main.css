@@ -94,3 +94,21 @@
 #map {
   overflow: hidden;
 }
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+#toc>a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 0.2em;
+  padding: 0.3em;
+  border: 1px grey solid;
+  background-color: lightgray;
+  text-decoration: none;
+  color: unset;
+}

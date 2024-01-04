@@ -29,7 +29,7 @@ function connect() {
 	{
 	  connected = 1;
 	  window.table.clear();
-	  window.chart.clear();
+	  window.plots.clear();
 	  window.map.clear();
 	  senden({"get": "tail"});
 	  senden({"get": "last"});
