@@ -33,7 +33,7 @@ function gotoScreen(screen) {
       return;
   }
 
-	$('#logbookControls').children().hide();
+	$('#' + LogbookControls.name.toLowerCase()).children().hide();
 	$('#safetyBriefingButton').show();
 	$('#weatherReportButton').show();
 	
