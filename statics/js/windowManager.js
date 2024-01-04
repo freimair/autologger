@@ -8,7 +8,9 @@ class WindowManager {
   static update() {
     let newWindowManager;
 
-    if(Math.min($(window).width(), $(window).height()) >= 768)
+    if(0 == window.connected)
+      newWindowManager = new ClosedLogbook();
+    else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();
     else
       newWindowManager = new MobileWindowManager();
@@ -40,11 +42,29 @@ class WindowManager {
   }
 }
 
-var windowManager = new WindowManager();
+class ClosedLogbook extends WindowManager {
+  getType() {
+    return ClosedLogbook.name;
+  }
+
+  register(id) {
+    $(id).hide();
+    $('#toc-' + id.replace('#', '')).hide();
+    super.register(id);
+  }
+}
+
+var windowManager = new ClosedLogbook();
 
 class MobileWindowManager extends WindowManager {
   getType() {
     return MobileWindowManager.name;
+  }
+
+  register(id) {
+    $(id).show();
+    $('#toc-' + id.replace('#', '')).show();
+    super.register(id);
   }
 
 }
@@ -55,8 +75,7 @@ class DesktopWindowManager extends WindowManager {
   }
 
   register(id) {
-
-    this.registered.push(id);
+    super.register(id);
         // load from cookie
     //cookie = decodeURIComponent(document.cookie);
 
@@ -115,8 +134,7 @@ class DesktopWindowManager extends WindowManager {
 
   unregister(id) {
     $(id).dialog('destroy');
-
-    this.registered = Array.prototype.filter(function (current) {return id !== current; });
+    super.unregister(id);
   }
 
   show(id) {

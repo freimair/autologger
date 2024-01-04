@@ -60,7 +60,7 @@ class DisplayAble {
   constructor(name, content) {
     this.htmlTag = "#" + name.toLowerCase();
     $(DisplayAble.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
-    $(DisplayAble.tocTag).append(`<a href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
+    $(DisplayAble.tocTag).append(`<a id="toc-${name.toLowerCase()}" href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
 
     window.windowManager.register(this.htmlTag);
   }
