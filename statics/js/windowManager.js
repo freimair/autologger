@@ -75,6 +75,7 @@ class DesktopWindowManager extends WindowManager {
   }
 
   register(id) {
+    $('#toc-' + id.replace('#', '')).show();
     super.register(id);
         // load from cookie
     //cookie = decodeURIComponent(document.cookie);
