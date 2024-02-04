@@ -72,39 +72,33 @@ class MobileWindowManager extends WindowManager {
 class DesktopWindowManager extends WindowManager {
   static defaultWindowPositions = {
     hud: {
-      position: [5, 50],
-      width: 750,
-      height: 150,
+      position: {left: 5, top: 50},
+      size: {width: 750, height: 150},
       show: true
     },
     map: {
-      position: [765, 50],
-      width: 590,
-      height: 380,
+      position: {left: 765, top: 50},
+      size: {width: 590, height: 380},
       show: true
     },
     logbookcontrols: {
-      position: [1365, 50],
-      width: 200,
-      height: 380,
+      position: {left: 1365, top: 50},
+      size: {width: 200, height: 380},
       show: true
     },
     plots: {
-      position: [765, 430],
-      width: 800,
-      height: 525,
+      position: {left: 765, top: 430},
+      size: {width: 800, height: 525},
       show: true
     },
     settingsPage: {
-      position: [600, 600],
-      width: 500,
-      height: 500,
+      position: {left: 600, top: 600},
+      size: {width: 500, height: 500},
       show: false
     },
     table: {
-      position: [5, 200],
-      width: 750,
-      height: 755,
+      position: {left: 5, top: 200},
+      size: {width: 750, height: 755},
       show: true
     }
   };
@@ -122,10 +116,10 @@ class DesktopWindowManager extends WindowManager {
 
     let htmlTagWOClassifier = id.replace('#', '');
     $("#" + htmlTagWOClassifier).dialog({
-      width: positions[htmlTagWOClassifier]['width'],
-      height: positions[htmlTagWOClassifier]['height'],
-    position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier]['position'][0]+" top+" + positions[htmlTagWOClassifier]['position'][1], of: window},
-    autoOpen: positions[htmlTagWOClassifier]['show'],
+      width: positions[htmlTagWOClassifier].size.width,
+      height: positions[htmlTagWOClassifier].size.height,
+      position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
+      autoOpen: positions[htmlTagWOClassifier].show,
     close: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
       },
@@ -141,7 +135,7 @@ class DesktopWindowManager extends WindowManager {
   /**
    * Load window positions from cookie or default
    * 
-   * @returns window Positions as map "windowName" => ["position" => [x, y], "width" => int, "height" => int, "show" => bool];
+   * @returns window Positions as map "windowName" => {position => {top => int, left => int}, size => {width => int, height => int}, show => bool};
    */
   static loadPositions() {
 
@@ -164,12 +158,10 @@ class DesktopWindowManager extends WindowManager {
   static setPosition(app, positionInfo) {
     let positions = DesktopWindowManager.loadPositions();
 
-    positions[app].position[0] = positionInfo.position.left;
-    positions[app].position[1] = positionInfo.position.top;
-    if(positionInfo.size) {
-      positions[app].width = positionInfo.size.width;
-      positions[app].height = positionInfo.size.height;
-    }
+    if(positionInfo.position)
+      positions[app].position = positionInfo.position;
+    if(positionInfo.size)
+      positions[app].size = positionInfo.size;
 
     DesktopWindowManager.setCookie(DesktopWindowManager.cookieName, JSON.stringify(positions));
   }
