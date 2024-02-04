@@ -127,11 +127,14 @@ class DesktopWindowManager extends WindowManager {
     position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier]['position'][0]+" top+" + positions[htmlTagWOClassifier]['position'][1], of: window},
     autoOpen: positions[htmlTagWOClassifier]['show'],
     close: function(event, ui) {
-        // save to cookie
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
       },
     resizeStop: function(event, ui) {
-        // save to cookie
-      }
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+      },
+    dragStop: function(event, ui) {
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+      },
     });
   }
 
@@ -151,6 +154,24 @@ class DesktopWindowManager extends WindowManager {
     }
 
     return JSON.parse(rawPositions);
+  }
+
+  /**
+   * 
+   * @param {string} app 
+   * @param {object} positionInfo 
+   */
+  static setPosition(app, positionInfo) {
+    let positions = DesktopWindowManager.loadPositions();
+
+    positions[app].position[0] = positionInfo.position.left;
+    positions[app].position[1] = positionInfo.position.top;
+    if(positionInfo.size) {
+      positions[app].width = positionInfo.size.width;
+      positions[app].height = positionInfo.size.height;
+    }
+
+    DesktopWindowManager.setCookie(DesktopWindowManager.cookieName, JSON.stringify(positions));
   }
 
   unregister(id) {
