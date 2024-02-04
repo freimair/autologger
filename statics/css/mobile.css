@@ -7,7 +7,6 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  height: 95%;
 }
 
 .app {
@@ -23,8 +22,29 @@
   align-items: center;
 }
 
+#content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#apps {
+  flex: 99;
+}
+
 @media (orientation: landscape) {
   #apps {
     flex-direction: row;
+  }
+
+  #content {
+    flex-direction: row;
+  }
+
+  #toc {
+    writing-mode: vertical-lr;
+  }
+  #toc > a {
+    transform: rotate(180deg);
   }
 }
