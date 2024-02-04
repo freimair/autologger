@@ -70,7 +70,7 @@ class MobileWindowManager extends WindowManager {
 }
 
 class DesktopWindowManager extends WindowManager {
-  defaultWindowPositions = {
+  static defaultWindowPositions = {
     hud: {
       position: [5, 50],
       width: 750,
@@ -108,6 +108,7 @@ class DesktopWindowManager extends WindowManager {
       show: true
     }
   };
+  static cookieName = 'windowPositions';
 
   getType() {
     return DesktopWindowManager.name;
@@ -117,7 +118,7 @@ class DesktopWindowManager extends WindowManager {
     $('#toc-' + id.replace('#', '')).show();
     super.register(id);
 
-    let positions = this.loadPositions();
+    let positions = DesktopWindowManager.loadPositions();
 
     let htmlTagWOClassifier = id.replace('#', '');
     $("#" + htmlTagWOClassifier).dialog({
@@ -139,8 +140,17 @@ class DesktopWindowManager extends WindowManager {
    * 
    * @returns window Positions as map "windowName" => ["position" => [x, y], "width" => int, "height" => int, "show" => bool];
    */
-  loadPositions() {
-    return this.defaultWindowPositions;
+  static loadPositions() {
+
+    let rawPositions = DesktopWindowManager.getCookie(DesktopWindowManager.cookieName);
+
+    if('' == rawPositions) {
+      // create cookie
+      this.setCookie(DesktopWindowManager.cookieName, JSON.stringify(DesktopWindowManager.defaultWindowPositions));
+      return DesktopWindowManager.defaultWindowPositions;
+    }
+
+    return JSON.parse(rawPositions);
   }
 
   unregister(id) {
@@ -153,5 +163,36 @@ class DesktopWindowManager extends WindowManager {
       $(id).dialog('close');
     else
       $(id).dialog('open');
+  }
+
+  /**
+   * from https://www.w3schools.com/js/js_cookies.asp
+   * 
+   * @param {string} cname
+   * @returns cookie as string
+   */
+  static getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  /**
+   * from https://www.w3schools.com/js/js_cookies.asp
+   * 
+   * @param {string} cname
+   * @param {string} cvalue
+   */
+  static setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + ";path=/";
   }
 }
