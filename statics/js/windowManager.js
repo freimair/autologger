@@ -121,7 +121,7 @@ class DesktopWindowManager extends WindowManager {
       position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
       autoOpen: positions[htmlTagWOClassifier].show,
     close: function(event, ui) {
-        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui, false);
       },
     resizeStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
@@ -155,13 +155,16 @@ class DesktopWindowManager extends WindowManager {
    * @param {string} app 
    * @param {object} positionInfo 
    */
-  static setPosition(app, positionInfo) {
+  static setPosition(app, positionInfo = new Object(), showDialog = true) {
+    app = app.replace('#', '');
+
     let positions = DesktopWindowManager.loadPositions();
 
     if(positionInfo.position)
       positions[app].position = positionInfo.position;
     if(positionInfo.size)
       positions[app].size = positionInfo.size;
+    positions[app].show = showDialog;
 
     DesktopWindowManager.setCookie(DesktopWindowManager.cookieName, JSON.stringify(positions));
   }
@@ -174,8 +177,10 @@ class DesktopWindowManager extends WindowManager {
   show(id) {
     if($(id).dialog('isOpen'))
       $(id).dialog('close');
-    else
+    else {
       $(id).dialog('open');
+      DesktopWindowManager.setPosition(id);
+    }
   }
 
   /**
