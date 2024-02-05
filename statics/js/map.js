@@ -17,7 +17,7 @@ class MyMap extends DisplayAble {
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(this.map);
-    L.tileLayer("http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png", {
+    L.tileLayer("https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>',
     }).addTo(this.map);

@@ -18,14 +18,6 @@ app = Sanic(__name__)
 async def index(request):
     return response.html(router.getGui())
 
-@app.websocket('/ws')
-async def feedRoot(request, ws):
-    while True:
-        command = await ws.recv()
-        answer = await router.onReceiveCommand(command)
-        if answer:
-            await ws.send(answer)
-
 class Router:
     def __init__(self, app):
         #self.sources=[ReplayDatasource("mocktrip1.csv", 0.1, Accumulator(app, self, "telemetry")),
@@ -46,9 +38,6 @@ class Router:
     async def incoming(self, data1, data2):
         for current in self.apps:
             await current.incoming(data1, data2)
-
-    async def onReceiveCommand(self, data):
-        pass
 
 router = Router(app)
         
