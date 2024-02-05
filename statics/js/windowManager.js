@@ -70,6 +70,40 @@ class MobileWindowManager extends WindowManager {
 }
 
 class DesktopWindowManager extends WindowManager {
+  static defaultWindowPositions = {
+    hud: {
+      position: {left: 5, top: 50},
+      size: {width: 750, height: 150},
+      show: true
+    },
+    map: {
+      position: {left: 765, top: 50},
+      size: {width: 590, height: 380},
+      show: true
+    },
+    logbookcontrols: {
+      position: {left: 1365, top: 50},
+      size: {width: 200, height: 380},
+      show: true
+    },
+    plots: {
+      position: {left: 765, top: 430},
+      size: {width: 800, height: 525},
+      show: true
+    },
+    settingsPage: {
+      position: {left: 600, top: 600},
+      size: {width: 500, height: 500},
+      show: false
+    },
+    table: {
+      position: {left: 5, top: 200},
+      size: {width: 750, height: 755},
+      show: true
+    }
+  };
+  static cookieName = 'windowPositions';
+
   getType() {
     return DesktopWindowManager.name;
   }
@@ -77,60 +111,62 @@ class DesktopWindowManager extends WindowManager {
   register(id) {
     $('#toc-' + id.replace('#', '')).show();
     super.register(id);
-        // load from cookie
-    //cookie = decodeURIComponent(document.cookie);
 
-    let cookie = {
-      hud: {
-        position: [5, 50],
-        width: 750,
-        height: 150,
-        show: true
-      },
-      map: {
-        position: [765, 50],
-        width: 590,
-        height: 380,
-        show: true
-      },
-      logbookcontrols: {
-        position: [1365, 50],
-        width: 200,
-        height: 380,
-        show: true
-      },
-      plots: {
-        position: [765, 430],
-        width: 800,
-        height: 525,
-        show: true
-      },
-      settingsPage: {
-        position: [600, 600],
-        width: 500,
-        height: 500,
-        show: false
-      },
-      table: {
-        position: [5, 200],
-        width: 750,
-        height: 755,
-        show: true
-      }};
+    let positions = DesktopWindowManager.loadPositions();
 
-      let htmlTagWOClassifier = id.replace('#', '');
-      $("#" + htmlTagWOClassifier).dialog({
-        width: cookie[htmlTagWOClassifier]['width'],
-        height: cookie[htmlTagWOClassifier]['height'],
-      position: { my: "left top", at: "left+"+ cookie[htmlTagWOClassifier]['position'][0]+" top+" + cookie[htmlTagWOClassifier]['position'][1], of: window},
-      autoOpen: cookie[htmlTagWOClassifier]['show'],
-      close: function(event, ui) {
-          // save to cookie
-        },
-      resizeStop: function(event, ui) {
-          // save to cookie
-        }
-      });
+    let htmlTagWOClassifier = id.replace('#', '');
+    $("#" + htmlTagWOClassifier).dialog({
+      width: positions[htmlTagWOClassifier].size.width,
+      height: positions[htmlTagWOClassifier].size.height,
+      position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
+      autoOpen: positions[htmlTagWOClassifier].show,
+    close: function(event, ui) {
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui, false);
+      },
+    resizeStop: function(event, ui) {
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+      },
+    dragStop: function(event, ui) {
+        DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+      },
+    });
+  }
+
+  /**
+   * Load window positions from cookie or default
+   * 
+   * @returns window Positions as map "windowName" => {position => {top => int, left => int}, size => {width => int, height => int}, show => bool};
+   */
+  static loadPositions() {
+
+    let rawPositions = DesktopWindowManager.getCookie(DesktopWindowManager.cookieName);
+
+    if('' == rawPositions) {
+      // create cookie
+      this.setCookie(DesktopWindowManager.cookieName, JSON.stringify(DesktopWindowManager.defaultWindowPositions));
+      return DesktopWindowManager.defaultWindowPositions;
+    }
+
+    return JSON.parse(rawPositions);
+  }
+
+  /**
+   * 
+   * @param {string} app 
+   * @param {object} positionInfo 
+   */
+  static setPosition(app, positionInfo = new Object(), showDialog = true) {
+    app = app.replace('#', '');
+
+    let positions = DesktopWindowManager.loadPositions();
+
+    if(positionInfo.position)
+      positions[app].position = positionInfo.position;
+    if(positionInfo.size)
+      positions[app].size = positionInfo.size;
+    positions[app].show = showDialog;
+
+    DesktopWindowManager.setCookie(DesktopWindowManager.cookieName, JSON.stringify(positions));
   }
 
   unregister(id) {
@@ -141,7 +177,40 @@ class DesktopWindowManager extends WindowManager {
   show(id) {
     if($(id).dialog('isOpen'))
       $(id).dialog('close');
-    else
+    else {
       $(id).dialog('open');
+      DesktopWindowManager.setPosition(id);
+    }
+  }
+
+  /**
+   * from https://www.w3schools.com/js/js_cookies.asp
+   * 
+   * @param {string} cname
+   * @returns cookie as string
+   */
+  static getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  /**
+   * from https://www.w3schools.com/js/js_cookies.asp
+   * 
+   * @param {string} cname
+   * @param {string} cvalue
+   */
+  static setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + ";path=/";
   }
 }
