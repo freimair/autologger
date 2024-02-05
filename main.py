@@ -19,7 +19,7 @@ async def index(request):
     return response.html(router.getGui())
 
 @app.websocket('/ws')
-async def feed(request, ws):
+async def feedRoot(request, ws):
     while True:
         command = await ws.recv()
         answer = await router.onReceiveCommand(command)
@@ -53,4 +53,5 @@ class Router:
 router = Router(app)
         
 app.static("/", "./statics")
-app.run(host="0.0.0.0", port=8000, debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
