@@ -17,7 +17,7 @@ var webSocket;
  *  - limit number of tries. If max number of tries is reached, ask user to reload.
  */ 
 function connect() {
-	window.webSocket = new WebSocket('ws://' + window.location.host + '/logbook/ws');
+	window.webSocket = new WebSocket('ws://' + window.location.host + '/ws');
 
 	webSocket.onerror = function(event)
 	{
