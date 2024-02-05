@@ -136,6 +136,31 @@ enable can0:
 ### Troubleshoot
 - in case there is some remnant of double-spi overlay, remove it: spi1.0 is up by default, with `spi_add_cs1` and some overlay that uses the cs1 (eg. `spi1-mcp2515`), spi1.1 gets booted up but disappears in our can0
 
+# Ad-Hoc Wifi
+- check if connection is already there: `nmcli c`
+- if not, create a new connection
+```
+nmcli c add type wifi con-name autologger autoconnect yes ssid autologger
+nmcli connection modify autologger 802-11-wireless.mode ap ipv4.method shared
+nmcli connection modify autologger wifi-sec.key-mgmt wpa-psk
+nmcli connection modify autologger wifi-sec.psk "autologger"
+```
+- active the connection: `nmcli connection up autologger`
+
+could be done in `nmtui` as well
+
+### other variants and past troubleshooting
+
+- see if AP is posible at all `iw list | less`
+see if AP is among suppported interface modes
+- find your device name `nmcli d`
+- `nmcli dev wifi hotspot`, `nmcli dev wifi show-password`
+- with more configuration
+`nmcli dev wifi hotspot con-name autologger ssid autologger`
+- networkmanager ui can be used as well `nmtui`
+
+works after system update to armbian 23.11 - did not with armbian 22.11 (most probably because xradio was faulty and has been fixed in the meanwhile)
+
 # TODO receiver
 - reactivate weather-station
 - solder new weather-station
