@@ -120,11 +120,15 @@ class DesktopWindowManager extends WindowManager {
       height: positions[htmlTagWOClassifier].size.height,
       position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
       autoOpen: positions[htmlTagWOClassifier].show,
+      open: function(event, ui) {
+          DisplayAble.getObject(htmlTagWOClassifier)?.refresh();
+        },
     close: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui, false);
       },
     resizeStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
+        DisplayAble.getObject(htmlTagWOClassifier)?.refresh();
       },
     dragStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);

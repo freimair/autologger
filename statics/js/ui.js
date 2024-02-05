@@ -8,12 +8,6 @@ $(document).ready(function()
 
   $('#showMapButton').click(function() {
     window.map.show();
-    /*$('#map').dialog({
-      width: 500,
-      height: 500,
-      open: function( event, ui ) {window.map.refresh()},
-      resizeStop: function( event, ui ) {window.map.refresh()}
-    });*/
   })
 
   $('#showPlotButton').click(function() {

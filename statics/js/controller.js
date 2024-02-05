@@ -68,6 +68,24 @@ class DisplayAble {
   show() {
     window.windowManager.show(this.htmlTag);
   }
+
+  refresh() {
+
+  }
+
+  /**
+   * map from html-tag to object
+   * 
+   * @param {string} htmlTag 
+   * @returns {?DisplayAble} null if not available
+   */
+  static getObject(htmlTag) {
+    htmlTag = htmlTag.replace('#', '');
+
+    if(window[htmlTag] instanceof DisplayAble)
+      return window[htmlTag];
+    return null;
+  }
 }
 
 $(document).ready(async function()
