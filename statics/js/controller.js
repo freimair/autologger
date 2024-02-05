@@ -17,10 +17,7 @@ function jasonAuswerten(was) {
    * TODO that is sleazy. mostly for demonstration purpose. think again!
    */
   if(json.logbooks != undefined) {
-    $('#logbookList').empty();
-    json.logbooks.forEach(function(item) {
-      $('#logbookList').append('<li data-icon="carat-r"><a onclick="senden({\'load\':' + item.id + '})">' + item.title + "</a></li>");
-    });
+    window.settings.add(json.logbooks);
   }
 
   /*

@@ -5,14 +5,10 @@ class WindowManager {
     return WindowManager.name;
   }
 
-  /**
-   * 
-   * @param {bool} close 
-   */
-  static update(close = false) {
+  static update() {
     let newWindowManager;
 
-    if(0 == window.connected || close)
+    if(0 == window.connected)
       newWindowManager = new ClosedLogbook();
     else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();
@@ -109,7 +105,7 @@ class DesktopWindowManager extends WindowManager {
       position: {left: 5, top: 200},
       size: {width: 750, height: 755},
       show: true
-    }
+    },
   };
   static cookieName = 'windowPositions';
 
