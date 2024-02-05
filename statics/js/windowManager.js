@@ -5,10 +5,14 @@ class WindowManager {
     return WindowManager.name;
   }
 
-  static update() {
+  /**
+   * 
+   * @param {bool} close 
+   */
+  static update(close = false) {
     let newWindowManager;
 
-    if(0 == window.connected)
+    if(0 == window.connected || close)
       newWindowManager = new ClosedLogbook();
     else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();
@@ -97,6 +101,11 @@ class DesktopWindowManager extends WindowManager {
       show: false
     },
     table: {
+      position: {left: 5, top: 200},
+      size: {width: 750, height: 755},
+      show: true
+    },
+    settings: {
       position: {left: 5, top: 200},
       size: {width: 750, height: 755},
       show: true

@@ -100,6 +100,7 @@ $(document).ready(async function()
   window.hud = new Hud();
   window.table = new Table();
   window.logbookControls = new LogbookControls();
+  window.settings = new Settings();
 });
 
 addEventListener("resize", (event) => {WindowManager.update()});

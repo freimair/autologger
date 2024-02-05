@@ -45,15 +45,6 @@ $(document).ready(function()
       senden({'get':'logbooks'})
       gotoScreen('loadLogbookPage');
   });
-  $('#exportLogbookButton').click(function() {
-      window.location = '/logbook/logbook.csv';
-  });
-  $('#exportGpxButton').click(function() {
-      window.location = '/logbook/track.gpx';
-  });
-  $('#quitButton').click(function() {
-      window.location = window.location.origin;
-  });
 
   /*
    * ##############################################################################
