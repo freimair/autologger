@@ -22,6 +22,28 @@ python main.py
 
 and surf to `youriphere:8000` for your user interface.
 
+## run as installable PWA in debug mode and tls
+
+```
+python -m sanic main.app --dev --auto-tls
+```
+or
+```
+sanic main:app --dev --auto-tls
+```
+
+and surf to `https://localhost:8443` for your user interface.
+
+## production run with keys
+
+```
+cd certificates
+./create.sh <hostname>
+sudo sanic main -H :: -p 443 --tls certificates/
+```
+
+and surf to `https://youriphere` for your user interface.
+
 ## notes
 
 usb gps token is currently hardcoded to /dev/ttyUSB0
