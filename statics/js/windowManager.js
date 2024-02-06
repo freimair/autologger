@@ -100,7 +100,12 @@ class DesktopWindowManager extends WindowManager {
       position: {left: 5, top: 200},
       size: {width: 750, height: 755},
       show: true
-    }
+    },
+    settings: {
+      position: {left: 5, top: 200},
+      size: {width: 750, height: 755},
+      show: true
+    },
   };
   static cookieName = 'windowPositions';
 

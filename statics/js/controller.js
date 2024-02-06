@@ -17,10 +17,7 @@ function jasonAuswerten(was) {
    * TODO that is sleazy. mostly for demonstration purpose. think again!
    */
   if(json.logbooks != undefined) {
-    $('#logbookList').empty();
-    json.logbooks.forEach(function(item) {
-      $('#logbookList').append('<li data-icon="carat-r"><a onclick="senden({\'load\':' + item.id + '})">' + item.title + "</a></li>");
-    });
+    window.settings.add(json.logbooks);
   }
 
   /*
@@ -93,13 +90,14 @@ $(document).ready(async function()
   WindowManager.update();
 
   // connect to server
-  await connect();
+  Connection.connect();
 
   window.map = new MyMap();
   window.plots = new Plots();
   window.hud = new Hud();
   window.table = new Table();
   window.logbookControls = new LogbookControls();
+  window.settings = new Settings();
 });
 
 addEventListener("resize", (event) => {WindowManager.update()});

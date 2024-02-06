@@ -46,6 +46,8 @@
 
     <script src="js/logbookControls.js"></script>
 
+    <script src="js/settings.js"></script>
+
     <script src="js/message_templates.js"></script>
   </head>
   <body>
@@ -77,32 +79,6 @@
       <button data-icon="back" data-iconpos="top" id="fehlerBack" data-corners="false">OK</button>
     </div>
 
-    <div class="homeScreen" id="createLogbookPage">
-      <h1>Create Logbook</h1>
-      <label for="text-3">Bezeichnung:</label>
-      <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
-      <label for="logbookDescription">Beschreibung:</label>
-      <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
-      <button id="saveLogbookButton">Save</button>
-      <button class="cancelButton">Cancel</button>
-    </div>
-
-    <div class="homeScreen" id="loadLogbookPage">
-      <h1>Load Logbook</h1>
-      <ul data-role="listview" data-inset="true" id="logbookList">
-      </ul>
-      <button class="cancelButton">Cancel</button>
-    </div>
-
-    <div id="settingsPage" style="display: none;" title="Logbook Settings">
-      <ul data-role="listview" data-inset="false" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list ui-listview ui-group-theme-d">
-        <li data-icon="plus"><a id="createLogbookButton" href="#">New Logbook</a></li>
-        <li data-icon="search"><a id="loadLogbookButton" href="#">Load Logbook</a></li>
-        <li data-icon="save"><a id="exportLogbookButton">Export Logbook</a></li>
-        <li data-icon="save"><a id="exportGpxButton">Export GPX</a></li>
-        <li data-icon="power"><a id="quitButton" href="#">Quit</a></li>
-      </ul>
-    </div>
     <div id="content">
       <div id="apps"></div>
       <div id="toc"></div>

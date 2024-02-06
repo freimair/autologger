@@ -34,4 +34,11 @@ class Hud extends DisplayAble {
             gotoScreen(incoming.status);
         }
     }
+
+    clear() {
+      $("#dataCoG").text('-');
+      $("#dataSoG").text('-');
+      $("#dataWind").text('-');
+      $("#dataStatus").text('-');
+    }
 }

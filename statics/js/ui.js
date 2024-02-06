@@ -31,40 +31,5 @@ $(document).ready(function()
     window.hud.show();
   })
 
-  /*
-   * ##############################################################################
-   * ## 'more' menu controls ######################################################
-   * ##############################################################################
-   */
-  $('#createLogbookButton').click(function() {
-      $('#settingsPage').dialog('close');
-      gotoScreen('createLogbookPage');
-  });
-  $('#loadLogbookButton').click(function() {
-      $('#settingsPage').dialog('close');
-      senden({'get':'logbooks'})
-      gotoScreen('loadLogbookPage');
-  });
-  $('#exportLogbookButton').click(function() {
-      window.location = '/logbook/logbook.csv';
-  });
-  $('#exportGpxButton').click(function() {
-      window.location = '/logbook/track.gpx';
-  });
-  $('#quitButton').click(function() {
-      window.location = window.location.origin;
-  });
 
-  /*
-   * ##############################################################################
-   * ## create/edit/load logbook controls #########################################
-   * ##############################################################################
-   */
-  $('#saveLogbookButton').click(function() {
-       senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
-       gotoScreen('home');
-  });
-  $('.cancelButton').click(function() {
-       gotoScreen('home');
-  });
 });
