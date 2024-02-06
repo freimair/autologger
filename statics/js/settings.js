@@ -19,7 +19,9 @@ class Settings extends DisplayAble {
         `);
 
     $('#saveLogbookButton').click(function() {
-        senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+        Connection.send({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+        setTimeout(() => Connection.close(), 100);
+        setTimeout(() => Connection.connect(), 200);
     });
 
     $('#exportLogbookButton').click(function() {

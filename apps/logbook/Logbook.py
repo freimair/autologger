@@ -159,6 +159,10 @@ class Logbook:
             lines = csvfile.read().splitlines()
 
         result = []
+
+        if len(lines) < 2:
+            return result
+
         for current in lines[-min(span + 1, len(lines) - 1):]:
             resulting_line = dict()
             line = json.JSONDecoder().decode(current)
