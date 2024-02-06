@@ -39,7 +39,7 @@ class NMEA2000:
 
         # decode values
         values = self.PGNDecoders.get(pgn, lambda data: "not implemented yet")(message.data)
-        print(values)
+
         if values == "not implemented yet":
             return
 
