@@ -139,10 +139,13 @@ class Plots extends DisplayAble {
   clear() {
     this.plot_SoG.data.labels = [];
     this.plot_SoG.data.datasets[0].data = [];
+    this.plot_SoG.update();
     this.plot_weather.data.labels = [];
     this.plot_weather.data.datasets[0].data = [];
+    this.plot_weather.update();
     this.plot_wind.data.labels = [];
     this.plot_wind.data.datasets[0].data = [];
+    this.plot_wind.update();
   }
 
   add(incoming) {

@@ -31,13 +31,19 @@ class Settings extends DisplayAble {
   }
 
   refresh() {
-    senden({"get": "logbooks"});
+    Connection.send({"get": "logbooks"});
   }
 
   add(logbooks) {
     $('#logbookList').empty();
     logbooks.forEach(function(item) {
-      $('#logbookList').append('<li>' + item.title + ' <button onclick="senden({\'load\':' + item.id + '})">load</button></li>');
+      $('#logbookList').append('<li>' + item.title + ' <button data-id="' + item.id + '" onclick="Settings.loadLogbook(this);">load</button></li>');
     });
+  }
+
+  static loadLogbook(item) {
+    Connection.send({"load":item.getAttribute('data-id')});
+    setTimeout(() => Connection.close(), 100);
+    setTimeout(() => Connection.connect(), 200);
   }
 }

@@ -90,7 +90,7 @@ $(document).ready(async function()
   WindowManager.update();
 
   // connect to server
-  await connect();
+  Connection.connect();
 
   window.map = new MyMap();
   window.plots = new Plots();
