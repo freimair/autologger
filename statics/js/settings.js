@@ -7,9 +7,8 @@ class Settings extends DisplayAble {
         <button id="exportLogbookButton">Export Logbook</button>
         <button id="exportGpxButton">Export GPX</button>
         <h1>Load Logbook</h1>
-        <ul data-role="listview" data-inset="true" id="logbookList">
+        <ul id="logbookList">
         </ul>
-        <button class="cancelButton">Cancel</button>
 
         <h1>Create Logbook</h1>
         <label for="text-3">Bezeichnung:</label>
@@ -17,25 +16,10 @@ class Settings extends DisplayAble {
         <label for="logbookDescription">Beschreibung:</label>
         <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
         <button id="saveLogbookButton">Save</button>
-        <button class="cancelButton">Cancel</button>
         `);
-
-    $('#createLogbookButton').click(function() {
-      $('#settingsPage').dialog('close');
-      gotoScreen('createLogbookPage');
-    });
-    $('#loadLogbookButton').click(function() {
-        $('#settingsPage').dialog('close');
-        senden({'get':'logbooks'})
-        gotoScreen('loadLogbookPage');
-    });
 
     $('#saveLogbookButton').click(function() {
         senden({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
-        gotoScreen('home');
-    });
-    $('.cancelButton').click(function() {
-        gotoScreen('home');
     });
 
     $('#exportLogbookButton').click(function() {
@@ -53,7 +37,7 @@ class Settings extends DisplayAble {
   add(logbooks) {
     $('#logbookList').empty();
     logbooks.forEach(function(item) {
-      $('#logbookList').append('<li><a onclick="senden({\'load\':' + item.id + '})">' + item.title + "</a></li>");
+      $('#logbookList').append('<li>' + item.title + ' <button onclick="senden({\'load\':' + item.id + '})">load</button></li>');
     });
   }
 }
