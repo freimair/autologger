@@ -8,7 +8,7 @@ class WindowManager {
   static update() {
     let newWindowManager;
 
-    if(0 == Connection.connected())
+    if(0 == window.controller.connector.connected())
       newWindowManager = new ClosedLogbook();
     else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();

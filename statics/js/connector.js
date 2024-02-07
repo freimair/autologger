@@ -1,30 +1,40 @@
-class Connection {
-	static webSocket;
+class Connector {
 	onOpen;
 	onClose;
 	onError;
 	onMessage;
-
+	
 	/**
-	 * 
 	 * @param {function} onOpen 
 	 * @param {function} onClose 
 	 * @param {function} onError 
 	 * @param {function} onMessage 
 	 */
-	constructor(onOpen, onClose, onError, onMessage) {
+	init(onOpen, onClose, onError, onMessage) {
 		this.onOpen = onOpen;
 		this.onClose = onClose;
 		this.onError = onError;
 		this.onMessage = onMessage;
 	}
 
-	static connected() {
-		return Connection.webSocket && Connection.webSocket.readyState === Connection.webSocket.OPEN;
+	/**
+	 * @returns {boolean}
+	 */
+	connected() {};
+	connect() {};
+	send() {};
+	close() {};
+}
+
+class WebSocketConnector extends Connector {
+	webSocket;
+
+	connected() {
+		return this.webSocket && this.webSocket.readyState === this.webSocket.OPEN;
 	}
 
 	connect() {
-		if(Connection.connected())
+		if(this.connected())
 			return;
 
 		this.webSocket = new WebSocket((window.location.protocol == 'https:' ? 'wss' : 'ws') + '://' + window.location.host + window.location.pathname + '/ws');

@@ -1,8 +1,12 @@
 class Controller {
   apps=[];
 
-  constructor() {
-    this.connector = new Connection(
+  /**
+   * @param {Connector} connector 
+   */
+  constructor(connector) {
+    this.connector = connector;
+    this.connector.init(
       () => {
         this.clear();
         this.connector.send({"get": "tail"});
@@ -107,7 +111,7 @@ class App {
 
 $(document).ready(async function()
 {
-  let controller = new Controller();
+  let controller = new Controller(new WebSocketConnector());
 
   controller.addApp(new MyMap());
   controller.addApp(new Plots());
