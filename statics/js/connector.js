@@ -41,8 +41,11 @@ class WebSocketConnector extends Connector {
 
 		this.webSocket.onerror = this.onError;
 		this.webSocket.onopen = this.onOpen;
-		this.webSocket.onclose = this.onClose;
 		this.webSocket.onmessage = this.onMessage;
+		this.webSocket.onclose = () => {
+			this.onClose();
+			setTimeout(this.connect.bind(this), 2000);
+		};
 	};
 
 	send(was) {

@@ -17,7 +17,6 @@ class Controller {
       () => {
         WindowManager.update();
         gotoScreen('loaderpage');
-        setTimeout(this.connector.connect, 2000);
       },
       () => {
         WindowManager.update();
