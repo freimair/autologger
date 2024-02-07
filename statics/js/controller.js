@@ -124,5 +124,3 @@ $(document).ready(async function()
 
   window.controller = controller;
 });
-
-addEventListener("resize", (event) => {WindowManager.update()});

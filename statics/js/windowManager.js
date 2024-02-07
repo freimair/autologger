@@ -1,3 +1,5 @@
+addEventListener("resize", (event) => {WindowManager.update()});
+
 class WindowManager {
   registered = [];
 
