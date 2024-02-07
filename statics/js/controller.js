@@ -23,7 +23,7 @@ class Controller {
         $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
         gotoScreen('fehler');
       },
-      () => {
+      (event) => {
         this.incoming(event.data);
       }
     );
@@ -91,20 +91,6 @@ class App {
 
   add(json) {
 
-  }
-
-  /**
-   * map from html-tag to object
-   * 
-   * @param {string} htmlTag 
-   * @returns {?App} null if not available
-   */
-  static getObject(htmlTag) {
-    htmlTag = htmlTag.replace('#', '');
-
-    if(window[htmlTag] instanceof App)
-      return window[htmlTag];
-    return null;
   }
 }
 
