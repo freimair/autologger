@@ -1,6 +1,6 @@
 var settings;
 
-class Settings extends DisplayAble {
+class Settings extends App {
 
   constructor() {
     super(Settings.name,`

@@ -1,6 +1,6 @@
 var plots;
 
-class Plots extends DisplayAble {
+class Plots extends App {
   plot_SoG;
   plot_weather;
   plot_wind;

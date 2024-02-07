@@ -56,7 +56,7 @@ class Controller {
   }
 }
 
-class DisplayAble {
+class App {
   static parentTag = "#apps";
   static tocTag = "#toc";
   htmlTag;
@@ -64,8 +64,8 @@ class DisplayAble {
 
   constructor(name, content) {
     this.htmlTag = "#" + name.toLowerCase();
-    $(DisplayAble.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
-    $(DisplayAble.tocTag).append(`<a id="toc-${name.toLowerCase()}" href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
+    $(App.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
+    $(App.tocTag).append(`<a id="toc-${name.toLowerCase()}" href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
 
     window.windowManager.register(this.htmlTag);
   }
@@ -94,12 +94,12 @@ class DisplayAble {
    * map from html-tag to object
    * 
    * @param {string} htmlTag 
-   * @returns {?DisplayAble} null if not available
+   * @returns {?App} null if not available
    */
   static getObject(htmlTag) {
     htmlTag = htmlTag.replace('#', '');
 
-    if(window[htmlTag] instanceof DisplayAble)
+    if(window[htmlTag] instanceof App)
       return window[htmlTag];
     return null;
   }

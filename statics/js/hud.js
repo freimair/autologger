@@ -1,6 +1,6 @@
 var hud;
 
-class Hud extends DisplayAble {
+class Hud extends App {
 
     constructor() {
         super(Hud.name, `

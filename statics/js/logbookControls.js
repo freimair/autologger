@@ -85,7 +85,7 @@ function gotoScreen(screen) {
 	guiScreen = screen;
 }
 
-class LogbookControls extends DisplayAble {
+class LogbookControls extends App {
     constructor() {
         super(LogbookControls.name, `
             <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>

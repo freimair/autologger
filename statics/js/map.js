@@ -1,6 +1,6 @@
 var map;
 
-class MyMap extends DisplayAble {
+class MyMap extends App {
   map;
   boatMarker;
   track;

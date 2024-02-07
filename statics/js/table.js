@@ -1,6 +1,6 @@
 var table;
 
-class Table extends DisplayAble {
+class Table extends App {
   table;
 
   constructor() {
