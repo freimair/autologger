@@ -33,10 +33,7 @@ class Connection {
 		Connection.webSocket.onopen = function()
 		{
 			connected = 1;
-			window.table.clear();
-			window.plots.clear();
-			window.map.clear();
-			window.hud.clear();
+			Controller.clear();
 			Connection.send({"get": "tail"});
 			Connection.send({"get": "last"});
 			gotoScreen('home');
@@ -52,7 +49,7 @@ class Connection {
 
 		Connection.webSocket.onmessage = function(event)
 		{
-			jasonAuswerten(event.data);
+			Controller.incoming(event.data);
 		};
 	};
 

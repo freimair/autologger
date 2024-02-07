@@ -103,7 +103,12 @@ class Table extends DisplayAble {
     this.table.rows().remove().draw();
   }
 
-  add(content) {
+  add(incoming) {
+    if(undefined == incoming.logline)
+      return;
+
+    let content = incoming.logline;
+
     if(content.message) {
       let tmp = content.message;
       content.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';

@@ -149,6 +149,11 @@ class Plots extends DisplayAble {
   }
 
   add(incoming) {
+    if(undefined == incoming.logline)
+      return;
+
+    incoming = incoming.logline;
+
     if (incoming.SoG) {
       this.plot_SoG.data.labels.push(incoming.DateTime);
       this.plot_SoG.data.datasets[0].data.push(incoming.SoG);

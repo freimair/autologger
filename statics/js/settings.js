@@ -36,7 +36,12 @@ class Settings extends DisplayAble {
     Connection.send({"get": "logbooks"});
   }
 
-  add(logbooks) {
+  add(incoming) {
+    if(undefined == incoming.logbooks)
+      return;
+
+    let logbooks = incoming.logbooks;
+
     $('#logbookList').empty();
     logbooks.forEach(function(item) {
       $('#logbookList').append('<li>' + item.title + ' <button data-id="' + item.id + '" onclick="Settings.loadLogbook(this);">load</button></li>');

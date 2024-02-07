@@ -22,6 +22,11 @@ class Hud extends DisplayAble {
     }
 
     add(incoming) {
+        if(undefined == incoming.logline)
+            return;
+
+        incoming = incoming.logline;
+
         if(incoming.CoG && incoming.SoG) {
             $("#dataCoG").text(incoming.CoG);
             $("#dataSoG").text(incoming.SoG);
