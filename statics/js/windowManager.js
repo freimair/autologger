@@ -8,7 +8,7 @@ class WindowManager {
   static update() {
     let newWindowManager;
 
-    if(0 == window.connected)
+    if(0 == Connection.connected())
       newWindowManager = new ClosedLogbook();
     else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();
@@ -126,14 +126,14 @@ class DesktopWindowManager extends WindowManager {
       position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
       autoOpen: positions[htmlTagWOClassifier].show,
       open: function(event, ui) {
-          Controller.refresh();
+          window.controller.refresh();
         },
     close: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui, false);
       },
     resizeStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
-        Controller.refresh();
+        window.controller.refresh();
       },
     dragStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);

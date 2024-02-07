@@ -1,30 +1,56 @@
 class Controller {
-  static apps=[];
+  apps=[];
 
-  static addApp(app) {
-    Controller.apps.push(app);
+  constructor() {
+    this.connector = new Connection(
+      () => {
+        this.clear();
+        this.connector.send({"get": "tail"});
+        this.connector.send({"get": "last"});
+        gotoScreen('home');
+        WindowManager.update();
+      },
+      () => {
+        WindowManager.update();
+        gotoScreen('loaderpage');
+        setTimeout(this.connector.connect, 2000);
+      },
+      () => {
+        WindowManager.update();
+        $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
+        gotoScreen('fehler');
+      },
+      () => {
+        this.incoming(event.data);
+      }
+    );
   }
 
-  static start() {
-    Connection.connect();
+  addApp(app) {
+    app.init(this.connector);
+    this.apps.push(app);
   }
 
-  static clear() {
-    Controller.apps.forEach(app => {
+  start() {
+    this.connector.connect();
+  }
+
+  clear() {
+    this.apps.forEach(app => {
       app.clear();
     });
   }
 
-  static refresh() {
-    Controller.apps.forEach(app => {
+  refresh() {
+    this.apps.forEach(app => {
       app.refresh();
     });
   }
 
-  static incoming(was) {
+  incoming(was) {
     var json = JSON.parse(was);
 
-    Controller.apps.forEach(app => {
+    this.apps.forEach(app => {
       app.add(json);
     });
   }
@@ -34,6 +60,7 @@ class DisplayAble {
   static parentTag = "#apps";
   static tocTag = "#toc";
   htmlTag;
+  connector;
 
   constructor(name, content) {
     this.htmlTag = "#" + name.toLowerCase();
@@ -41,6 +68,10 @@ class DisplayAble {
     $(DisplayAble.tocTag).append(`<a id="toc-${name.toLowerCase()}" href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
 
     window.windowManager.register(this.htmlTag);
+  }
+
+  init(connector) {
+    this.connector = connector;
   }
 
   show() {
@@ -76,14 +107,18 @@ class DisplayAble {
 
 $(document).ready(async function()
 {
-  Controller.addApp(new MyMap());
-  Controller.addApp(new Plots());
-  Controller.addApp(new Hud());
-  Controller.addApp(new Table());
-  Controller.addApp(new LogbookControls());
-  Controller.addApp(new Settings());
+  let controller = new Controller();
 
-  Controller.start();
+  controller.addApp(new MyMap());
+  controller.addApp(new Plots());
+  controller.addApp(new Hud());
+  controller.addApp(new Table());
+  controller.addApp(new LogbookControls());
+  controller.addApp(new Settings());
+
+  controller.start();
+
+  window.controller = controller;
 });
 
 addEventListener("resize", (event) => {WindowManager.update()});

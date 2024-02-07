@@ -18,10 +18,10 @@ class Settings extends DisplayAble {
         <button id="saveLogbookButton">Save</button>
         `);
 
-    $('#saveLogbookButton').click(function() {
-        Connection.send({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
-        setTimeout(() => Connection.close(), 100);
-        setTimeout(() => Connection.connect(), 200);
+    $('#saveLogbookButton').click(() => {
+        this.connector.send({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+        setTimeout(() => this.connector.close(), 100);
+        setTimeout(() => this.connector.connect(), 200);
     });
 
     $('#exportLogbookButton').click(function() {
@@ -33,7 +33,7 @@ class Settings extends DisplayAble {
   }
 
   refresh() {
-    Connection.send({"get": "logbooks"});
+    this.connector.send({"get": "logbooks"});
   }
 
   add(incoming) {
@@ -44,13 +44,13 @@ class Settings extends DisplayAble {
 
     $('#logbookList').empty();
     logbooks.forEach(function(item) {
-      $('#logbookList').append('<li>' + item.title + ' <button data-id="' + item.id + '" onclick="Settings.loadLogbook(this);">load</button></li>');
+      $('#logbookList').append('<li>' + item.title + ' <button data-id="' + item.id + '" class="loadLogbookButton">load</button></li>');
     });
-  }
 
-  static loadLogbook(item) {
-    Connection.send({"load":item.getAttribute('data-id')});
-    setTimeout(() => Connection.close(), 100);
-    setTimeout(() => Connection.connect(), 200);
+    $('.loadLogbookButton').click((event) => {
+      this.connector.send({"load":event.target.getAttribute('data-id')});
+      setTimeout(() => this.connector.close(), 100);
+      setTimeout(() => this.connector.connect(), 200);
+    });
   }
 }
