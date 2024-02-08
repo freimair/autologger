@@ -7,11 +7,24 @@ class WindowManager {
     return WindowManager.name;
   }
 
-  static update() {
-    let newWindowManager;
+  static start() {
+    WindowManager.update();
+  }
 
-    if(0 == window.controller.connector.connected())
-      newWindowManager = new ClosedLogbook();
+  static stop() {
+    WindowManager.update(new ClosedLogbook());
+  }
+
+  /**
+   * Decides whether window manager for mobile of desktop is appropriate.
+   * 
+   * If a windowmanager is given, the given one is used.
+   * 
+   * @param {WindowManager} newWindowManager
+   */
+  static update(newWindowManager = null) {
+    if(newWindowManager instanceof WindowManager)
+      {}
     else if(Math.min($(window).width(), $(window).height()) >= 768)
       newWindowManager = new DesktopWindowManager();
     else

@@ -12,14 +12,14 @@ class Controller {
         this.connector.send({"get": "tail"});
         this.connector.send({"get": "last"});
         gotoScreen('home');
-        WindowManager.update();
+        WindowManager.start();
       },
       () => {
-        WindowManager.update();
+        WindowManager.stop();
         gotoScreen('loaderpage');
       },
       () => {
-        WindowManager.update();
+        WindowManager.stop();
         $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
         gotoScreen('fehler');
       },
