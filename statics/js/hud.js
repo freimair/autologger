@@ -36,7 +36,6 @@ class Hud extends App {
         }
         if(incoming.status) {
             $("#dataStatus").text(incoming.status);
-            gotoScreen(incoming.status);
         }
     }
 

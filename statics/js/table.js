@@ -7,6 +7,7 @@ class Table extends App {
     super(Table.name, `
       <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
+      <div id="popup" style="display: none;" title="Details"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
     `);
 
     this.table = $("[data-role='table']").DataTable({
@@ -97,6 +98,11 @@ class Table extends App {
     // only show certain columns by default. save that to local storage? or to logbook?
     this.table.columns().visible(false);
     this.table.columns([0, 11, 12]).visible(true);
+
+    $('#popup-close').click(function()
+    {
+        $('#popup').dialog('close');
+    })
   }
 
   clear() {

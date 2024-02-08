@@ -147,7 +147,9 @@ class Logbook:
             i = -1
             status = ''
             while status not in ['landed', 'sailing', 'reef', 'motoring']:
-                status = json.JSONDecoder().decode(lines[i]).get("status", "")
+                data = json.JSONDecoder().decode(lines[i]).get("Data", "")
+                if(data.startswith("status")):
+                    status = json.JSONDecoder().decode(data.split(", ")[1]).get("status")
                 i -= 1
                 if len(lines) < abs(i):
                     status="landed"
