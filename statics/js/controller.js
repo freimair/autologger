@@ -11,17 +11,18 @@ class Controller {
         this.clear();
         this.connector.send({"get": "tail"});
         this.connector.send({"get": "last"});
-        gotoScreen('home');
+        $('#loaderpage').hide();
+        $('#fehler').empty();
         WindowManager.start();
       },
       () => {
         WindowManager.stop();
-        gotoScreen('loaderpage');
+        $('#loaderpage').show();
       },
       () => {
         WindowManager.stop();
-        $('#fehler').html('<br><br>Die Verbindung zum Server wurde unterbrochen<br><br>');
-        gotoScreen('fehler');
+        $('#fehler').html('Die Verbindung zum Server wurde unterbrochen');
+        $('#loaderpage').show();
       },
       (event) => {
         this.incoming(event.data);

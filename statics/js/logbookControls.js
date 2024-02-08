@@ -10,29 +10,6 @@ var lastGuiScreen = "";
 var guiScreen = "landed";
 
 function gotoScreen(screen) {
-  switch(screen) {
-    case "home":
-      $('.homeScreen').hide();
-      $("#home").show();
-      return;
-    case "loaderpage":
-      $('.homeScreen').hide();
-      $('#loaderpage').show();
-      return;
-    case "createLogbookPage":
-      $('.homeScreen').hide();
-      $('#createLogbookPage').show();
-      return;
-    case "loadLogbookPage":
-      $('.homeScreen').hide();
-      $('#loadLogbookPage').show();
-      return;
-    case "fehler":
-      $('.homeScreen').hide();
-      $('#fehlerpage').show();
-      return;
-  }
-
 	$('#' + LogbookControls.name.toLowerCase()).children().hide();
 	$('#safetyBriefingButton').show();
 	$('#weatherReportButton').show();
