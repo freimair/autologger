@@ -38,6 +38,8 @@ class WindowManager {
       }
       window.windowManager = newWindowManager;
     }
+
+    window.controller.refresh()
   }
 
   register(id) {
