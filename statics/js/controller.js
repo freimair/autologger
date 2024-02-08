@@ -11,18 +11,18 @@ class Controller {
         this.clear();
         this.connector.send({"get": "tail"});
         this.connector.send({"get": "last"});
-        $('#loaderpage').hide();
+        $('#loader').hide();
         $('#fehler').empty();
         WindowManager.start();
       },
       () => {
         WindowManager.stop();
-        $('#loaderpage').show();
+        $('#loader').show();
       },
       () => {
         WindowManager.stop();
-        $('#fehler').html('Die Verbindung zum Server wurde unterbrochen');
-        $('#loaderpage').show();
+        $('#fehler').html('Die Verbindung zum Server konnte nicht hergestellt werden. Versuche erneut.');
+        $('#loader').show();
       },
       (event) => {
         this.incoming(event.data);

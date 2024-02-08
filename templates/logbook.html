@@ -51,23 +51,10 @@
     <script src="js/message_templates.js"></script>
   </head>
   <body>
-    <div class="homeScreen" id="loaderpage">
-      <h1>Logbook - starting up</h1>
-
-      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="center" height="30">&nbsp;</td>
-        </tr>
-        <tr>
-          <td align="center" height="25" valign="middle">Verbinde mit Server ...</td>
-        </tr>
-        <tr>
-          <td align="center" valign="middle">
-            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-          </td>
-        </tr>
-        <td align="center" valign="middle"><span id="fehler"></span></td>
-      </table>
+    <div id="loader">
+      <span>Verbinde mit Server ...</span>
+      <span id="spinner"></span>
+      <span id="fehler"></span>
     </div>
     <div id="popup" style="display: none;" title="Details"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
 
