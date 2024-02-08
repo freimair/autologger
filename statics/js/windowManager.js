@@ -35,26 +35,37 @@ class WindowManager {
       for(const app of managedApps) {
         window.windowManager.unregister(app);
         newWindowManager.register(app);
+        app.refresh();
       }
       window.windowManager = newWindowManager;
     }
-
-    window.controller.refresh()
   }
 
-  register(id) {
-    this.registered.push(id);
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    this.registered.push(app);
   }
 
-  show(id) {
+  /**
+   * @param {string} htmlTag
+   */
+  show(htmlTag) {
 
   }
 
+  /**
+   * @returns  {App[]}
+   */
   getRegistered() {
     return this.registered;
   }
 
-  unregister(id) {
+  /**
+   * @param {App} app
+   */
+  unregister(app) {
     this.registered = Array.prototype.filter(function (current) {return id !== current; });
   }
 }
@@ -64,10 +75,10 @@ class ClosedLogbook extends WindowManager {
     return ClosedLogbook.name;
   }
 
-  register(id) {
-    $(id).hide();
-    $('#toc-' + id.replace('#', '')).hide();
-    super.register(id);
+  register(app) {
+    $(app.htmlTag).hide();
+    $('#toc-' + app.htmlTag.replace('#', '')).hide();
+    super.register(app);
   }
 }
 
@@ -78,10 +89,10 @@ class MobileWindowManager extends WindowManager {
     return MobileWindowManager.name;
   }
 
-  register(id) {
-    $(id).show();
-    $('#toc-' + id.replace('#', '')).show();
-    super.register(id);
+  register(app) {
+    $(app.htmlTag).show();
+    $('#toc-' + app.htmlTag.replace('#', '')).show();
+    super.register(app);
   }
 
 }
@@ -130,27 +141,27 @@ class DesktopWindowManager extends WindowManager {
     return DesktopWindowManager.name;
   }
 
-  register(id) {
-    $('#toc-' + id.replace('#', '')).show();
-    super.register(id);
+  register(app) {
+    $('#toc-' + app.htmlTag.replace('#', '')).show();
+    super.register(app);
 
     let positions = DesktopWindowManager.loadPositions();
 
-    let htmlTagWOClassifier = id.replace('#', '');
-    $("#" + htmlTagWOClassifier).dialog({
+    let htmlTagWOClassifier = app.htmlTag.replace('#', '');
+    $(app.htmlTag).dialog({
       width: positions[htmlTagWOClassifier].size.width,
       height: positions[htmlTagWOClassifier].size.height,
       position: { my: "left top", at: "left+"+ positions[htmlTagWOClassifier].position.left+" top+" + positions[htmlTagWOClassifier].position.top, of: window},
       autoOpen: positions[htmlTagWOClassifier].show,
-      open: function(event, ui) {
-          window.controller.refresh();
+      open: () => {
+          app.refresh();
         },
     close: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui, false);
       },
-    resizeStop: function(event, ui) {
+    resizeStop: (event, ui) => {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
-        window.controller.refresh();
+        app.refresh();
       },
     dragStop: function(event, ui) {
         DesktopWindowManager.setPosition(htmlTagWOClassifier, ui);
@@ -195,17 +206,17 @@ class DesktopWindowManager extends WindowManager {
     DesktopWindowManager.setCookie(DesktopWindowManager.cookieName, JSON.stringify(positions));
   }
 
-  unregister(id) {
-    $(id).dialog('destroy');
-    super.unregister(id);
+  unregister(app) {
+    $(app.htmlTag).dialog('destroy');
+    super.unregister(app);
   }
 
-  show(id) {
-    if($(id).dialog('isOpen'))
-      $(id).dialog('close');
+  show(htmlTag) {
+    if($(htmlTag).dialog('isOpen'))
+      $(htmlTag).dialog('close');
     else {
-      $(id).dialog('open');
-      DesktopWindowManager.setPosition(id);
+      $(htmlTag).dialog('open');
+      DesktopWindowManager.setPosition(htmlTag);
     }
   }
 

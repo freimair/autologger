@@ -71,7 +71,7 @@ class App {
     $(App.parentTag).append(`<div id=\"${name.toLowerCase()}\" class=\"app\" title=\"${name}\">${content}</div>`);
     $(App.tocTag).append(`<a id="toc-${name.toLowerCase()}" href="#${name.toLowerCase()}" onClick="window.windowManager.show('${this.htmlTag}')">${name}</a>`);
 
-    window.windowManager.register(this.htmlTag);
+    window.windowManager.register(this);
   }
 
   init(connector) {
@@ -107,6 +107,4 @@ $(document).ready(async function()
   controller.addApp(new Settings());
 
   controller.start();
-
-  window.controller = controller;
 });
