@@ -21,7 +21,7 @@ class Status(Entry):
     def save(self):
         with Database() as cursor:
             cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, status) VALUES (:timestamp, :type, :status)", {
-                'timestamp': int(self.timestamp.timestamp() * 1000 + self.timestamp.microsecond),
+                'timestamp': int(self.timestamp.timestamp() * 1000),
                 'type': self.type,
                 'status': self.status
                 })
