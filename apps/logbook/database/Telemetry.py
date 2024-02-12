@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
@@ -18,7 +19,7 @@ class Telemetry(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        return cls(data[0] / 1000, data[1], data[2] / 10, data[3], data[4] / 10, data[5], data[6] / 10, data[7] / 10000000, data[8] / 10000000, data[9] / 10, data[10] / 10, data[11] / 10)
+        return cls(datetime.fromtimestamp(data[0] / 1000), data[1], data[2] / 10, data[3], data[4] / 10, data[5], data[6] / 10, data[7] / 10000000, data[8] / 10000000, data[9] / 10, data[10] / 10, data[11] / 10)
 
 
     @classmethod

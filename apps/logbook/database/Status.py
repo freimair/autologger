@@ -9,7 +9,7 @@ class Status(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        return cls(data[0] / 1000, data[1])
+        return cls(datetime.fromtimestamp(data[0] / 1000), data[1])
 
 
     @classmethod

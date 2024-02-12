@@ -33,6 +33,11 @@ class TestModel(unittest.TestCase):
         self.assertIsNotNone(actual)
         self.assertIsInstance(actual[-1], dut.__class__)
 
+        for property, value in vars(dut).items():
+            if(isinstance(value, datetime)): # we do not memorize microseconds in our system, only milliseconds
+                value = value.replace(microsecond=int(value.microsecond / 1000) * 1000)
+            self.assertEqual(actual[-1].__getattribute__(property), value)
+
     def test_polymorphicRoundtrip(self):
         status = 'landed'
         dut = Status(datetime.now(), status)

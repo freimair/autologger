@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
@@ -10,7 +11,7 @@ class Weather(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        return cls(data[0] / 1000, data[1] / 10, data[2] / 10, data[3] / 10)
+        return cls(datetime.fromtimestamp(data[0] / 1000), data[1] / 10, data[2] / 10, data[3] / 10)
 
     @classmethod
     def createTable(cls):
