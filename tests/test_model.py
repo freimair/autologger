@@ -12,6 +12,14 @@ class TestModel(unittest.TestCase):
 
         self.assertTrue(os.path.exists('resources/sqlite3.db'))
 
+    def test_simpleRoundtrip(self):
+        dut = Model()
+        dut.createTable()
+
+        dut.save()
+        actual = Model.get()
+        self.assertIsNotNone(actual)
+
     @parameterized.expand([
         ["A", "a", "a"],
         ["B", "a", "b"],
