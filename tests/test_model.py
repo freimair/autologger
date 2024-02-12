@@ -7,6 +7,7 @@ from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 from apps.logbook.database.Message import Message
 from apps.logbook.database.Status import Status
+from apps.logbook.database.Telemetry import Telemetry
 from apps.logbook.database.Weather import Weather
 
 class TestModel(unittest.TestCase):
@@ -23,6 +24,7 @@ class TestModel(unittest.TestCase):
         ["Status", Status(datetime.now(), 'landed')],
         ["Message", Message(datetime.now(), 'message')],
         ["Weather", Weather(datetime.now(), 102510.6, 64.3, 24.0)],
+        ["Telemetry", Telemetry(datetime.now(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
     ])
     def test_simpleRoundtrip(self, name: str, dut: Entry):
         dut.save()
