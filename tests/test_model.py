@@ -7,6 +7,7 @@ from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 from apps.logbook.database.Message import Message
 from apps.logbook.database.Status import Status
+from apps.logbook.database.Weather import Weather
 
 class TestModel(unittest.TestCase):
     def setUp(self) -> None:
@@ -21,6 +22,7 @@ class TestModel(unittest.TestCase):
     @parameterized.expand([
         ["Status", Status(datetime.now(), 'landed')],
         ["Message", Message(datetime.now(), 'message')],
+        ["Weather", Weather(datetime.now(), 102510.6, 64.3, 24.0)],
     ])
     def test_simpleRoundtrip(self, name: str, dut: Entry):
         dut.save()
@@ -28,7 +30,6 @@ class TestModel(unittest.TestCase):
         actual = dut.__class__.get()
         self.assertIsNotNone(actual)
         self.assertEqual(actual[-1].type, dut.type)
-        # self.assertEqual(actual[-1].status, status)
 
     def test_polymorphicRoundtrip(self):
         status = 'landed'
