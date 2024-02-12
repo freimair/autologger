@@ -8,6 +8,7 @@ from apps.logbook.database.Model import Model
 class TestModel(unittest.TestCase):
     def test_setupDatabase(self):
         dut = Model()
+        dut.createTable()
 
         self.assertTrue(os.path.exists('resources/sqlite3.db'))
 
