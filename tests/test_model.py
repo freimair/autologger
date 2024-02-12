@@ -1,3 +1,4 @@
+from datetime import datetime
 import unittest
 from parameterized import parameterized
 
@@ -7,13 +8,13 @@ from apps.logbook.database.Model import Model
 
 class TestModel(unittest.TestCase):
     def test_setupDatabase(self):
-        dut = Model()
+        dut = Model(datetime.now(), 0, "landed")
         dut.createTable()
 
         self.assertTrue(os.path.exists('resources/sqlite3.db'))
 
     def test_simpleRoundtrip(self):
-        dut = Model()
+        dut = Model(datetime.now(), 0, "landed")
         dut.createTable()
 
         dut.save()
