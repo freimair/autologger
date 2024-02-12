@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime
 from apps.logbook.database.Database import Database
-from apps.logbook.database.Entry import Entry, Types
+from apps.logbook.database.Entry import Entry
 
 @dataclass
 class Status(Entry):
     status: str
-    type = Types.STATUS
+    type = 1
 
     def createTable(self):
         with Database() as cursor:
@@ -22,7 +22,7 @@ class Status(Entry):
         with Database() as cursor:
             cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, status) VALUES (:timestamp, :type, :status)", {
                 'timestamp': int(self.timestamp.timestamp() * 1000 + self.timestamp.microsecond),
-                'type': self.type.value,
+                'type': self.type,
                 'status': self.status
                 })
 

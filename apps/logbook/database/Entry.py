@@ -1,15 +1,11 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
-
-class Types(Enum):
-    STATUS = 0
 
 @dataclass
 class Entry(ABC):
     timestamp: datetime
-    type: Types = field(init=False)
+    type: int = field(init=False)
     status: str
 
     @abstractmethod

@@ -3,7 +3,7 @@ import unittest
 from parameterized import parameterized
 
 import os
-from apps.logbook.database.Entry import Entry, Types
+from apps.logbook.database.Entry import Entry
 from apps.logbook.database.Status import Status
 
 class TestModel(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestModel(unittest.TestCase):
         dut.save()
         actual = Entry.get()
         self.assertIsNotNone(actual)
-        self.assertEqual(actual[-1].type, Types.STATUS)
+        self.assertEqual(actual[-1].type, Status.type)
 
 
     @parameterized.expand([
