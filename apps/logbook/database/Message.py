@@ -6,11 +6,10 @@ from apps.logbook.database.Entry import Entry
 @dataclass
 class Message(Entry):
     message: str
-    type = 2
 
     @classmethod
     def fromArray(cls, data):
-        return cls(data[0] / 1000, data[2])
+        return cls(data[0] / 1000, data[1])
 
 
     @classmethod
@@ -21,8 +20,7 @@ class Message(Entry):
 
     def save(self):
         with Database() as cursor:
-            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, message) VALUES (:timestamp, :type, :message)", {
+            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, message) VALUES (:timestamp, :message)", {
                 'timestamp': int(self.timestamp.timestamp() * 1000),
-                'type': self.type,
                 'message': self.message
                 })

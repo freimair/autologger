@@ -29,7 +29,7 @@ class TestModel(unittest.TestCase):
 
         actual = dut.__class__.get()
         self.assertIsNotNone(actual)
-        self.assertEqual(actual[-1].type, dut.type)
+        self.assertIsInstance(actual[-1], dut.__class__)
 
     def test_polymorphicRoundtrip(self):
         status = 'landed'
@@ -42,7 +42,7 @@ class TestModel(unittest.TestCase):
 
         actual = Entry.get()
         self.assertIsNotNone(actual)
-        self.assertEqual(actual[-1].type, Message.type)
+        self.assertIsInstance(actual[-1], Message)
 
 if __name__ == '__main__':
     unittest.main()

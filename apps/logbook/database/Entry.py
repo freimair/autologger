@@ -7,7 +7,6 @@ from apps.logbook.database.Database import Database
 @dataclass
 class Entry(ABC):
     timestamp: datetime
-    type: int = field(init=False)
 
     @classmethod
     def createTable(cls, fields: str = '') -> None:
@@ -15,7 +14,6 @@ class Entry(ABC):
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
                     timestamp INTEGER,
-                    type INTEGER,
                     """ + fields + """
                 )
                 """)

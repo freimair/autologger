@@ -7,11 +7,10 @@ class Weather(Entry):
     airPressure: float
     humidity: float
     airTemperature: float
-    type = 3
 
     @classmethod
     def fromArray(cls, data):
-        return cls(data[0] / 1000, data[2] / 10, data[3] / 10, data[4] / 10)
+        return cls(data[0] / 1000, data[1] / 10, data[2] / 10, data[3] / 10)
 
     @classmethod
     def createTable(cls):
@@ -23,9 +22,8 @@ class Weather(Entry):
 
     def save(self):
         with Database() as cursor:
-            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, airPressure, humidity, airTemperature) VALUES (:timestamp, :type, :pressure, :humidity, :temperature)", {
+            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, airPressure, humidity, airTemperature) VALUES (:timestamp, :pressure, :humidity, :temperature)", {
                 'timestamp': int(self.timestamp.timestamp() * 1000),
-                'type': self.type,
                 'pressure': self.airPressure * 10,
                 'humidity': self.humidity * 10,
                 'temperature': self.airTemperature * 10,
