@@ -26,8 +26,8 @@ class Status(Entry):
                 'status': self.status
                 })
 
-    @staticmethod
-    def get(since: datetime|None = None, until: datetime = datetime.now()):
+    @classmethod
+    def get(cls, since: datetime|None = None, until: datetime = datetime.now()) -> list:
         with Database() as cursor:
-            entries = cursor.execute("SELECT * FROM " + Status.__name__).fetchall()
-            return [Status(entry[0], entry[2]) for entry in entries]
+            entries = cursor.execute("SELECT * FROM " + cls.__name__).fetchall()
+            return [cls(entry[0], entry[2]) for entry in entries]

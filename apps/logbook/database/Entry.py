@@ -16,11 +16,11 @@ class Entry(ABC):
     def save(self) -> None:
         pass
 
-    @staticmethod
-    def get(since: datetime|None = None, until: datetime = datetime.now()):
+    @classmethod
+    def get(cls, since: datetime|None = None, until: datetime = datetime.now()) -> list:
         result = []
 
-        for clazz in Entry.__subclasses__():
+        for clazz in cls.__subclasses__():
             result.extend(clazz.get(since, until))
         result.sort(key=lambda x: x.timestamp)
 
