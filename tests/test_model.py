@@ -4,6 +4,7 @@ from parameterized import parameterized
 
 import os
 from apps.logbook.database.Entry import Entry
+from apps.logbook.database.Message import Message
 from apps.logbook.database.Status import Status
 
 class TestModel(unittest.TestCase):
@@ -27,11 +28,14 @@ class TestModel(unittest.TestCase):
         status = 'landed'
         dut = Status(datetime.now(), status)
         dut.createTable()
-
         dut.save()
+        dut = Message(datetime.now(), "message")
+        dut.createTable()
+        dut.save()
+
         actual = Entry.get()
         self.assertIsNotNone(actual)
-        self.assertEqual(actual[-1].type, Status.type)
+        self.assertEqual(actual[-1].type, Message.type)
 
 
     @parameterized.expand([

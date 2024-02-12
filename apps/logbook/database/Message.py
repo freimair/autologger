@@ -4,9 +4,9 @@ from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
 @dataclass
-class Status(Entry):
-    status: str
-    type = 1
+class Message(Entry):
+    message: str
+    type = 2
 
     def createTable(self):
         with Database() as cursor:
@@ -14,14 +14,14 @@ class Status(Entry):
                 CREATE TABLE IF NOT EXISTS """ + self.__class__.__name__ + """ (
                     timestamp INTEGER,
                     type INTEGER,
-                    status TEXT
+                    message TEXT
                 )
                 """)
 
     def save(self):
         with Database() as cursor:
-            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, status) VALUES (:timestamp, :type, :status)", {
+            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, message) VALUES (:timestamp, :type, :message)", {
                 'timestamp': int(self.timestamp.timestamp() * 1000),
                 'type': self.type,
-                'status': self.status
+                'message': self.message
                 })
