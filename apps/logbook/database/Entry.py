@@ -9,8 +9,9 @@ class Entry(ABC):
     timestamp: datetime
     type: int = field(init=False)
 
+    @classmethod
     @abstractmethod
-    def createTable(self) -> None:
+    def createTable(cls) -> None:
         pass
 
     @classmethod

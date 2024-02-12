@@ -13,10 +13,11 @@ class Message(Entry):
         return cls(data[0] / 1000, data[2])
 
 
-    def createTable(self):
+    @classmethod
+    def createTable(cls):
         with Database() as cursor:
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS """ + self.__class__.__name__ + """ (
+                CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
                     timestamp INTEGER,
                     type INTEGER,
                     message TEXT

@@ -12,3 +12,9 @@ class Database():
     def __exit__(self, type, value, traceback):
         self.conn.commit()
         self.conn.close()
+
+    @classmethod
+    def createTables(cls):
+        from apps.logbook.database.Entry import Entry
+        for entryType in Entry.__subclasses__():
+            entryType.createTable()
