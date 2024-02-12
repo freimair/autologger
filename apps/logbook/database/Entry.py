@@ -19,7 +19,7 @@ class Entry(ABC):
         pass
 
     @classmethod
-    def get(cls, since: datetime|None = None, until: datetime = datetime.now()) -> list:
+    def get(cls, since: datetime|None = None, until: datetime = datetime.now()) -> "list[Entry]":
         if cls is Entry:
             result = []
 
