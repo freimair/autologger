@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 from datetime import datetime
 from apps.logbook.database.Database import Database
+from apps.logbook.database.Entry import Entry, Types
 
 @dataclass
-class Model:
-    timestamp: datetime
-    type: int
+class Status(Entry):
     status: str
+    type = Types.STATUS
 
-    def createTable(self) -> None:
+    def createTable(self):
         with Database() as cursor:
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS model (
+                CREATE TABLE IF NOT EXISTS """ + self.__class__.__name__ + """ (
                     timestamp INTEGER,
                     type INTEGER,
                     status TEXT
@@ -20,14 +20,14 @@ class Model:
 
     def save(self):
         with Database() as cursor:
-            cursor.execute("INSERT INTO model (timestamp, type, status) VALUES (:timestamp, :type, :status)", {
+            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, type, status) VALUES (:timestamp, :type, :status)", {
                 'timestamp': int(self.timestamp.timestamp() * 1000 + self.timestamp.microsecond),
-                'type': self.type,
+                'type': self.type.value,
                 'status': self.status
                 })
 
     @staticmethod
     def get(since: datetime|None = None, until: datetime = datetime.now()):
         with Database() as cursor:
-            entries = cursor.execute("SELECT * FROM model").fetchall()
-            return [Model(entry[0], entry[1], entry[2]) for entry in entries]
+            entries = cursor.execute("SELECT * FROM " + Status.__name__).fetchall()
+            return [Status(entry[0], entry[2]) for entry in entries]

@@ -3,23 +3,36 @@ import unittest
 from parameterized import parameterized
 
 import os
-
-from apps.logbook.database.Model import Model
+from apps.logbook.database.Entry import Entry, Types
+from apps.logbook.database.Status import Status
 
 class TestModel(unittest.TestCase):
     def test_setupDatabase(self):
-        dut = Model(datetime.now(), 0, "landed")
+        dut = Status(datetime.now(), "landed")
         dut.createTable()
 
         self.assertTrue(os.path.exists('resources/sqlite3.db'))
 
     def test_simpleRoundtrip(self):
-        dut = Model(datetime.now(), 0, "landed")
+        status = 'landed'
+        dut = Status(datetime.now(), status)
         dut.createTable()
 
         dut.save()
-        actual = Model.get()
+        actual = Status.get()
         self.assertIsNotNone(actual)
+        self.assertEqual(actual[-1].status, status)
+
+    def test_polymorphicRoundtrip(self):
+        status = 'landed'
+        dut = Status(datetime.now(), status)
+        dut.createTable()
+
+        dut.save()
+        actual = Entry.get()
+        self.assertIsNotNone(actual)
+        self.assertEqual(actual[-1].type, Types.STATUS)
+
 
     @parameterized.expand([
         ["A", "a", "a"],
