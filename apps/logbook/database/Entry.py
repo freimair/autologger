@@ -10,9 +10,15 @@ class Entry(ABC):
     type: int = field(init=False)
 
     @classmethod
-    @abstractmethod
-    def createTable(cls) -> None:
-        pass
+    def createTable(cls, fields: str = '') -> None:
+        with Database() as cursor:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
+                    timestamp INTEGER,
+                    type INTEGER,
+                    """ + fields + """
+                )
+                """)
 
     @classmethod
     @abstractmethod

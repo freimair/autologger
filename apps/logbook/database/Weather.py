@@ -15,16 +15,11 @@ class Weather(Entry):
 
     @classmethod
     def createTable(cls):
-        with Database() as cursor:
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
-                    timestamp INTEGER,
-                    type INTEGER,
+        super(Weather, cls).createTable("""
                     airPressure INTEGER,
                     humidity INTEGER,
                     airTemperature INTEGER
-                )
-                """)
+            """)
 
     def save(self):
         with Database() as cursor:

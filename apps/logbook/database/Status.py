@@ -15,14 +15,9 @@ class Status(Entry):
 
     @classmethod
     def createTable(cls):
-        with Database() as cursor:
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
-                    timestamp INTEGER,
-                    type INTEGER,
+        super(Status, cls).createTable("""
                     status TEXT
-                )
-                """)
+            """)
 
     def save(self):
         with Database() as cursor:
