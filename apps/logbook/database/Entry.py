@@ -8,10 +8,14 @@ from apps.logbook.database.Database import Database
 class Entry(ABC):
     timestamp: datetime
     type: int = field(init=False)
-    status: str
 
     @abstractmethod
     def createTable(self) -> None:
+        pass
+
+    @classmethod
+    @abstractmethod
+    def fromArray(cls, data: list[Any]) -> "Entry":
         pass
 
     @abstractmethod
@@ -31,4 +35,4 @@ class Entry(ABC):
         else:
             with Database() as cursor:
                 entries = cursor.execute("SELECT * FROM " + cls.__name__).fetchall()
-                return [cls(entry[0], entry[2]) for entry in entries]
+                return [cls.fromArray(entry) for entry in entries]

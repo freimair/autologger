@@ -8,6 +8,11 @@ class Message(Entry):
     message: str
     type = 2
 
+    @classmethod
+    def fromArray(cls, data):
+        return cls(data[0] / 1000, data[2])
+
+
     def createTable(self):
         with Database() as cursor:
             cursor.execute("""
