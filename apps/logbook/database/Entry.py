@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from abc import ABC
+from dataclasses import dataclass
 from datetime import datetime
-from typing_extensions import Any
 import copy
+from typing import Self
 
 from apps.logbook.database.Database import Database
 
-@dataclass
+@dataclass(init=False)
 class Entry(ABC):
-    timestamp: datetime = field(default_factory=datetime.now, init=False)
+    timestamp: datetime
+
+    @classmethod
+    def getAttributes(cls):
+        return [name for name in cls.__dataclass_fields__]
 
     @classmethod
     def createTable(cls, fields: str = '') -> None:
@@ -21,9 +25,16 @@ class Entry(ABC):
                 """)
 
     @classmethod
-    @abstractmethod
-    def fromArray(cls, data: list[Any]) -> "Entry":
-        pass
+    def fromDictionary(cls, data: dict[str, str|int|float]) -> Self:
+        instance = cls()
+        instance.timestamp = datetime.now() # is overwritten if data contains timestamp
+        for attribute in cls.getAttributes():
+            if(attribute in data or attribute in data.keys()):
+                if("timestamp" == attribute and isinstance(data[attribute], int)):
+                    instance._setTimestamp(int(data[attribute]))
+                else:
+                    setattr(instance, attribute, data[attribute])
+        return instance
 
     def _setTimestamp(self, unixTimeStamp: int) -> None:
         self.timestamp = datetime.fromtimestamp(unixTimeStamp / 1000)
@@ -55,4 +66,4 @@ class Entry(ABC):
             with Database() as cursor:
                 entries = cursor.execute("SELECT * FROM " + cls.__name__ + " ORDER BY timestamp DESC LIMIT ?", (limit,)).fetchall()
                 entries.sort(key=lambda x: x[0]) # sort for timestamp ASC
-                return [cls.fromArray(entry) for entry in entries]
+                return [cls.fromDictionary(entry) for entry in entries]

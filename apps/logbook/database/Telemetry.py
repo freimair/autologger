@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
-@dataclass
+@dataclass(init=False)
 class Telemetry(Entry):
     CoG: int
     SoG: float
@@ -15,13 +15,6 @@ class Telemetry(Entry):
     Depth: float
     DepthOffset: float
     SpeedThroughWater: float
-
-    @classmethod
-    def fromArray(cls, data):
-        instance = cls(data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11])
-        instance._setTimestamp(data[0])
-        return instance
-
 
     @classmethod
     def createTable(cls):

@@ -27,11 +27,22 @@ class TestModel(unittest.TestCase):
     def test_setupDatabase(self):
         self.assertTrue(os.path.exists(Database.file))
 
+    def test_fromDictionary(self):
+        """see if incomplete data works, and make sure no alien data gets inserted"""
+
+        fixture = 102510.6
+        dut: Weather = Weather.fromDictionary({'airPressure': fixture,
+            'unknown': 'unkown'})
+
+        self.assertFalse(hasattr(dut, 'unkown'))
+        self.assertFalse(hasattr(dut, 'airTemperature'))
+        self.assertEqual(dut.airPressure, fixture)
+
     @parameterized.expand([
-        ["Status", Status('landed')],
-        ["Message", Message('message')],
-        ["Weather", Weather(102510.6, 64.3, 24.0)],
-        ["Telemetry", Telemetry(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+        ["Status", Status.fromDictionary({'status': 'landed'})],
+        ["Message", Message.fromDictionary({'message': 'message'})],
+        ["Weather", Weather.fromDictionary({'airPressure': 102510.6, 'humidity': 64.3, 'airTemperature': 24.0})],
+        ["Telemetry", Telemetry.fromDictionary({'CoG': 120, 'SoG': 7.5})]
     ])
     def test_simpleRoundtrip(self, name: str, dut: Entry):
         dut.save()
@@ -45,10 +56,10 @@ class TestModel(unittest.TestCase):
 
     def test_polymorphicRoundtrip(self):
         status = 'landed'
-        dut = Status(status)
+        dut = Status.fromDictionary({'status': status})
         dut.createTable()
         dut.save()
-        dut = Message("message")
+        dut = Message.fromDictionary({'message': status})
         dut.createTable()
         dut.save()
 
@@ -60,7 +71,7 @@ class TestModel(unittest.TestCase):
         # Arrange
         numberOfEntries: int = 10
         for i in range(1, numberOfEntries):
-            dut = Status("landed")
+            dut = Status.fromDictionary({'status': 'status'})
             timestamp = dut.timestamp
             dut.save()
 

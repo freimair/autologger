@@ -5,6 +5,7 @@ class Database():
 
     def __enter__(self):
         self.conn = sqlite3.connect(Database.file)
+        self.conn.row_factory = sqlite3.Row
         return self.conn.cursor()
 
     def __exit__(self, type, value, traceback):
