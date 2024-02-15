@@ -12,13 +12,14 @@ from apps.logbook.database.Weather import Weather
 
 class TestModel(unittest.TestCase):
     def setUp(self) -> None:
-        Database.createTables()
+        Database.use("testDatabase")
+        if os.path.exists(Database.file): # remove database if it exists already
+            os.remove(Database.file)
+        Database.createTables() # create new database
         return super().setUp()
 
     def test_setupDatabase(self):
-        dut = Status(datetime.now(), "landed")
-        dut.createTable()
-        self.assertTrue(os.path.exists('resources/sqlite3.db'))
+        self.assertTrue(os.path.exists(Database.file))
 
     @parameterized.expand([
         ["Status", Status(datetime.now(), 'landed')],

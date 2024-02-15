@@ -1,12 +1,10 @@
 import sqlite3
 
 class Database():
-    """ for using a database in a 'with' block """
-    def __init__(self, file='resources/sqlite3.db'):
-        self.file=file
+    file: str
 
     def __enter__(self):
-        self.conn = sqlite3.connect(self.file)
+        self.conn = sqlite3.connect(Database.file)
         return self.conn.cursor()
 
     def __exit__(self, type, value, traceback):
@@ -18,3 +16,7 @@ class Database():
         from apps.logbook.database.Entry import Entry
         for entryType in Entry.__subclasses__():
             entryType.createTable()
+
+    @classmethod
+    def use(cls, databaseName: str):
+        cls.file = 'resources/' + databaseName + '.db'
