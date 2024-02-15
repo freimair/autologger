@@ -6,7 +6,7 @@ from apps.logbook.database.Database import Database
 
 @dataclass
 class Entry(ABC):
-    timestamp: datetime
+    timestamp: datetime = field(default_factory=datetime.now, init=False)
 
     @classmethod
     def createTable(cls, fields: str = '') -> None:

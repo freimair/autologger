@@ -11,7 +11,9 @@ class Weather(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        return cls(datetime.fromtimestamp(data[0] / 1000), data[1] / 10, data[2] / 10, data[3] / 10)
+        instance = cls(data[1] / 10, data[2] / 10, data[3] / 10)
+        instance.timestamp = datetime.fromtimestamp(data[0] / 1000)
+        return instance
 
     @classmethod
     def createTable(cls):

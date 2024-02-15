@@ -10,10 +10,11 @@ from apps.logbook.database.Status import Status
 from apps.logbook.database.Telemetry import Telemetry
 from apps.logbook.database.Weather import Weather
 
-def now() -> datetime:
+def roundIfDateTime(value):
     """ Provide timestamp with 1 millisecond resolution"""
-    value = datetime.now()
-    return value.replace(microsecond=int(value.microsecond / 1000) * 1000)
+    if(isinstance(value, datetime)):
+        return value.replace(microsecond=int(value.microsecond / 1000) * 1000)
+    return value
 
 class TestModel(unittest.TestCase):
     def setUp(self) -> None:
@@ -27,10 +28,10 @@ class TestModel(unittest.TestCase):
         self.assertTrue(os.path.exists(Database.file))
 
     @parameterized.expand([
-        ["Status", Status(now(), 'landed')],
-        ["Message", Message(now(), 'message')],
-        ["Weather", Weather(now(), 102510.6, 64.3, 24.0)],
-        ["Telemetry", Telemetry(now(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+        ["Status", Status('landed')],
+        ["Message", Message('message')],
+        ["Weather", Weather(102510.6, 64.3, 24.0)],
+        ["Telemetry", Telemetry(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
     ])
     def test_simpleRoundtrip(self, name: str, dut: Entry):
         dut.save()
@@ -40,14 +41,14 @@ class TestModel(unittest.TestCase):
         self.assertIsInstance(actual[-1], dut.__class__)
 
         for property, value in vars(dut).items():
-            self.assertEqual(actual[-1].__getattribute__(property), value)
+            self.assertEqual(actual[-1].__getattribute__(property), roundIfDateTime(value))
 
     def test_polymorphicRoundtrip(self):
         status = 'landed'
-        dut = Status(now(), status)
+        dut = Status(status)
         dut.createTable()
         dut.save()
-        dut = Message(now(), "message")
+        dut = Message("message")
         dut.createTable()
         dut.save()
 
@@ -59,8 +60,8 @@ class TestModel(unittest.TestCase):
         # Arrange
         numberOfEntries: int = 10
         for i in range(1, numberOfEntries):
-            timestamp = now()
-            dut = Status(timestamp, "landed")
+            dut = Status("landed")
+            timestamp = dut.timestamp
             dut.save()
 
         # Act
@@ -69,9 +70,9 @@ class TestModel(unittest.TestCase):
 
         # Assert
         self.assertLessEqual(len(resultSingle), numberOfEntries / 2)
-        self.assertEqual(resultSingle[-1].timestamp, timestamp)
+        self.assertEqual(resultSingle[-1].timestamp, roundIfDateTime(timestamp))
         self.assertLessEqual(len(resultAll), numberOfEntries / 2)
-        self.assertEqual(resultAll[-1].timestamp, timestamp)
+        self.assertEqual(resultAll[-1].timestamp, roundIfDateTime(timestamp))
 
 if __name__ == '__main__':
     unittest.main()

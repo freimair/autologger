@@ -9,7 +9,9 @@ class Message(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        return cls(datetime.fromtimestamp(data[0] / 1000), data[1])
+        instance = cls(data[1])
+        instance.timestamp = datetime.fromtimestamp(data[0] / 1000)
+        return instance
 
 
     @classmethod
