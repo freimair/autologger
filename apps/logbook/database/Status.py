@@ -9,7 +9,7 @@ class Status(Entry):
     @classmethod
     def fromArray(cls, data):
         instance = cls(data[1])
-        instance.setTimestamp(data[0])
+        instance._setTimestamp(data[0])
         return instance
 
 

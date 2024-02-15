@@ -11,7 +11,7 @@ class Weather(Entry):
     @classmethod
     def fromArray(cls, data):
         instance = cls(data[1], data[2], data[3])
-        instance.setTimestamp(data[0])
+        instance._setTimestamp(data[0])
         return instance
 
     @classmethod

@@ -25,15 +25,15 @@ class Entry(ABC):
     def fromArray(cls, data: list[Any]) -> "Entry":
         pass
 
-    def setTimestamp(self, unixTimeStamp: int) -> None:
+    def _setTimestamp(self, unixTimeStamp: int) -> None:
         self.timestamp = datetime.fromtimestamp(unixTimeStamp / 1000)
 
-    def getUnixTimestamp(self) -> int:
+    def _getUnixTimestamp(self) -> int:
         return int(self.timestamp.timestamp() * 1000)
 
     def save(self) -> None:
         fieldData = copy.deepcopy(vars(self))
-        fieldData['timestamp'] = self.getUnixTimestamp()
+        fieldData['timestamp'] = self._getUnixTimestamp()
 
         with Database() as cursor:
             cursor.execute("INSERT INTO " + self.__class__.__name__ + " ("
