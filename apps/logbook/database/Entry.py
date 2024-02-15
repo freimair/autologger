@@ -28,16 +28,17 @@ class Entry(ABC):
         pass
 
     @classmethod
-    def get(cls, since: datetime|None = None, until: datetime = datetime.now()) -> "list[Entry]":
+    def get(cls, limit: int = 50) -> "list[Entry]":
         if cls is Entry:
             result = []
 
             for clazz in cls.__subclasses__():
-                result.extend(clazz.get(since, until))
+                result.extend(clazz.get(limit))
             result.sort(key=lambda x: x.timestamp)
 
-            return result
+            return result[-limit:]
         else:
             with Database() as cursor:
-                entries = cursor.execute("SELECT * FROM " + cls.__name__).fetchall()
+                entries = cursor.execute("SELECT * FROM " + cls.__name__ + " ORDER BY timestamp DESC LIMIT ?", (limit,)).fetchall()
+                entries.sort(key=lambda x: x[0]) # sort for timestamp ASC
                 return [cls.fromArray(entry) for entry in entries]

@@ -55,5 +55,23 @@ class TestModel(unittest.TestCase):
         self.assertIsNotNone(actual)
         self.assertIsInstance(actual[-1], Message)
 
+    def test_queryLimit(self):
+        # Arrange
+        numberOfEntries: int = 10
+        for i in range(1, numberOfEntries):
+            timestamp = now()
+            dut = Status(timestamp, "landed")
+            dut.save()
+
+        # Act
+        resultSingle = Status.get(int(numberOfEntries / 2))
+        resultAll = Entry.get(int(numberOfEntries / 2))
+
+        # Assert
+        self.assertLessEqual(len(resultSingle), numberOfEntries / 2)
+        self.assertEqual(resultSingle[-1].timestamp, timestamp)
+        self.assertLessEqual(len(resultAll), numberOfEntries / 2)
+        self.assertEqual(resultAll[-1].timestamp, timestamp)
+
 if __name__ == '__main__':
     unittest.main()
