@@ -10,6 +10,11 @@ from apps.logbook.database.Status import Status
 from apps.logbook.database.Telemetry import Telemetry
 from apps.logbook.database.Weather import Weather
 
+def now() -> datetime:
+    """ Provide timestamp with 1 millisecond resolution"""
+    value = datetime.now()
+    return value.replace(microsecond=int(value.microsecond / 1000) * 1000)
+
 class TestModel(unittest.TestCase):
     def setUp(self) -> None:
         Database.use("testDatabase")
@@ -22,10 +27,10 @@ class TestModel(unittest.TestCase):
         self.assertTrue(os.path.exists(Database.file))
 
     @parameterized.expand([
-        ["Status", Status(datetime.now(), 'landed')],
-        ["Message", Message(datetime.now(), 'message')],
-        ["Weather", Weather(datetime.now(), 102510.6, 64.3, 24.0)],
-        ["Telemetry", Telemetry(datetime.now(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+        ["Status", Status(now(), 'landed')],
+        ["Message", Message(now(), 'message')],
+        ["Weather", Weather(now(), 102510.6, 64.3, 24.0)],
+        ["Telemetry", Telemetry(now(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
     ])
     def test_simpleRoundtrip(self, name: str, dut: Entry):
         dut.save()
@@ -35,16 +40,14 @@ class TestModel(unittest.TestCase):
         self.assertIsInstance(actual[-1], dut.__class__)
 
         for property, value in vars(dut).items():
-            if(isinstance(value, datetime)): # we do not memorize microseconds in our system, only milliseconds
-                value = value.replace(microsecond=int(value.microsecond / 1000) * 1000)
             self.assertEqual(actual[-1].__getattribute__(property), value)
 
     def test_polymorphicRoundtrip(self):
         status = 'landed'
-        dut = Status(datetime.now(), status)
+        dut = Status(now(), status)
         dut.createTable()
         dut.save()
-        dut = Message(datetime.now(), "message")
+        dut = Message(now(), "message")
         dut.createTable()
         dut.save()
 
