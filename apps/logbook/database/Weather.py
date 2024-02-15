@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
@@ -11,8 +10,8 @@ class Weather(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        instance = cls(data[1] / 10, data[2] / 10, data[3] / 10)
-        instance.timestamp = datetime.fromtimestamp(data[0] / 1000)
+        instance = cls(data[1], data[2], data[3])
+        instance.setTimestamp(data[0])
         return instance
 
     @classmethod
@@ -22,12 +21,3 @@ class Weather(Entry):
                     humidity INTEGER,
                     airTemperature INTEGER
             """)
-
-    def save(self):
-        with Database() as cursor:
-            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, airPressure, humidity, airTemperature) VALUES (:timestamp, :pressure, :humidity, :temperature)", {
-                'timestamp': int(self.timestamp.timestamp() * 1000),
-                'pressure': self.airPressure * 10,
-                'humidity': self.humidity * 10,
-                'temperature': self.airTemperature * 10,
-                })

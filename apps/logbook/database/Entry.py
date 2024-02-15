@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing_extensions import Any
+import copy
 
 from apps.logbook.database.Database import Database
 
@@ -23,9 +25,21 @@ class Entry(ABC):
     def fromArray(cls, data: list[Any]) -> "Entry":
         pass
 
-    @abstractmethod
+    def setTimestamp(self, unixTimeStamp: int) -> None:
+        self.timestamp = datetime.fromtimestamp(unixTimeStamp / 1000)
+
+    def getUnixTimestamp(self) -> int:
+        return int(self.timestamp.timestamp() * 1000)
+
     def save(self) -> None:
-        pass
+        fieldData = copy.deepcopy(vars(self))
+        fieldData['timestamp'] = self.getUnixTimestamp()
+
+        with Database() as cursor:
+            cursor.execute("INSERT INTO " + self.__class__.__name__ + " ("
+                + ','.join(fieldData.keys()) + ") VALUES ("
+                + ','.join([':' + key for key in fieldData.keys()])
+                + ")", fieldData)
 
     @classmethod
     def get(cls, limit: int = 50) -> "list[Entry]":

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
@@ -19,8 +18,8 @@ class Telemetry(Entry):
 
     @classmethod
     def fromArray(cls, data):
-        instance = cls(data[1], data[2] / 10, data[3], data[4] / 10, data[5], data[6] / 10, data[7] / 10000000, data[8] / 10000000, data[9] / 10, data[10] / 10, data[11] / 10)
-        instance.timestamp = datetime.fromtimestamp(data[0] / 1000)
+        instance = cls(data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11])
+        instance.setTimestamp(data[0])
         return instance
 
 
@@ -28,31 +27,14 @@ class Telemetry(Entry):
     def createTable(cls):
         super(Telemetry, cls).createTable("""
                     CoG INTEGER,
-                    SoG INTEGER,
+                    SoG REAL,
                     Heading INTEGER,
-                    Windspeed INTEGER,
+                    Windspeed REAL,
                     WindAngle INTEGER,
-                    Log INTEGER,
-                    Latitude INTEGER,
-                    Longitude INTEGER,
-                    Depth INTEGER,
-                    DepthOffset INTEGER,
-                    SpeedThroughWater INTEGER
+                    Log REAL,
+                    Latitude REAL,
+                    Longitude REAL,
+                    Depth REAL,
+                    DepthOffset REAL,
+                    SpeedThroughWater REAL
             """)
-
-    def save(self):
-        with Database() as cursor:
-            cursor.execute("INSERT INTO " + self.__class__.__name__ + " (timestamp, CoG, SoG, Heading, Windspeed, WindAngle, Log, Latitude, Longitude, Depth, DepthOffset, SpeedThroughWater) VALUES (:timestamp, :cog, :sog, :heading, :windspeed, :windangle, :log, :lat, :lon, :depth, :depthOffset, :speedthroughwater)", {
-                'timestamp': int(self.timestamp.timestamp() * 1000),
-                'cog': self.CoG,
-                'sog': self.SoG * 10,
-                'heading': self.Heading,
-                'windspeed': self.Windspeed * 10,
-                'windangle': self.WindAngle,
-                'log': self.Log * 10,
-                'lat': self.Latitude * 10000000,
-                'lon': self.Longitude * 10000000,
-                'depth': self.Depth * 10,
-                'depthOffset': self.DepthOffset * 10,
-                'speedthroughwater': self.SpeedThroughWater * 10
-                })
