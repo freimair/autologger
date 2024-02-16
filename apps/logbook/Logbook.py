@@ -2,10 +2,8 @@
 the logbook app
 """
 
-import datetime
-import json
 import csv
-import os
+import copy
 from threading import Lock
 import asyncio
 import gpxpy.gpx
@@ -13,6 +11,7 @@ from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 from apps.logbook.database.Status import Status
 from apps.logbook.database.Telemetry import Telemetry
+from apps.logbook.database.Message import Message
 
 from utils import T
 
@@ -29,31 +28,29 @@ class Logbook:
 
     """csv download"""
     def download_logbook(self, request):
-        columns = set()
-        for line in reversed(list(open(self.currentPath + '.logbook', "r"))):
-            source = json.loads(line)
-            columns.update(source.keys())
+        columns: list[str] = []
+        for source in Entry.getAvailableTypes():
+            columns.extend(source.getAttributes())
 
-        columns.discard("id")
-        columns.discard("title")
-        columns.discard("description")
+        # unique
+        columns = list(dict.fromkeys(columns))
 
-        columns = sorted(columns)
+        #columns.remove('content') # FIXME remove content for the time being as it gets big fast
+        # FIXME eventually, move to template driven html or pdf export
 
         with open(self.currentPath + '.csv', "w") as outfile:
-            for current in source:
-                outfile.write(current + ": " + source[current] + os.linesep)
-            outfile.write(os.linesep)
 
-            writer = csv.DictWriter(outfile, fieldnames=columns, restval="")
+            csv.register_dialect('unix')
+            writer = csv.DictWriter(outfile, fieldnames=columns, restval="", extrasaction='ignore')
             writer.writeheader()
-            for line in open(self.currentPath + '.logbook', "r"):
-                source = json.loads(line)
-                try:
-                    writer.writerow(source)
-                except:
-                    # the id, title, description columns are not in the list of columns
-                    pass
+            for source in reversed(Entry.get()):
+                if isinstance(source, Message):
+                    line = copy.deepcopy(source.toDict())
+                    line['content'] = line.get('content')[:500]
+                else:
+                    line = source.toDict()
+
+                writer.writerow(line)
 
         return self.currentPath + '.csv'
 
