@@ -77,7 +77,7 @@ class Entry(ABC):
                 + ")", fieldData)
 
     @classmethod
-    def get(cls, limit: int = 50) -> "list[Entry]":
+    def get(cls, limit: int = 50) -> list:
         if cls is Entry:
             result = []
 
@@ -91,3 +91,6 @@ class Entry(ABC):
                 entries = cursor.execute("SELECT * FROM " + cls.__name__ + " ORDER BY timestamp DESC LIMIT ?", (limit,)).fetchall()
                 entries.sort(key=lambda x: x[0]) # sort for timestamp ASC
                 return [cls.fromDictionary(entry) for entry in entries]
+
+    def toDict(self) -> dict[str, str|int|float]:
+        return copy.deepcopy(vars(self))

@@ -28,7 +28,7 @@ class Table extends App {
       columns: [
         {
           title: "Datum und Uhrzeit",
-          data: "DateTime",
+          data: "timestamp",
         },
         {
           title: "Log",

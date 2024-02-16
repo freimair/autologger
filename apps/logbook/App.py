@@ -20,7 +20,7 @@ class App:
 
     """some path constant"""
     base = "logbook"
-    dataPath = "statics/logbooks/"
+    dataPath = "resources/"
     message_template_source_path = "apps/logbook/message_templates/"
     message_template_destination_file = "statics/js/message_templates.js"
 
@@ -73,7 +73,7 @@ class App:
     """
     async def incoming(self, name, value):
         try:
-            self.log(name + ", " + json.dumps(value))
+            self.current.log(name, value)
 
             result = dict()
             result["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -94,10 +94,10 @@ class App:
     The setter persists the new current logbook immediately.
     Hence, using self.current just works.
     """
-    __current = None
+    __current: Logbook| None = None
 
     @property
-    def current(self):
+    def current(self) -> Logbook:
         # TODO rethink? gets checked every time self.current is used (and it is used A LOT)
         if self.__current is None:
             try:
@@ -112,16 +112,12 @@ class App:
     @current.setter
     def current(self, value):
         with open(self.dataPath + 'current', 'w') as csvfile:
-            csvfile.write(value.get_name())
+            csvfile.write(value.id)
         self.__current = value
 
     """helper for changing the current logbook"""
     def load(self, logbookId):
         self.current = Logbook(logbookId)
-
-    """create a new line in the logbook"""
-    def log(self, message):
-        return self.current.log(message)
 
     """delete the last logline
     
@@ -176,23 +172,22 @@ class App:
             try:
                 raw = self.current.tail(550)
                 for current in raw:
-                    await ws.send(json.dumps({"logline": current}))
+                    await ws.send(json.dumps({"logline": current}, default=str))
             except:
                 await ws.send('{"error": "noLogbook"}')
         elif "logbooks" in data.get("get"):
             with os.scandir(self.dataPath) as entries:
                 result = '{"logbooks" : ['
                 for entry in entries:
-                    if entry.is_file() and entry.name.endswith(".logbook"):
-                        with open(self.dataPath + entry.name, 'r') as csvfile:
-                            result += csvfile.readline() + ","
+                    if entry.is_file() and entry.name.endswith(".db"):
+                        result += "{\"id\": \"" + entry.name.replace(".db", "") + "\", \"title\": \"" + entry.name.replace(".db", "") + "\"} ,"
             await ws.send(result[:-1] + ']}')
 
     """command parser 'status'"""
     async def parse_status(self, data, ws):
         entry = dict()
         entry["status"] = data.get("status")
-        sepp = self.log("status, " + json.dumps(entry))
+        sepp = self.current.log("status", json.dumps(entry))
 
         logline = dict()
         logline["DateTime"] = sepp['DateTime']
@@ -204,7 +199,7 @@ class App:
     async def parse_message(self, data, ws):
         entry = dict()
         entry["message"] = data.get("message")
-        sepp = self.log("message, " + json.dumps(entry))
+        sepp = self.current.log("message", json.dumps(entry))
 
         logline = dict()
         logline["DateTime"] = sepp['DateTime']
@@ -225,7 +220,7 @@ class App:
     async def parse_save(self, data, ws):
         logbook = data.get("save")
 
-        self.current = Logbook(0, logbook["title"], logbook["description"])
+        self.current = Logbook(logbook["title"])
 
         return self.current.get_last()
 
