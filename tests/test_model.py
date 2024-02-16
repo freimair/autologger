@@ -21,7 +21,7 @@ class TestModel(unittest.TestCase):
         Database.use("testDatabase")
         if os.path.exists(Database.file): # remove database if it exists already
             os.remove(Database.file)
-        Database.createTables() # create new database
+        Database.use("testDatabase") # create new database
         return super().setUp()
 
     def test_setupDatabase(self):

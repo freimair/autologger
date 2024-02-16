@@ -13,7 +13,7 @@ class Database():
         self.conn.close()
 
     @classmethod
-    def createTables(cls):
+    def _createTables(cls):
         from apps.logbook.database.Entry import Entry
         for entryType in Entry.__subclasses__():
             entryType.createTable()
@@ -21,3 +21,4 @@ class Database():
     @classmethod
     def use(cls, databaseName: str):
         cls.file = 'resources/' + databaseName + '.db'
+        cls._createTables()
