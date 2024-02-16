@@ -15,12 +15,21 @@ class Entry(ABC):
         return [name for name in cls.__dataclass_fields__]
 
     @classmethod
-    def createTable(cls, fields: str = '') -> None:
+    def createTable(cls) -> None:
+        fields: list[str] = []
+        for name, details in cls.__dataclass_fields__.items():
+            if str == details.type:
+                fieldtype = 'TEXT'
+            elif int == details.type or datetime == details.type:
+                fieldtype = 'INTEGER'
+            elif float == details.type:
+                fieldtype = 'REAL'
+            fields.append(name + ' ' + fieldtype)
+
         with Database() as cursor:
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS """ + cls.__name__ + """ (
-                    timestamp INTEGER,
-                    """ + fields + """
+                    """ + ','.join(fields) + """
                 )
                 """)
 

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 
 @dataclass(init=False)
@@ -15,19 +14,3 @@ class Telemetry(Entry):
     Depth: float
     DepthOffset: float
     SpeedThroughWater: float
-
-    @classmethod
-    def createTable(cls):
-        super(Telemetry, cls).createTable("""
-                    CoG INTEGER,
-                    SoG REAL,
-                    Heading INTEGER,
-                    Windspeed REAL,
-                    WindAngle INTEGER,
-                    Log REAL,
-                    Latitude REAL,
-                    Longitude REAL,
-                    Depth REAL,
-                    DepthOffset REAL,
-                    SpeedThroughWater REAL
-            """)
