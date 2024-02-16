@@ -40,7 +40,7 @@ class TestModel(unittest.TestCase):
 
     @parameterized.expand([
         ["Status", Status.fromDictionary({'status': 'landed'})],
-        ["Message", Message.fromDictionary({'message': 'message'})],
+        ["Message", Message.fromDictionary({'subject': 'subject', 'content': 'content'})],
         ["Weather", Weather.fromDictionary({'airPressure': 102510.6, 'humidity': 64.3, 'airTemperature': 24.0})],
         ["Telemetry", Telemetry.fromDictionary({'CoG': 120, 'SoG': 7.5})]
     ])
