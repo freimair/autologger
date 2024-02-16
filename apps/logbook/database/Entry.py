@@ -42,6 +42,13 @@ class Entry(ABC):
         return [Status, Message, Telemetry, Weather]
 
     @classmethod
+    def getType(cls, name: str) -> type:
+        for clazz in cls.getAvailableTypes():
+            if name.casefold() == clazz.__name__.casefold():
+                return clazz
+        raise Exception("Entry Type not found")
+
+    @classmethod
     def fromDictionary(cls, data: dict[str, str|int|float]) -> Self:
         instance = cls()
         instance.timestamp = datetime.now() # is overwritten if data contains timestamp
