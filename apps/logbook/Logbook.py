@@ -12,11 +12,14 @@ import gpxpy.gpx
 from apps.logbook.database.Database import Database
 from apps.logbook.database.Entry import Entry
 from apps.logbook.database.Status import Status
+from apps.logbook.database.Telemetry import Telemetry
 
 from utils import T
 
 class Logbook:
     lock = Lock()
+
+    currentPath: str = "statics/downloads"
 
     def __init__(self, title: str):
         self.id = title
@@ -60,22 +63,17 @@ class Logbook:
             gpx = gpxpy.gpx.GPX()
             segment = gpxpy.gpx.GPXTrackSegment()
             track = gpxpy.gpx.GPXTrack()
-            with open(self.currentPath + '.logbook', "r") as infile:
-                source = json.loads(infile.readline())
-                gpx.name = source.get("title")
-                track.name = source.get("title")
-                gpx.description = source.get("description")
-                track.description = source.get("description")
+
+            gpx.name = self.title
+            track.name = self.title
+
+            for entry in Telemetry.get():
+                if entry.Latitude is not None and entry.Longitude is not None:
+                    segment.points.append(
+                        gpxpy.gpx.GPXTrackPoint(entry.Latitude, entry.Longitude, time=entry.timestamp))
+
             track.segments.append(segment)
             gpx.tracks.append(track)
-
-            for line in open(self.currentPath + '.logbook', "r"):
-                source = json.loads(line)
-                try:
-                    gpx.tracks[0].segments[0].points.append(
-                        gpxpy.gpx.GPXTrackPoint(source["Latitude"], source["Longitude"], time=datetime.datetime.strptime(source["DateTime"], '%Y-%m-%d %H:%M:%S')))
-                except Exception:
-                    pass # first line is special
 
             outfile.write(gpx.to_xml())
         return self.currentPath + '.gpx'
