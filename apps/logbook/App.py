@@ -191,15 +191,9 @@ class App:
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):
-        entry = dict()
-        entry["message"] = data.get("message")
-        sepp = self.current.log("message", json.dumps(entry))
+        logline = self.current.log("message", data.get('message'))
 
-        logline = dict()
-        logline["DateTime"] = sepp['DateTime']
-        logline.update(entry)
-
-        return json.dumps({"logline": logline})
+        return json.dumps({"logline": logline}, default=str)
 
     async def parse_command(self, data, ws):
         if "weather_report" in data.get("command"):
