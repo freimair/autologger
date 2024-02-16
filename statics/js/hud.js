@@ -1,6 +1,6 @@
 var hud;
 
-class Hud extends DisplayAble {
+class Hud extends App {
 
     constructor() {
         super(Hud.name, `
@@ -22,6 +22,11 @@ class Hud extends DisplayAble {
     }
 
     add(incoming) {
+        if(undefined == incoming.logline)
+            return;
+
+        incoming = incoming.logline;
+
         if(incoming.CoG && incoming.SoG) {
             $("#dataCoG").text(incoming.CoG);
             $("#dataSoG").text(incoming.SoG);
@@ -31,7 +36,6 @@ class Hud extends DisplayAble {
         }
         if(incoming.status) {
             $("#dataStatus").text(incoming.status);
-            gotoScreen(incoming.status);
         }
     }
 

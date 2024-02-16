@@ -1,12 +1,13 @@
 var table;
 
-class Table extends DisplayAble {
+class Table extends App {
   table;
 
   constructor() {
     super(Table.name, `
       <table data-role="table" id="table" class="ui-body-d ui-shadow table-stripe ui-responsive table-stroke" data-column-btn-theme="d" data-column-btn-text="Columns to display..." data-column-popup-theme="d">
       </table>
+      <div id="popup" style="display: none;" title="Details"><h1 id="popup-title"></h1><div id="popup-content"></div><div id="popup-controls"><button id="popup-close">Close</button></div></div>
     `);
 
     this.table = $("[data-role='table']").DataTable({
@@ -97,13 +98,23 @@ class Table extends DisplayAble {
     // only show certain columns by default. save that to local storage? or to logbook?
     this.table.columns().visible(false);
     this.table.columns([0, 11, 12]).visible(true);
+
+    $('#popup-close').click(function()
+    {
+        $('#popup').dialog('close');
+    })
   }
 
   clear() {
     this.table.rows().remove().draw();
   }
 
-  add(content) {
+  add(incoming) {
+    if(undefined == incoming.logline)
+      return;
+
+    let content = incoming.logline;
+
     if(content.message) {
       let tmp = content.message;
       content.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';

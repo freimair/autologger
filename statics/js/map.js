@@ -1,6 +1,6 @@
 var map;
 
-class MyMap extends DisplayAble {
+class MyMap extends App {
   map;
   boatMarker;
   track;
@@ -60,6 +60,11 @@ class MyMap extends DisplayAble {
   }
 
   add(incoming) {
+    if(undefined == incoming.logline)
+      return;
+
+    incoming = incoming.logline;
+
     if (incoming.Latitude & incoming.Longitude) {
       var newPosition = L.latLng([incoming.Latitude, incoming.Longitude]);
       if (this.boatMarker) {

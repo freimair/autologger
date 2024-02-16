@@ -1,91 +1,4 @@
-var logbookControls;
-
-/*
- * ##############################################################################
- * ######################### Controls GUI State machine #########################
- * ##############################################################################
- */
-
-var lastGuiScreen = "";
-var guiScreen = "landed";
-
-function gotoScreen(screen) {
-  switch(screen) {
-    case "home":
-      $('.homeScreen').hide();
-      $("#home").show();
-      return;
-    case "loaderpage":
-      $('.homeScreen').hide();
-      $('#loaderpage').show();
-      return;
-    case "createLogbookPage":
-      $('.homeScreen').hide();
-      $('#createLogbookPage').show();
-      return;
-    case "loadLogbookPage":
-      $('.homeScreen').hide();
-      $('#loadLogbookPage').show();
-      return;
-    case "fehler":
-      $('.homeScreen').hide();
-      $('#fehlerpage').show();
-      return;
-  }
-
-	$('#' + LogbookControls.name.toLowerCase()).children().hide();
-	$('#safetyBriefingButton').show();
-	$('#weatherReportButton').show();
-	
-	switch(screen) {
-	case "landing":
-		$('#hafenButton').show();
-		$('#ankerButton').show();
-		$('#bojeButton').show();
-		$('#backButton').show();
-		break;
-	case "landed":
-		$('#ablegenButton').show();
-		$('#sonstigesButton').show();
-		break;
-	case "leaving":
-		$('#segelButton').show();
-		$('#reffButton').show();
-		$('#motorButton').show();
-		$('#backButton').show();
-		break;
-	case "sailing":
-		$('#reffButton').show();
-		$('#motorButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "reef":
-		$('#unreefButton').show();
-		$('#motorButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "motoring":
-		$('#segelButton').show();
-		$('#reffButton').show();
-		$('#anlegenButton').show();
-		$('#sonstigesButton').show();
-		$('#pobButton').show();
-		break;
-	case "custom":
-		$('#sonstigesArea').show();
-		$('#speichernButton').show();
-		$('#backButton').show();
-		break;
-	}
-	
-	guiScreen = screen;
-}
-
-class LogbookControls extends DisplayAble {
+class LogbookControls extends App {
     constructor() {
         super(LogbookControls.name, `
             <button data-icon="engine" data-iconpos="top" id="reffButton" data-corners="false">Reffen</button>
@@ -114,53 +27,52 @@ class LogbookControls extends DisplayAble {
         * ## Logbook Status Controls ###################################################
         * ##############################################################################
         */
-        $('#anlegenButton').click(function() {
-            lastGuiScreen = guiScreen;
-            gotoScreen("landing");
+        $('#anlegenButton').click(() => {
+            this.lastGuiScreen = this.guiScreen;
+            this.gotoScreen("landing");
         });
-        $('#ablegenButton').click(function() {
-            lastGuiScreen = guiScreen;
-            gotoScreen("leaving");
+        $('#ablegenButton').click(() => {
+            this.lastGuiScreen = this.guiScreen;
+            this.gotoScreen("leaving");
         });
-        $('#backButton').click(function() {
-            gotoScreen(lastGuiScreen);
+        $('#backButton').click(() => {
+            this.gotoScreen(this.lastGuiScreen);
         });
         
-        $('#motorButton').click(function() {
-            senden({status: "motoring"});
+        $('#motorButton').click(() => {
+            this.connector.send({status: "motoring"});
         });
-        $('#segelButton, #unreefButton').click(function() {
-            senden({status: "sailing"});
+        $('#segelButton, #unreefButton').click(() => {
+            this.connector.send({status: "sailing"});
         });
-        $('#reffButton').click(function() {
-            senden({status: "reef"});
+        $('#reffButton').click(() => {
+            this.connector.send({status: "reef"});
         });
-        $('#hafenButton').click(function() {
-            senden({status: "landed"});
+        $('#hafenButton').click(() => {
+            this.connector.send({status: "landed"});
         });
-        $('#ankerButton').click(function() {
-            senden({status: "landed"});
+        $('#ankerButton').click(() => {
+            this.connector.send({status: "landed"});
         });
-        $('#bojeButton').click(function() {
-            senden({status: "landed"});
+        $('#bojeButton').click(() => {
+            this.connector.send({status: "landed"});
         });
-        $('#safetyBriefingButton').click(function(){
-            lastGuiScreen = guiScreen;
+        $('#safetyBriefingButton').click(() => {
+            this.lastGuiScreen = this.guiScreen;
             $("#sonstigesSubject").html("Sicherheitseinweisung")
             $("#sonstigesContent").html(window.message_templates.safety_briefing);
-            gotoScreen("custom");
+            this.gotoScreen("custom");
         });
-        $('#weatherReportButton').click(function(){
-            senden({command: 'weather_report'});
+        $('#weatherReportButton').click(() => {
+            this.connector.send({command: 'weather_report'});
         });
-        $('#sonstigesButton').click(function(){
-            lastGuiScreen = guiScreen;
+        $('#sonstigesButton').click(() => {
+            this.lastGuiScreen = this.guiScreen;
             $("#sonstigesSubject").html("Notiz")
             $("#sonstigesContent").html(window.message_templates.note);
-            gotoScreen("custom");
+            this.gotoScreen("custom");
         });
-        $('#speichernButton').click(function()
-        {
+        $('#speichernButton').click(() => {
             // persist checkboxes
             $('#sonstigesContent input:checkbox').each(function(index, value) {
             if(value.checked)
@@ -174,23 +86,73 @@ class LogbookControls extends DisplayAble {
             value.innerText = $(value).val();
             });
 
-            senden({message: {subject: $('#sonstigesSubject').html(), content: $('#sonstigesContent').html()}});
-            gotoScreen(lastGuiScreen);
+            this.connector.send({message: {subject: $('#sonstigesSubject').html(), content: $('#sonstigesContent').html()}});
+            this.gotoScreen(this.lastGuiScreen);
         });
-        //$('#speicherUser').click(function(){window.location = "#wahlpage"});
-        $('#pobButton').click(function() {
-            senden({message: "MOB"});
+        $('#pobButton').click(() => {
+            this.connector.send({message: "MOB"});
         });
-        $('#fehlerBack').click(function()
-        {
-            //window.location = '#startpage';
-        });
-        $('#popup-close').click(function()
-        {
-            $('#popup').dialog('close');
-        })
 
-        gotoScreen('landed');
+        this.gotoScreen('landed');
+    };
+
+    lastGuiScreen = "";
+    guiScreen = "landed";
+
+    gotoScreen(screen) {
+        $('#' + LogbookControls.name.toLowerCase()).children().hide();
+        $('#safetyBriefingButton').show();
+        $('#weatherReportButton').show();
         
-        };
+        switch(screen) {
+        case "landing":
+            $('#hafenButton').show();
+            $('#ankerButton').show();
+            $('#bojeButton').show();
+            $('#backButton').show();
+            break;
+        case "landed":
+            $('#ablegenButton').show();
+            $('#sonstigesButton').show();
+            break;
+        case "leaving":
+            $('#segelButton').show();
+            $('#reffButton').show();
+            $('#motorButton').show();
+            $('#backButton').show();
+            break;
+        case "sailing":
+            $('#reffButton').show();
+            $('#motorButton').show();
+            $('#anlegenButton').show();
+            $('#sonstigesButton').show();
+            $('#pobButton').show();
+            break;
+        case "reef":
+            $('#unreefButton').show();
+            $('#motorButton').show();
+            $('#anlegenButton').show();
+            $('#sonstigesButton').show();
+            $('#pobButton').show();
+            break;
+        case "motoring":
+            $('#segelButton').show();
+            $('#reffButton').show();
+            $('#anlegenButton').show();
+            $('#sonstigesButton').show();
+            $('#pobButton').show();
+            break;
+        case "custom":
+            $('#sonstigesArea').show();
+            $('#speichernButton').show();
+            $('#backButton').show();
+            break;
+        }
+        this.guiScreen = screen;
+    }
+
+    add(incoming) {
+        if(undefined != incoming.status)
+            this.gotoScreen(incoming.status);
+    }
 }
