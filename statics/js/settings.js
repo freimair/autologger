@@ -13,13 +13,11 @@ class Settings extends App {
         <h1>Create Logbook</h1>
         <label for="text-3">Bezeichnung:</label>
         <input type="text" data-clear-btn="true" name="text-3" id="logbookTitle" value="">
-        <label for="logbookDescription">Beschreibung:</label>
-        <textarea name="logbookDescription" id="logbookDescription" style="height: 50px;" data-corners="false"></textarea>
         <button id="saveLogbookButton">Save</button>
         `);
 
     $('#saveLogbookButton').click(() => {
-        this.connector.send({'save':{'id':0, 'title':$('#logbookTitle').val(), 'description':$('#logbookDescription').val()}})
+        this.connector.send({'save':{'id':0, 'title':$('#logbookTitle').val()}})
         setTimeout(() => this.connector.close(), 100);
         setTimeout(() => this.connector.connect(), 200);
     });
