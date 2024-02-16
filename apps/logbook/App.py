@@ -185,15 +185,9 @@ class App:
 
     """command parser 'status'"""
     async def parse_status(self, data, ws):
-        entry = dict()
-        entry["status"] = data.get("status")
-        sepp = self.current.log("status", json.dumps(entry))
+        logline = self.current.log("status", data)
 
-        logline = dict()
-        logline["DateTime"] = sepp['DateTime']
-        logline.update(entry)
-
-        return json.dumps({"logline": logline})
+        return json.dumps({"logline": logline}, default=str)
 
     """command parser 'message'"""
     async def parse_message(self, data, ws):
