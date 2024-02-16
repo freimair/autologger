@@ -120,12 +120,9 @@ class Logbook:
 
         if len(lines) < 1:
             # in case we have an empty logbook
-            status = "landed"
+            return Status.fromDictionary({'timestamp': "", 'status': 'landed'}).toDict()
         else:
-            status = lines[0].status
-
-        result = {"status": status}
-        return json.dumps(result)
+            return lines[0].toDict()
 
     def tail(self, span) -> list[dict]:
         entries: list[Entry] = Entry.get(span)

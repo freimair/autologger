@@ -165,7 +165,7 @@ class App:
     async def parse_get(self, data, ws):
         if "last" in data.get("get"):
             try:
-                return self.current.get_last()
+                return json.dumps({"logline": self.current.get_last()}, default=str)
             except:
                 await ws.send('{"error": "noLogbook"}')
         elif "tail" in data.get("get"):

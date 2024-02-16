@@ -152,7 +152,8 @@ class LogbookControls extends App {
     }
 
     add(incoming) {
-        if(undefined != incoming.logline.status)
-            this.gotoScreen(incoming.logline.status);
+        if(undefined != incoming.logline)
+            if(undefined != incoming.logline.status)
+                this.gotoScreen(incoming.logline.status);
     }
 }
