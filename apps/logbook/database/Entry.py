@@ -34,6 +34,14 @@ class Entry(ABC):
                 """)
 
     @classmethod
+    def getAvailableTypes(cls) -> list[type]:
+        from apps.logbook.database.Status import Status
+        from apps.logbook.database.Message import Message
+        from apps.logbook.database.Telemetry import Telemetry
+        from apps.logbook.database.Weather import Weather
+        return [Status, Message, Telemetry, Weather]
+
+    @classmethod
     def fromDictionary(cls, data: dict[str, str|int|float]) -> Self:
         instance = cls()
         instance.timestamp = datetime.now() # is overwritten if data contains timestamp
@@ -66,7 +74,7 @@ class Entry(ABC):
         if cls is Entry:
             result = []
 
-            for clazz in cls.__subclasses__():
+            for clazz in cls.getAvailableTypes():
                 result.extend(clazz.get(limit))
             result.sort(key=lambda x: x.timestamp)
 

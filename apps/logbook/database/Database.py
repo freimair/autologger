@@ -15,7 +15,7 @@ class Database():
     @classmethod
     def _createTables(cls):
         from apps.logbook.database.Entry import Entry
-        for entryType in Entry.__subclasses__():
+        for entryType in Entry.getAvailableTypes():
             entryType.createTable()
 
     @classmethod
