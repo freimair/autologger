@@ -98,16 +98,15 @@ class App:
 
     @property
     def current(self) -> Logbook:
-        # TODO rethink? gets checked every time self.current is used (and it is used A LOT)
         if self.__current is None:
-            try:
-                with open(self.dataPath + 'current', 'r') as csvfile:
-                    lines = csvfile.readlines()
-                self.load(lines[0])
-            except Exception:
-                pass
+            with open(self.dataPath + 'current', 'r') as csvfile:
+                lines = csvfile.readlines()
+            self.load(lines[0])
 
-        return self.__current
+        if self.__current:
+            return self.__current
+        else:
+            raise Exception("Logbook not available")
 
     @current.setter
     def current(self, value):
@@ -158,7 +157,7 @@ class App:
     """command relay"""
     async def onReceiveCommand(self, data, ws):
         incoming = json.JSONDecoder().decode(data)
-        result = await getattr(self, 'parse_' + list(incoming)[0], None)(incoming, ws)
+        result = await getattr(self, 'parse_' + list(incoming)[0])(incoming, ws)
         return result
 
     """command parser 'get'"""
