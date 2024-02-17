@@ -28,7 +28,7 @@ class Table extends App {
       columns: [
         {
           title: "Datum und Uhrzeit",
-          data: "DateTime",
+          data: "timestamp",
         },
         {
           title: "Log",
@@ -115,9 +115,8 @@ class Table extends App {
 
     let content = incoming.logline;
 
-    if(content.message) {
-      let tmp = content.message;
-      content.message = tmp.subject + ' <button onclick="$(\'#popup-title\').text(\'' + tmp.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(tmp.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
+    if(content.subject) {
+      content.message = content.subject + (content.content ? ' <button onclick="$(\'#popup-title\').text(\'' + content.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(content.content) + '\')); $(\'#popup\').dialog()" >Show</button>' : '');
     }
     this.table.row.add(content).draw();
   }

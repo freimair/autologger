@@ -90,7 +90,7 @@ class LogbookControls extends App {
             this.gotoScreen(this.lastGuiScreen);
         });
         $('#pobButton').click(() => {
-            this.connector.send({message: "MOB"});
+            this.connector.send({message: {subject: "MOB"}});
         });
 
         this.gotoScreen('landed');
@@ -152,7 +152,8 @@ class LogbookControls extends App {
     }
 
     add(incoming) {
-        if(undefined != incoming.status)
-            this.gotoScreen(incoming.status);
+        if(undefined != incoming.logline)
+            if(undefined != incoming.logline.status)
+                this.gotoScreen(incoming.logline.status);
     }
 }

@@ -155,7 +155,7 @@ class Plots extends App {
     incoming = incoming.logline;
 
     if (incoming.SoG) {
-      this.plot_SoG.data.labels.push(incoming.DateTime);
+      this.plot_SoG.data.labels.push(incoming.timestamp);
       this.plot_SoG.data.datasets[0].data.push(incoming.SoG);
 
       if (150 < this.plot_SoG.data.labels.length) {
@@ -166,7 +166,7 @@ class Plots extends App {
       this.plot_SoG.update();
     }
     if (incoming.AirTemperature && incoming.AirPressure) {
-      this.plot_weather.data.labels.push(incoming.DateTime);
+      this.plot_weather.data.labels.push(incoming.timestamp);
       this.plot_weather.data.datasets[0].data.push(incoming.AirTemperature);
       this.plot_weather.data.datasets[1].data.push(incoming.AirPressure);
 
@@ -179,7 +179,7 @@ class Plots extends App {
       this.plot_weather.update();
     }
     if (incoming.Windspeed && incoming.WindAngle) {
-      this.plot_wind.data.labels.push(incoming.DateTime);
+      this.plot_wind.data.labels.push(incoming.timestamp);
       this.plot_wind.data.datasets[0].data.push(incoming.Windspeed);
       this.plot_wind.data.datasets[1].data.push(incoming.WindAngle);
 
