@@ -14,3 +14,4 @@ ujson==5.1.0
 uvloop==0.16.0
 websockets==10.3
 wrapt==1.13.3
+pyrf24==0.2.5

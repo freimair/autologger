@@ -1,6 +1,7 @@
-from RF24 import RF24, rf24_datarate_e
+from pyrf24.rf24 import RF24, rf24_datarate_e
 import OPi.GPIO as GPIO
 import asyncio
+import time
 
 
 class Weatherstation:
@@ -51,7 +52,7 @@ class Weatherstation:
         else:
             print("got something we do not know what it is...")
 
-        if self.compensationData2 is None and self.compensationData1 is None:
+        if self.compensationData2 is None or self.compensationData1 is None:
             # ask for compensation data
             self.radio.writeAckPayload(0,b'c')
         elif measurement is not None:
