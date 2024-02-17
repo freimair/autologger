@@ -73,13 +73,9 @@ class App:
     """
     async def incoming(self, name, value):
         try:
-            self.current.log(name, value)
+            logline = self.current.log(name, value)
 
-            result = dict()
-            result["DateTime"] = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            result.update(value)
-
-            await self.broadcast(json.dumps({"logline": result}))
+            await self.broadcast(json.dumps({"logline": logline}, default=str))
         except:
             pass
 
