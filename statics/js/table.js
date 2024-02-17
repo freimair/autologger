@@ -116,7 +116,7 @@ class Table extends App {
     let content = incoming.logline;
 
     if(content.subject) {
-      content.message = content.subject + ' <button onclick="$(\'#popup-title\').text(\'' + content.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(content.content) + '\')); $(\'#popup\').dialog()" >Show</button>';
+      content.message = content.subject + (content.content ? ' <button onclick="$(\'#popup-title\').text(\'' + content.subject + '\'); $(\'#popup-content\').html(decodeURI(\'' + encodeURI(content.content) + '\')); $(\'#popup\').dialog()" >Show</button>' : '');
     }
     this.table.row.add(content).draw();
   }
